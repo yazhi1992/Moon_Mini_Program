@@ -7,7 +7,15 @@
       <text class="userinfo-nickname">{{userInfo.nickName}}</text>
     </block>
   </view>
-  <view class="usermotto">
-    <text class="user-motto">{{motto}}</text>
-  </view>
+  
+  <!-- <view class="usermotto">
+      <text bindtap='clikeHello'>{{motto}}</text>  
+  </view>   -->
+
+  <view class="yearprogress">
+      <progress percent='{{yearPercent}}' show-info='true' activeColor='#2196f3'/> 
+  </view> 
+
+  <text class='yeartitle'>{{yearTitle}}</text>  
+  
 </view>

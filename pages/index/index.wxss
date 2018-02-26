@@ -19,3 +19,14 @@
 .usermotto {
   margin-top: 200px;
 }
+
+.yearprogress {
+  margin-top: 100px;
+  width: 90%;
+}
+
+.yeartitle {
+  text-align: center;
+  margin-top: 5px;
+  width: 100%;
+}
