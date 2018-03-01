@@ -1,4 +1,12 @@
 //app.js
+const AV = require('./libs/av-weapp-min.js');
+
+// LeanCloud 应用的 ID 和 Key
+AV.init({
+  appId: 'WL3lBfgV8sxfnMY6pncNKFYS-gzGzoHsz',
+  appKey: 'SzsGqfiCT76Ige87Nz9zUtXs',
+});
+
 App({
   onLaunch: function () {
     // 展示本地存储能力

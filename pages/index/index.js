@@ -2,6 +2,7 @@
 //获取应用实例
 const app = getApp()
 var util = require('../../utils/util.js')
+const AV = require('../../libs/av-weapp-min.js');
 
 Page({
   data: {
@@ -52,14 +53,20 @@ Page({
     //一般公历年份数是4的倍数就是闰年，否则是平年；
     //但公历年份是整百数年数的必须是400的倍数才是闰年，不是400的倍数即为平年。
     var isLeap = (0 !== year % 100) && (0 === year % 4) || (year % 400 == 0)
-    var fullYearDay = isLeap ? 366 : 365;
+    var fullYearDay = isLeap ? 366 : 365
     var today = Math.ceil((date - new Date(year.toString())) / (24 * 60 * 60 * 1000));
     var test = parseInt(today / fullYearDay * 100)
     this.setData({
       yearPercent: test,
       yearTitle: year +"年进度条"
     })
-    console.log('day', day, year, fullYearDay, today, test)
+    new AV.Query('_User')
+      .get('5a6e7b280b616000443e4157')
+      .then(function(test){
+        console.log(test.get('nickname'))        
+      }, function(error) {
+        console.log('error')              
+      })
   },
   getUserInfo: function(e) {
     console.log(e)
