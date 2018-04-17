@@ -1,0 +1,4 @@
+<!--pages/homepage/homepage.wxml-->
+<image bindtap="bindViewTap" class="img" src="{{imgUrl}}" background-size="cover"></image>
+<button bindtap='clickBtn'>上传图片</button>
+<text>pages/homepage/homepage.wxml</text>
