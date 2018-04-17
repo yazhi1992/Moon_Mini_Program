@@ -9,7 +9,7 @@ Page({
     imgUrl: 'http://lc-wl3lbfgv.cn-n1.lcfile.com/U6AzudPjVcrfaDvMWgWjaAtkrbU9IVEYyeFCBrgn.jpg'
   },
 
-  clickBtn: function () {
+  clickImg: function () {
     var that = this
     console.log('test')
     wx.chooseImage({

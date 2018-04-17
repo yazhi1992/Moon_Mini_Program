@@ -9,5 +9,31 @@
     "navigationBarBackgroundColor": "#fff",
     "navigationBarTitleText": "小本本Pro",
     "navigationBarTextStyle":"black"
+  },
+  "tabBar": {
+    "color": "#757575",
+    "selectedColor": "#4396ee",
+    "borderStyle": "white",
+    "backgroundColor": "white",
+    "list": [
+      {
+        "text": "此刻",
+        "pagePath": "pages/homepage/homepage",
+        "iconPath": "images/bottom_nav_home.png",
+        "selectedIconPath": "images/bottom_nav_home_selected.png"
+      },
+      {
+        "text": "回忆",
+        "pagePath": "pages/index/index",
+        "iconPath": "images/bottom_nav_love.png",
+        "selectedIconPath": "images/bottom_nav_love_selected.png"
+      },
+      {
+        "text": "我们",
+        "pagePath": "pages/logs/logs",
+        "iconPath": "images/bottom_nav_me.png",
+        "selectedIconPath": "images/bottom_nav_me_selected.png"
+      }
+    ]
   }
 }

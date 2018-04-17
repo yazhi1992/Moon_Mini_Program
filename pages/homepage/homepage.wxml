@@ -1,4 +1,21 @@
 <!--pages/homepage/homepage.wxml-->
-<image bindtap="bindViewTap" class="img" src="{{imgUrl}}" background-size="cover"></image>
-<button bindtap='clickBtn'>上传图片</button>
-<text>pages/homepage/homepage.wxml</text>
+<image class="img" src="{{imgUrl}}" background-size="cover"></image>
+
+<view class='parent'>
+  <view class='space'></view>
+  <view class='child'>
+    <image bindtap="clickImg" class='tabImg' src='../../images/memorial_day_icon.png'></image>
+    <text class='text'>纪念日</text>
+  </view>
+  <view class='space'></view>
+  <view class='child'>
+    <image bindtap="clickImg" class='tabImg' src='../../images/icon_hope.png'></image>
+    <text class='text'>许愿树</text>
+  </view>
+  <view class='space'></view>
+  <view class='child'>
+    <image bindtap="clickImg" class='tabImg' src='../../images/icon_mc.png'></image>
+    <text class='text'>小心愿</text>
+  </view>
+  <view class='space'></view>
+</view>
