@@ -1,46 +1,47 @@
 /* pages/homepage/homepage.wxss */
+page{
+height: 100%;
+}
+
+.root {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
 
 .img {
   width: 100%;
   height: 100vw;
 }
 
-.wrapper {
+.btns {
   display: flex;
   flex-direction: column;
-  height: 100rpx;
-}
-
-.wrapperSpace {
-  height: 50%;
+  justify-content: center;
+  flex-grow: 1;
 }
 
 .parent {
-  margin-top: 80rpx;
-  display: inline-flex;
+  display: flex;
   flex-direction: row;
+  justify-content: space-around;
   width: 100%;
-  flex: 1;
 }
 
 .child {
-  flex: 1;
-  display: inline-flex;
+  display: flex;
   flex-direction: column;
-}
-
-.space {
-  width: 50%;
+  align-items: center;
 }
 
 .tabImg {
-  width: 90rpx;
-  height: 90rpx;
+  width: 85rpx;
+  height: 85rpx;
 }
 
 .text {
   width: 100rpx;
   margin-top: 20rpx;
-  font-size:small;
+  font-size: small;
   text-align: center;
 }

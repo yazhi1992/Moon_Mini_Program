@@ -6,7 +6,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-    imgUrl: 'http://lc-wl3lbfgv.cn-n1.lcfile.com/U6AzudPjVcrfaDvMWgWjaAtkrbU9IVEYyeFCBrgn.jpg'
+    imgUrl: 'http://lc-wl3lbfgv.cn-n1.lcfile.com/RgnxI7IGrZ6KFcxSzNOmzSG3XB6ZA6hDVoBDSTaI.jpg'
   },
 
   clickImg: function () {
