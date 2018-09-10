@@ -1,0 +1,63 @@
+/* pages/me/me.wxss */
+
+page{
+height: 100%;
+}
+
+.root {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.space {
+  flex-grow: 1;
+}
+
+.userBox {
+  display: flex;
+  flex-direction: row;
+  flex-grow: 1;
+  width: 100%;
+  padding-top: 100rpx;
+}
+
+.user {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.headImg {
+  width: 150rpx;
+  height: 150rpx;
+}
+
+.userName {
+  width: 100rpx;
+  margin-top: 20rpx;
+  font-size:large;
+  text-align: center;
+}
+
+.itemBox {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 130rpx;
+}
+
+.itemImg {
+  margin-left: 50rpx;
+  width: 85rpx;
+  height: 85rpx;
+}
+
+.itemName {
+  margin-left: 70rpx;
+  font-size: large;
+}
+
+.bottom {
+  height: 50rpx;
+}

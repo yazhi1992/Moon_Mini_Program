@@ -1,14 +1,15 @@
 {
-  "pages":[
+  "pages": [
+    "pages/me/me",
     "pages/homepage/homepage",
     "pages/index/index",
     "pages/logs/logs"
   ],
-  "window":{
-    "backgroundTextStyle":"light",
+  "window": {
+    "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#fff",
     "navigationBarTitleText": "小本本Pro",
-    "navigationBarTextStyle":"black"
+    "navigationBarTextStyle": "black"
   },
   "tabBar": {
     "color": "#757575",
@@ -30,7 +31,7 @@
       },
       {
         "text": "我们",
-        "pagePath": "pages/logs/logs",
+        "pagePath": "pages/me/me",
         "iconPath": "images/bottom_nav_me.png",
         "selectedIconPath": "images/bottom_nav_me_selected.png"
       }
