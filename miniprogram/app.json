@@ -1,8 +1,8 @@
 {
   "pages": [
+    "pages/me/me",
     "pages/index/index",
     "pages/mc/mc",
-    "pages/me/me",
     "pages/time/time",
     "pages/homepage/homepage",
     "pages/logs/logs",
@@ -21,10 +21,9 @@
   },
   "window": {
     "navigationStyle": "custom",
-    "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#fff",
     "navigationBarTitleText": "小本本Pro",
-    "navigationBarTextStyle": "black"
+    "navigationBarTextStyle": "white"
   },
   "tabBar": {
     "color": "#757575",

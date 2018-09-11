@@ -1,0 +1,9 @@
+<!--components/header.wxml-->
+<view class='root'>
+  <view style="height:{{title_height}}px;padding-top:{{statusbarHeight}}px;" class='bg'>
+    <view wx:if="{{show_back}}" class='test'>
+      <text class='title'>哈哈哈</text>
+    </view>
+  </view>
+  <slot></slot>
+</view>

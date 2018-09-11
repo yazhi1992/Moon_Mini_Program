@@ -1,25 +1,27 @@
 <!--pages/me/me.wxml-->
-<view class='root'>
-  <view class='userBox'>
-    <view class='space'></view>
-    <view class='user'>
-      <image class='headImg' src="{{myHeadUrl}}"></image>
-      <text class='userName'>{{myName}}</text>
+<header show_back='{{true}}'>
+  <view class='root' style='height:calc(100vh - {{navH}}px)'>
+    <view class='userBox'>
+      <view class='space'></view>
+      <view class='user'>
+        <image class='headImg' src="{{myHeadUrl}}"></image>
+        <text class='userName'>{{myName}}</text>
+      </view>
+      <view class='space'></view>
+      <view class='user'>
+        <image class='headImg' src="{{loverHeadUrl}}"></image>
+        <text class='userName'>{{loverName}}</text>
+      </view>
+      <view class='space'></view>
     </view>
-    <view class='space'></view>
-    <view class='user'>
-      <image class='headImg' src="{{loverHeadUrl}}"></image>
-      <text class='userName'>{{loverName}}</text>
+    <view class='itemBox'>
+      <image class='itemImg' src='{{myHeadUrl}}'></image>
+      <text class='itemName'>设置</text>
     </view>
-    <view class='space'></view>
+    <view class='itemBox'>
+      <image class='itemImg' src='{{myHeadUrl}}'></image>
+      <text class='itemName'>关于我们</text>
+    </view>
+    <view class='bottom'></view>
   </view>
-  <view class='itemBox'>
-    <image class='itemImg' src='{{myHeadUrl}}'></image>
-    <text class='itemName'>设置</text>
-  </view>
-  <view class='itemBox'>
-    <image class='itemImg' src='{{myHeadUrl}}'></image>
-    <text class='itemName'>关于我们</text>
-  </view>
-  <view class='bottom'></view>
-</view>
+</header>

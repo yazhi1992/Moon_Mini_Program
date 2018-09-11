@@ -1,0 +1,33 @@
+/* components/header.wxss */
+.bg {
+  width: 100%;
+  background-color: #2196F3;
+  box-sizing: border-box;
+  transform: translateZ(0);
+  z-index: 999990;
+  top: 0;
+  height: 100rpx;
+}
+
+.root {
+  height: 100%;
+}
+
+.test {
+  height: 100rpx;
+  width: 100rpx;
+  background: #eee
+}
+
+.back {
+  height: 45px;
+}
+
+.title {
+  height: 45px;
+  position: absolute;
+  bottom: 0;
+  color: #fff;
+  line-height: 45px;
+  background: #33e;
+}

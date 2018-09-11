@@ -1,4 +1,6 @@
 // pages/me/me.js
+const app = getApp();
+
 Page({
 
   /**
@@ -8,7 +10,7 @@ Page({
     myHeadUrl: "https://avatars1.githubusercontent.com/u/13739375?s=460&v=4",
     myName: 'me',
     loverHeadUrl: 'https://avatars1.githubusercontent.com/u/13739375?s=460&v=4',
-    loverName: 'lover'
+    loverName: 'lover',
   },
 
   /**
@@ -16,7 +18,7 @@ Page({
    */
   onLoad: function (options) {
     this.setData({
-
+      navH: app.globalData.navHeight
     })
   },
 
