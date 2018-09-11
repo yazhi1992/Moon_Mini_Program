@@ -1,6 +1,5 @@
 {
-	"miniprogramRoot": "miniprogram/",
-	"cloudfunctionRoot": "cloudfunctions/",
+	"description": "项目配置文件。",
 	"setting": {
 		"urlCheck": true,
 		"es6": true,
@@ -8,9 +7,11 @@
 		"minified": true,
 		"newFeature": true
 	},
+	"compileType": "miniprogram",
+	"libVersion": "1.9.91",
 	"appid": "wx226878569518bc60",
-	"projectname": "test",
-	"libVersion": "2.2.5",
+	"projectname": "Moon",
+	"isGameTourist": false,
 	"condition": {
 		"search": {
 			"current": -1,
@@ -20,22 +21,13 @@
 			"current": -1,
 			"list": []
 		},
-		"plugin": {
-			"current": -1,
-			"list": []
-		},
 		"game": {
+			"currentL": -1,
 			"list": []
 		},
 		"miniprogram": {
-			"current": 0,
-			"list": [
-				{
-					"id": -1,
-					"name": "db guide",
-					"pathName": "pages/databaseGuide/databaseGuide"
-				}
-			]
+			"current": -1,
+			"list": []
 		}
 	}
 }
