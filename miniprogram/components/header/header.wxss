@@ -1,16 +1,16 @@
 /* components/header.wxss */
 .bg {
   width: 100%;
-  background-color: #2196F3;
-  box-sizing: border-box;
   transform: translateZ(0);
   z-index: 999990;
   top: 0;
-  height: 100rpx;
 }
 
 .root {
   height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: #333;
 }
 
 .test {
@@ -23,11 +23,43 @@
   height: 45px;
 }
 
-.title {
+.contentBox {
   height: 45px;
-  position: absolute;
+  position: fixed;
   bottom: 0;
   color: #fff;
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+}
+
+.backBox {
+  position:relative;
+  display: flex;
+  align-items: center;
+  margin-left: 10px;
+}
+
+.btn {
+  height: 45px;
+  width: 45px;
+  background-color: transparent;
+  position: absolute;
+}
+
+.backImg {
+  position: absolute;
+  height: 15px;
+  width: 15px;
+  margin-left: 10px;
+}
+
+.btn::after {
+  border: 0;
+}
+
+.title {
+  height: 45px;
   line-height: 45px;
-  background: #33e;
+  font-size: large;
 }

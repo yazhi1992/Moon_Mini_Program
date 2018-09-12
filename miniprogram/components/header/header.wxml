@@ -1,9 +1,10 @@
 <!--components/header.wxml-->
-<view class='root'>
-  <view style="height:{{title_height}}px;padding-top:{{statusbarHeight}}px;" class='bg'>
-    <view wx:if="{{show_back}}" class='test'>
-      <text class='title'>哈哈哈</text>
+<view style="height:{{title_height}}px;background-color:{{is_trans?'transparent':'#2196F3'}};position:{{is_trans?'absolute':'flex'}};" class='bg'>
+    <view class='contentBox'>
+      <view wx:if="{{show_back}}" class='backBox'>
+        <button class='btn' bindtap='sumbit'></button>
+        <image class='backImg' src='./back.png'></image>
+      </view>
+      <text class='title' wx:if="{{show_title}}" style='margin-left:{{show_back?45:20}}px'>{{title}}</text>
     </view>
   </view>
-  <slot></slot>
-</view>

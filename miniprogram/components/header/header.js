@@ -20,15 +20,17 @@ Component({
     show_title: {
       type: Boolean,
       value: true
+    },
+    title: {
+      type: String,
+      value: ""
     }
   },
 
   /**
    * 组件的初始数据
    */
-  data: {
-
-  },
+  data: {},
 
   /**
    * 组件的方法列表
