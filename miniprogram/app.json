@@ -1,5 +1,6 @@
 {
   "pages": [
+    "pages/history/history",
     "pages/me/me",
     "pages/index/index",
     "pages/mc/mc",
@@ -39,7 +40,7 @@
       },
       {
         "text": "回忆",
-        "pagePath": "pages/index/index",
+        "pagePath": "pages/history/history",
         "iconPath": "images/bottom_nav_love.png",
         "selectedIconPath": "images/bottom_nav_love_selected.png"
       },

@@ -1,13 +1,6 @@
 /* pages/me/me.wxss */
-page{
-  height:100%;
-}
 
-.root {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-}
+@import "../../style/common.wxss";
 
 .space {
   flex-grow: 1;
@@ -54,7 +47,7 @@ page{
 
 .itemName {
   margin-left: 50rpx;
-  font-size: medium;
+  font-size: small;
 }
 
 .bottom {

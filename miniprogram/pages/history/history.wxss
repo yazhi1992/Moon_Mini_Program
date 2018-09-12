@@ -1,0 +1,54 @@
+/* miniprogram/pages/history/history.wxss */
+
+@import "../../style/common.wxss";
+
+.itemBox {
+  display: flex;
+  flex-direction: row;
+}
+
+.userImg {
+  height: 150rpx;
+  width: 150rpx;
+}
+
+.contentDetail {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.userNameText {
+  font-size: medium;
+}
+
+.contentText {
+  font-size: large;
+}
+
+.contentImg {
+  height: 300rpx;
+  width: 300rpx;
+}
+
+.commentBox {
+  display: flex;
+  flex-direction: column;
+  background: #ddd;
+  width: 100%;
+  padding: 10rpx;
+}
+
+.commentText {
+  font-size: medium;
+}
+
+.timeText {
+  font-size: small;
+}
+
+.commentImg {
+  height: 100rpx;
+  width: 100rpx;
+  margin: 30rpx;
+}
