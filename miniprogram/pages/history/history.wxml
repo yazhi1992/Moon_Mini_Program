@@ -1,19 +1,21 @@
 <!--miniprogram/pages/history/history.wxml-->
+<header show_back="{{false}}" title="dd"></header>
 <view class='root'>
-  <header show_back="{{false}}" title="回忆"></header>
-  <view class='itemBox'>
-    <image class='userImg' src='{{userImgUrl}}'></image>
-    <view class='contentDetail'>
-      <text class='userNameText'>{{userName}}</text>
-      <text class='contentText'>{{content}}</text>
-      <image class='contentImg' src='{{imgUrl}}'></image>
-      <view class='commentBox'>
-        <text class='commentText'>{{comment}}</text>
-      </view>
-      <view style="display:flex;align-items:center">
-        <text class='timeText'>{{time}}</text>
-        <image class='commentImg' src='./comment_icon.png'></image>
+  <scroll-view>
+    <view class='itemBox' wx:for="{{datas}}">
+      <image class='userImg' src='{{item.userImgUrl}}'></image>
+      <view class='contentDetail'>
+        <text class='userNameText'>{{item.userName}}</text>
+        <text class='contentText'>{{item.content}}</text>
+        <image class='contentImg' src='{{item.imgUrl}}'></image>
+        <view class='commentBox'>
+          <text class='commentText'>{{item.comment}}</text>
+        </view>
+        <view style="display:flex;align-items:center">
+          <text class='timeText'>{{item.time}}</text>
+          <image class='commentImg' src='./comment_icon.png'></image>
+        </view>
       </view>
     </view>
-  </view>
+  </scroll-view>
 </view>
