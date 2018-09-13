@@ -1,18 +1,25 @@
 <!--miniprogram/pages/history/history.wxml-->
 <view class='root'>
-  <view class='itemBox' wx:for="{{datas}}">
-    <image class='userImg' src='{{item.userImgUrl}}'></image>
-    <view class='contentDetail'>
-      <text class='userNameText'>{{item.userName}}</text>
-      <text class='contentText'>{{item.content}}</text>
-      <image class='contentImg' src='{{item.imgUrl}}'></image>
-      <view class='commentBox'>
-        <text class='commentText'>{{item.comment}}</text>
+  <view wx:for="{{datas}}">
+    <!-- 心声 -->
+    <view class='itemBox' hidden="{{!(item.typeIndex=='1')}}">
+      <image class='userImg' src='{{item.userImgUrl}}'></image>
+      <view class='contentDetail'>
+        <text class='userNameText'>{{item.userName}}</text>
+        <text class='contentText'>{{item.content}}</text>
+        <image class='contentImg' src='{{item.imgUrl}}'></image>
+        <view class='commentBox'>
+          <text class='commentText'>{{item.comment}}</text>
+        </view>
+        <view style="display:flex;align-items:center">
+          <text class='timeText'>{{item.time}}</text>
+          <image class='commentImg' src='./comment_icon.png'></image>
+        </view>
       </view>
-      <view style="display:flex;align-items:center">
-        <text class='timeText'>{{item.time}}</text>
-        <image class='commentImg' src='./comment_icon.png'></image>
-      </view>
+    </view>
+    <!-- 小姨妈 -->
+    <view hidden="{{!(item.typeIndex=='2')}}">
+      <text class='commentText' style='height=100rpx'>{{item.comment}}</text>
     </view>
   </view>
   <view class="weui-loadmore" hidden="{{isHideLoadMore}}">

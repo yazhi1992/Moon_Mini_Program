@@ -6,13 +6,15 @@ Page({
    */
   data: {
     isHideLoadMore: false,
+    // datas: this._generateColors()
     datas: [{
         userImgUrl: "https://avatars1.githubusercontent.com/u/13739375?s=460&v=4",
         userName: "名字",
         imgUrl: "https://avatars1.githubusercontent.com/u/13739375?s=460&v=4",
         content: "test",
         comment: "DD回复辣辣：哈哈哈",
-        time: "2018-12-12"
+        time: "2018-12-12",
+        typeIndex: 1
       },
       {
         userImgUrl: "https://avatars1.githubusercontent.com/u/13739375?s=460&v=4",
@@ -20,7 +22,8 @@ Page({
         imgUrl: "https://avatars1.githubusercontent.com/u/13739375?s=460&v=4",
         content: "test",
         comment: "DD回复辣辣：哈哈哈",
-        time: "2018-12-12"
+        time: "2018-12-12",
+        typeIndex: 2
       },
       {
         userImgUrl: "https://avatars1.githubusercontent.com/u/13739375?s=460&v=4",
@@ -28,7 +31,26 @@ Page({
         imgUrl: "https://avatars1.githubusercontent.com/u/13739375?s=460&v=4",
         content: "test",
         comment: "DD回复辣辣：哈哈哈",
-        time: "2018-12-12"
+        time: "2018-12-12",
+        typeIndex: 1
+      },
+      {
+        userImgUrl: "https://avatars1.githubusercontent.com/u/13739375?s=460&v=4",
+        userName: "名字",
+        imgUrl: "https://avatars1.githubusercontent.com/u/13739375?s=460&v=4",
+        content: "test",
+        comment: "DD回复辣辣：哈哈哈",
+        time: "2018-12-12",
+        typeIndex: 1
+      },
+      {
+        userImgUrl: "https://avatars1.githubusercontent.com/u/13739375?s=460&v=4",
+        userName: "名字",
+        imgUrl: "https://avatars1.githubusercontent.com/u/13739375?s=460&v=4",
+        content: "test",
+        comment: "DD回复辣辣：哈哈哈",
+        time: "2018-12-12",
+        typeIndex: 1
       }
     ]
   },
@@ -105,7 +127,8 @@ Page({
       imgUrl: "https://avatars1.githubusercontent.com/u/13739375?s=460&v=4",
       content: "test",
       comment: "DD回复辣辣：哈哈哈",
-      time: "2018-12-12"
+      time: "2018-12-12",
+      typeIndex: 2
     }
     return data;
   },
