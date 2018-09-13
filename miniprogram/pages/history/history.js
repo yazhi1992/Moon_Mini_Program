@@ -128,7 +128,7 @@ Page({
       content: "test",
       comment: "DD回复辣辣：哈哈哈",
       time: "2018-12-12",
-      typeIndex: 2
+      typeIndex: 1
     }
     return data;
   },

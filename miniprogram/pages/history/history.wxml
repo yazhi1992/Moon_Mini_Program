@@ -1,5 +1,7 @@
 <!--miniprogram/pages/history/history.wxml-->
 <view class='root'>
+ <header title="test"></header>
+ <scroll-view scroll-y class='scrollview'>
   <view wx:for="{{datas}}">
     <!-- 心声 -->
     <view class='itemBox' hidden="{{!(item.typeIndex=='1')}}">
@@ -26,4 +28,7 @@
     <view class="weui-loading"></view>
     <view class="weui-loadmore__tips">正在加载</view>
   </view>
+
+</scroll-view>
+<image class='floatBtn' src='./comment_icon.png'></image>  
 </view>
