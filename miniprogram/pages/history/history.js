@@ -5,6 +5,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    isHideLoadMore: false,
     datas: [{
         userImgUrl: "https://avatars1.githubusercontent.com/u/13739375?s=460&v=4",
         userName: "名字",
@@ -71,14 +72,42 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function() {
-
+    setTimeout(() => {
+      const ss = this._generateColors(3)
+      this.setData({
+        datas: ss
+      })
+      wx.stopPullDownRefresh()
+    }, 1000)
   },
 
   /**
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function() {
+    console.log('加载更多')
+    setTimeout(() => {
+      const datas = this._generateColors(3)
+      this.setData({
+        datas: [...this.data.datas, ...datas]
+      })
+    }, 1000)
+  },
 
+  _generateColors: function (length) {
+    return new Array(length).fill(null).map(() => this._randomColor());
+  },
+
+  _randomColor: function () {
+    var data = {
+      userImgUrl: "https://avatars1.githubusercontent.com/u/13739375?s=460&v=4",
+      userName: "名字",
+      imgUrl: "https://avatars1.githubusercontent.com/u/13739375?s=460&v=4",
+      content: "test",
+      comment: "DD回复辣辣：哈哈哈",
+      time: "2018-12-12"
+    }
+    return data;
   },
 
   /**

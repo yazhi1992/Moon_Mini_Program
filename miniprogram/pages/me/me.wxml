@@ -1,6 +1,5 @@
 <!--pages/me/me.wxml-->
 <view class='root'>
-  <header show_back="{{false}}" title="我们"></header>
   <view class='userBox '>
     <view class='space '></view>
     <view class='user '>

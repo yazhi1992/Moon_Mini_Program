@@ -21,9 +21,8 @@
     }
   },
   "window": {
-    "navigationStyle": "custom",
-    "navigationBarBackgroundColor": "#fff",
-    "navigationBarTitleText": "小本本Pro",
+    "navigationBarBackgroundColor": "#2196F3",
+    "navigationBarTitleText": "",
     "navigationBarTextStyle": "white"
   },
   "tabBar": {
