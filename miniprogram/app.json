@@ -1,6 +1,7 @@
 {
   "pages": [
     "pages/history/history",
+    "pages/addMsg/addMsg",
     "pages/me/me",
     "pages/index/index",
     "pages/mc/mc",
@@ -12,8 +13,7 @@
     "pages/databaseGuide/databaseGuide",
     "pages/addFunction/addFunction",
     "pages/deployFunctions/deployFunctions",
-    "pages/chooseLib/chooseLib",
-    "pages/addMsg/addMsg"
+    "pages/chooseLib/chooseLib"
   ],
   "plugins": {
     "calendar": {
@@ -34,19 +34,19 @@
     "backgroundColor": "white",
     "list": [
       {
-        "text": "ass",
+        "text": "此刻",
         "pagePath": "pages/homepage/homepage",
         "iconPath": "images/bottom_nav_home.png",
         "selectedIconPath": "images/bottom_nav_home_selected.png"
       },
       {
-        "text": "das",
+        "text": "回忆",
         "pagePath": "pages/history/history",
         "iconPath": "images/bottom_nav_love.png",
         "selectedIconPath": "images/bottom_nav_love_selected.png"
       },
       {
-        "text": "dasd",
+        "text": "我们",
         "pagePath": "pages/me/me",
         "iconPath": "images/bottom_nav_me.png",
         "selectedIconPath": "images/bottom_nav_me_selected.png"

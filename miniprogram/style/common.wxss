@@ -7,3 +7,23 @@ page{
   flex-direction: column;
   height: 100%;
 }
+
+.myPadding {
+  padding:30rpx;
+}
+
+.myPaddingTop {
+  padding-top: 30rpx;
+}
+
+.myMarginTop {
+  margin-top: 30rpx;
+}
+
+.myMarginLeft {
+  margin-left: 30rpx;
+}
+
+.testBg {
+  background: #ddd;
+}

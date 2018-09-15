@@ -67,4 +67,17 @@ App({
     userInfo: null,
     navHeight: "64"
   },
+
+  randomNum: function (n, m) {
+    var random = Math.floor(Math.random() * (m - n + 1) + n);
+    return random;
+  },
+
+  getSuffix: function(path) {
+    let fileName = path.lastIndexOf(".");//取到文件名开始到最后一个点的长度
+    let fileNameLength = path.length;//取到文件名长度
+    let fileFormat = path.substring(fileName, fileNameLength);//截
+    return fileFormat;
+  }
+  
 })

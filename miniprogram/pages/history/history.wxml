@@ -1,34 +1,34 @@
 <!--miniprogram/pages/history/history.wxml-->
 <view class='root'>
- <header title="test"></header>
- <scroll-view scroll-y class='scrollview'>
-  <view wx:for="{{datas}}">
-    <!-- 心声 -->
-    <view class='itemBox' hidden="{{!(item.typeIndex=='1')}}">
-      <image class='userImg' src='{{item.userImgUrl}}'></image>
-      <view class='contentDetail'>
-        <text class='userNameText'>{{item.userName}}</text>
-        <text class='contentText'>{{item.content}}</text>
-        <image class='contentImg' src='{{item.imgUrl}}'></image>
-        <view class='commentBox'>
-          <text class='commentText'>{{item.comment}}</text>
-        </view>
-        <view style="display:flex;align-items:center">
-          <text class='timeText'>{{item.time}}</text>
-          <image class='commentImg' src='./comment_icon.png'></image>
+  <header title="回忆" showBack='{{false}}'></header>
+  <scroll-view scroll-y class='scrollview' bindscrolltolower="lower" bindscrolltoupper="upper">
+    <view wx:for="{{datas}}">
+      <!-- 心声 -->
+      <view class='itemBox' hidden="{{!(item.typeIndex=='1')}}">
+        <image class='userImg' src='{{item.userImgUrl}}'></image>
+        <view class='contentDetail'>
+          <text class='userNameText'>{{item.userName}}</text>
+          <text class='contentText'>{{item.content}}</text>
+          <image class='contentImg' src='{{item.imgUrl}}'></image>
+          <view class='commentBox'>
+            <text class='commentText'>{{item.comment}}</text>
+          </view>
+          <view style="display:flex;align-items:center">
+            <text class='timeText'>{{item.time}}</text>
+            <image class='commentImg' src='./comment_icon.png'></image>
+          </view>
         </view>
       </view>
+      <!-- 小姨妈 -->
+      <view hidden="{{!(item.typeIndex=='2')}}">
+        <text class='commentText' style='height=100rpx'>{{item.comment}}</text>
+      </view>
     </view>
-    <!-- 小姨妈 -->
-    <view hidden="{{!(item.typeIndex=='2')}}">
-      <text class='commentText' style='height=100rpx'>{{item.comment}}</text>
-    </view>
-  </view>
-  <view class="weui-loadmore" hidden="{{isHideLoadMore}}">
+    <!-- <view class="weui-loadmore" hidden="{{isHideLoadMore}}">
     <view class="weui-loading"></view>
     <view class="weui-loadmore__tips">正在加载</view>
-  </view>
+  </view> -->
 
-</scroll-view>
-<image class='floatBtn' src='./comment_icon.png'></image>  
+  </scroll-view>
+  <image class='floatBtn' src='./comment_icon.png' bindtap="clickAdd"></image>
 </view>

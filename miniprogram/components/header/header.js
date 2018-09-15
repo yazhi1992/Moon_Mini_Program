@@ -5,19 +5,19 @@ Component({
    * 组件的属性列表
    */
   properties: {
-    title_height: {
+    titleHeight: {
       type: String,
       value: App.globalData.navHeight
     },
-    is_trans: {
+    isTrans: {
       type: Boolean,
       value: false
     },
-    show_back: {
+    showBack: {
       type: Boolean,
       value: true
     },
-    show_title: {
+    showTitle: {
       type: Boolean,
       value: true
     },
@@ -40,5 +40,10 @@ Component({
     _navback() {
       wx.navigateBack()
     },
-  }
+
+    clickBack: function () {
+      wx.navigateBack()
+    }
+  },
+  
 })

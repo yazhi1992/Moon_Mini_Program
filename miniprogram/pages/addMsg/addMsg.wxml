@@ -1,2 +1,17 @@
 <!--miniprogram/pages/addMsg/addMsg.wxml-->
-<text>miniprogram/pages/addMsg/addMsg.wxml</text>
+<view class='root' style="background='#ddd'">
+  <header title="心声"></header>
+
+  <text class='title'>想把我唱给你听</text>
+
+  <form bindsubmit="bindFormSubmit">
+    <view class="input">
+      <textarea class="weui-textarea" placeholder="请输入想说的话" style="height: 7em" auto-focus name="textarea" />
+    </view>
+    <image class='addImg myMarginLeft myMarginTop' src="{{previewImg}}" bindtap='pickImg' mode='aspectFit'></image>
+    <view class='myPadding'>
+      <button class="btn" hover-class='btnHover' type="primary" form-type="submit">添加</button>
+    </view>
+  </form>
+
+</view>

@@ -1,4 +1,7 @@
 /**app.wxss**/
+
+@import 'weui.wxss';
+
 .container {
   height: 100%;
   display: flex;
@@ -8,3 +11,14 @@
   padding: 200rpx 0;
   box-sizing: border-box;
 } 
+
+/* 覆盖默认颜色 */
+button[type="primary"] {
+background: #2196F3;
+}
+
+/* hover-class="btnClicked"  */
+.btnHover {
+  background: #1e88e5 !important;
+}
+

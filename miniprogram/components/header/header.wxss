@@ -63,3 +63,7 @@
   line-height: 45px;
   font-size: large;
 }
+
+.headerBtnHover {
+  background: #000 !important;
+}
