@@ -1,12 +1,12 @@
 {
   "pages": [
+    "pages/homepage/homepage",
     "pages/history/history",
     "pages/addMsg/addMsg",
     "pages/me/me",
     "pages/index/index",
     "pages/mc/mc",
     "pages/time/time",
-    "pages/homepage/homepage",
     "pages/logs/logs",
     "pages/userConsole/userConsole",
     "pages/storageConsole/storageConsole",

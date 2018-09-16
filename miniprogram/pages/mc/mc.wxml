@@ -1,2 +1,5 @@
 <!--pages/mc/mc.wxml-->
-<calendar/>
+<view class='root'>
+  <header title="小姨妈"></header>
+  <calendar class='myMarginTop'/>
+</view>
