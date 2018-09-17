@@ -7,6 +7,7 @@ Page({
    */
   data: {
     imgUrl: 'http://lc-wl3lbfgv.cn-n1.lcfile.com/RgnxI7IGrZ6KFcxSzNOmzSG3XB6ZA6hDVoBDSTaI.jpg'
+    // imgUrl: 'osvbh5BBZstiXMArAYOY7_d7b9-8'
   },
 
   clickImg: function () {
@@ -105,17 +106,15 @@ Page({
   },
 
   clickHope: function () {
-    const db = wx.cloud.database()
-    db.collection('singleText').add({
-      // data 字段表示需新增的 JSON 数据
+    wx.cloud.callFunction({
+      // 云函数名称
+      name: 'addSingleText',
+      // name: 'addHistory',
       data: {
-        // _id: 'todo-identifiant-aleatoire', // 可选自定义 _id，在此处场景下用数据库自动分配的就可以了
-        content: "learn cloud database",
-        due: new Date("2018-09-01")
+        content: "test",
       },
       success: function (res) {
-        // res 是一个对象，其中有 _id 字段标记刚创建的记录的 id
-        console.log(res)
+        console.log(res) 
       },
       fail: console.error
     })
