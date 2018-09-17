@@ -27,7 +27,7 @@ exports.main = async (event, context) => {
         data: {
           content: res.data,
           openId: res.data._openid,
-          contentType: res.data.content
+          contentType: 0
         }
       })
     })
