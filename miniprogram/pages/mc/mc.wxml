@@ -1,5 +1,5 @@
 <!--pages/mc/mc.wxml-->
 <view class='root'>
   <header title="小姨妈"></header>
-  <calendar class='myMarginTop'/>
+  <calendar class='myMarginTop' weeksType='cn' binddayClick="dayClick" />
 </view>

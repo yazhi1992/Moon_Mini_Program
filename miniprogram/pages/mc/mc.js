@@ -62,5 +62,9 @@ Page({
    */
   onShareAppMessage: function () {
 
+  },
+
+  dayClick: function (event) {
+    console.log(event.detail);
   }
 })
