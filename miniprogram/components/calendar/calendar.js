@@ -148,7 +148,7 @@ Component({
      */
     cellSize: {
       type: Number,
-      value: 30,
+      value: 50,
       observer: '_setCellSize'
     },
 
@@ -157,8 +157,8 @@ Component({
      */
     activeType: {
       type: String,
-      value: 'rounded',
-      // value: 'square'
+      // value: 'rounded',
+      value: 'square',
       observer: '_setActiveType'
     },
 

@@ -112,10 +112,14 @@
 }
 
 .imgIcon {
-  height: 30rpx;
-  width: 30rpx;
+  height: 15rpx;
+  width: 15rpx;
+  margin-left: 2rpx;
+  margin-top: 5vw;
 }
 
 .dayBox {
   display: flex;
+  position: absolute;
+  flex-direction: column;
 }
