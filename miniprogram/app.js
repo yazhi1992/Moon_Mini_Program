@@ -78,6 +78,30 @@ App({
     let fileNameLength = path.length;//取到文件名长度
     let fileFormat = path.substring(fileName, fileNameLength);//截
     return fileFormat;
+  },
+
+  apiStart: function() {
+    wx.showLoading({
+      title: '努力加载中',
+      icon: 'loading'
+    })
+  },
+
+  apiEnd: function() {
+    wx.hideLoading()
+    wx.showToast({
+      title: '加载成功',
+      icon: 'success',
+      duration: 1500
+    });
+  },
+
+  apiError: function () {
+    wx.showToast({
+      title: '数据同步失败\r\n请重试',
+      icon: 'none',
+      duration: 2000
+    });
   }
   
 })

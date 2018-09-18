@@ -110,3 +110,12 @@
 .calendar-lunar-day {    
     font-size: 20rpx;
 }
+
+.imgIcon {
+  height: 30rpx;
+  width: 30rpx;
+}
+
+.dayBox {
+  display: flex;
+}

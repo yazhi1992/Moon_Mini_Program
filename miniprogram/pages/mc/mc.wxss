@@ -13,3 +13,15 @@
   box-shadow:0 0 10px #38ACFF;
 
 }
+
+.addBtn {
+  width: 100rpx;
+  height: 100rpx;
+  position: absolute;
+  right: 50rpx;
+  bottom: 50rpx;
+}
+
+.choosedDay {
+  background: #e9adee
+}

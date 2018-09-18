@@ -158,6 +158,7 @@ Component({
     activeType: {
       type: String,
       value: 'rounded',
+      // value: 'square'
       observer: '_setActiveType'
     },
 
@@ -208,7 +209,8 @@ Component({
     max_year: 2099, // 最大年份
     max_month: 12, // 最大月份
     min_year: 1900, // 最小年份
-    min_month: 1, // 最小月份        
+    min_month: 1, // 最小月份
+    clickedNum: -1
   },
 
   /**
@@ -489,14 +491,20 @@ Component({
        */
       let temp = new Array;
       for (let i = 1; i <= days_count; i++) {
+        var tempBg = 'transparent'
+        var temgColor = '#4a4f74'
+        if (this.data.clickedNum > 0 && i == this.data.clickedNum) {
+          tempBg = '#eee222'
+          temgColor = '#ffffff'
+        }
         temp.push({
           state: 'inactive',
           day: i,
           month: month,
           year: year,
           info: 'current',
-          color: '#4a4f74',
-          background: 'transparent'
+          color: temgColor,
+          background: tempBg
         });
       }
       const days_range = temp; // 本月
@@ -534,7 +542,8 @@ Component({
         const item = this.data.days_color[i];
         const background = item.background ? item.background : 'transparent';
         for (let j = 0; j < days.length; j++) {
-          if (days[j].info == item.month && days[j].day == item.day) {
+          if (this.data.clickedNum == j) continue;
+          if (days[j].month == item.month && days[j].day == item.day) {
             if (item.color) {
               days[j].color = item.color + '!important';
             }
@@ -711,6 +720,36 @@ Component({
         background: click_day.background
       };
       this.triggerEvent('dayClick', eventDetail);
+
+      // var index = this.data.days_array.findIndex(element => {
+      //   return element.day == 18;
+      // })
+      console.log('-----' + click_day.day)
+      this.setData({
+        clickedNum: click_day.day
+      })
+      this.setData({
+        days_array: this._setCalendarData(click_day.year, click_day.month)
+      })
+
+      // var array = this.days_array[8].background = '#b49eeb'
+      // this.setData({
+      //   days_array: array
+      // })
+      // console.log('-----' + eventDetail.year)
+    },
+
+    _buildMcDays: function () {
+      let temp = new Array;
+      for (let i = 1; i <= 6; i++) {
+        temp.push({
+          day: i,
+          month: 9,
+          color: '#ffffff',
+          background: '#e08cb8'
+        });
+      }
+      return temp;
     }
   },
 
@@ -720,7 +759,8 @@ Component({
     const year = this.data.year;
     const month = this.data.month;
     this.setData({
-      days_array: this._setCalendarData(year, month)
+      days_array: this._setCalendarData(year, month),
+      days_color: this._buildMcDays()
     });
   },
 
