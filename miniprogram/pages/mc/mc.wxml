@@ -1,9 +1,9 @@
 <!--pages/mc/mc.wxml-->
 <view class='root'>
   <header title="小姨妈"></header>
-  <calendar class='myMarginTop' weeksType='cn' binddayClick="dayClick" />
+  <calendar class='myMarginTop' weeksType='cn' binddayClick="dayClick" daysColor="{{daysColor}}" bindupdateDays="updateDays"/>
 
   <image class='addBtn' hidden="{{!showAddBtn}}" src='./comment_icon.png' bindtap='clickAdd'></image>
 
-  <image class='addBtn2' hidden="{{!showAddBtn}}" src='./comment_icon.png' bindtap='clickAdd2'></image>
+  <image class='addBtn2' hidden="{{!showAddBtn}}" src='./comment_icon.png'></image>
 </view>

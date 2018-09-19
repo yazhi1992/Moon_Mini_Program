@@ -5,7 +5,7 @@
         <text class="cwj-icon cwj-calendar-icon-left" bindtap="prevMonth" wx:elif="{{prev}}"></text>
         <text wx:else></text>
         
-        <picker mode="date" value="{{year}}-{{month}}" start="{{startDate}}" end="{{endDate}}" bindchange="dateChange" fields="month">
+        <picker mode="date" value="{{year}}-{{month}}" start="{{startDate}}" end="{{endDate}}" fields="month">
             <text>{{year}}年{{month}}月</text>
         </picker>
         
