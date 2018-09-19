@@ -3,7 +3,7 @@
   <header title="小姨妈"></header>
   <calendar class='myMarginTop' weeksType='cn' binddayClick="dayClick" daysColor="{{daysColor}}" bindupdateDays="updateDays"/>
 
-  <image class='addBtn' hidden="{{!showAddBtn}}" src='./comment_icon.png' bindtap='clickAdd'></image>
+  <image class='addBtn' hidden="{{!showAddBtn}}" src='{{iconUrl}}' bindtap='clickBtn'></image>
 
   <image class='addBtn2' hidden="{{!showAddBtn}}" src='./comment_icon.png'></image>
 </view>

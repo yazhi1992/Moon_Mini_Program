@@ -256,7 +256,6 @@ Component({
      */
     _yearChange: function(newYear, oldYear) {
       if (this._checkYear(newYear)) {
-        console.log("-----------_yearChange")
         this.setData({
           year: newYear,
           days_array: this._setCalendarData(newYear, this.data.month, true)
@@ -269,7 +268,6 @@ Component({
      */
     _monthChange: function(newMonth, oldMonth) {
       if (this._checkMonth(newMonth)) {
-        console.log("-----------_monthChange")
         this.setData({
           month: newMonth,
           days_array: this._setCalendarData(this.data.year, newMonth, true)
@@ -415,7 +413,6 @@ Component({
       this.setData({
         days_color: newDaysColor
       }, function() {
-          console.log("-----------_setDaysColor")
         this.setData({
           days_array: this._setCalendarData(this.data.year, this.data.month, false)
         });
@@ -450,7 +447,6 @@ Component({
      * @param int month 月份，取值1~12
      */
     _setCalendarData: function(year, month, notify) {
-      console.log("-----------_setCalendarData")
       const empty_days_count = new Date(year, month - 1, 1).getDay(); // 本月第一天是周几，0是星期日，6是星期六
       let empty_days = new Array;
       const prev_month = month - 1 == 0 ? 12 : month - 1; // 上个月的月份数
@@ -737,7 +733,6 @@ Component({
   attached: function() {
     const year = this.data.year;
     const month = this.data.month;
-      console.log("-----------attached")
     this.setData({
       days_array: this._setCalendarData(year, month, true)
     });

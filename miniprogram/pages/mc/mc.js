@@ -1,6 +1,8 @@
 // pages/mc/mc.js
 
-const app = getApp()
+const app = getApp();
+const deleteIcon = './mc_delete.png';
+const addIcon = './comment_icon.png';
 
 Page({
 
@@ -12,8 +14,11 @@ Page({
     showAddBtn: false,
     daysColor: [],
       days:[],
+      mcDays:[],
       year:2018,
       month: 9,
+      iconUrl: addIcon,
+      // mc_delete
   },
 
   /**
@@ -73,16 +78,29 @@ Page({
   },
 
   dayClick: function(event) {
-    this.setData({
-      chooseData: event.detail,
-      showAddBtn: true
-    })
-    console.log(event.detail);
+      console.log(event.detail);
+      var icon = './comment_icon.png';
+      var newChooseData = event.detail;
+      for (let i = 0; i < this.data.mcDays.length; i++) {
+          var item = this.data.mcDays[i]
+          if(item.day == event.detail.day && item.month == event.detail.month) {
+              //已有状态
+                  icon= deleteIcon;
+              newChooseData._id = item._id;
+              console.log('mc id')
+              console.log(newChooseData._id)
+              break;
+          }
+      };
+      this.setData({
+          chooseData: newChooseData,
+          showAddBtn: true,
+          iconUrl: icon
+  })
   },
 
     //更新日期数组
     updateDays: function (event) {
-        console.log(event.detail.days);
         var temp = new Array;
         for (let i = 0; i < event.detail.days.length; i++) {
             let item = event.detail.days[i];
@@ -90,11 +108,11 @@ Page({
                 temp.push(item[j])
             }
         }
-        console.log(temp);
         this.setData({
             year:event.detail.year,
             month:event.detail.month,
-            days: temp
+            days: temp,
+            showAddBtn: false
         })
 
         this.syncMcData();
@@ -113,9 +131,16 @@ Page({
         month: this.data.month
       }
     }).then(res => {
+        console.log(res.result)
         if(res.result) {
             that.setData({
+                mcDays: res.result,
                 daysColor:that.calcuDaysColor(res.result)
+            });
+        } else {
+            that.setData({
+                mcDays: [],
+                daysColor:[]
             });
         }
         wx.hideLoading()
@@ -186,11 +211,18 @@ Page({
           }
         }
       }
-      console.log(colors);
     return colors;
   },
 
-  clickAdd: function() {
+    clickBtn: function() {
+      if(this.data.iconUrl==addIcon){
+          this.addMc()
+      } else {
+          this.removeMc()
+      }
+    },
+
+  addMc: function() {
     var that = this
     wx.showActionSheet({
       itemList: ['姨妈来了', '姨妈走了'],
@@ -205,6 +237,49 @@ Page({
       }
     });
   },
+
+    removeMc: function() {
+        var that = this
+      var chooseData = this.data.chooseData;
+        wx.showModal({
+            content: '选中日期：' + chooseData.year + '年' + chooseData.month + '月' + +chooseData.day + '日\r\n是否移除状态？',
+            // content: 'asdfasdf',
+            confirmText: "确认",
+            cancelText: "取消",
+            success: function(res) {
+                if (res.confirm) {
+                    app.apiStart()
+                    wx.cloud.callFunction({
+                        name: 'removeMc',
+                        data: {
+                            itemId: chooseData._id,
+                        }
+                    }).then(res => {
+                        console.log(res)
+                        var temp = that.data.mcDays;
+                        console.log('old')
+                        console.log(temp)
+                        for (let i = 0; i < temp.length; i++) {
+                            if(temp[i]._id == chooseData._id) {
+                                temp.splice(i,1);
+                            }
+                        }
+                        console.log('new')
+                        console.log(temp)
+                        //添加成功，更新数据
+                        that.setData({
+                            mcDays: temp,
+                            daysColor:that.calcuDaysColor(temp)
+                        })
+                        wx.hideLoading();
+                    }).catch(err => {
+                        console.log(err)
+                        app.apiError()
+                    })
+                }
+            }
+        });
+    },
 
   showConfirmDialog: function(action, chooseData) {
       var that = this;
@@ -227,8 +302,46 @@ Page({
               action: action
             }
           }).then(res => {
+              console.log(res)
+              wx.showToast({
+                  title: action==1 ? '要注意休息，保重身体哦~' : '撒花~愉快地玩耍吧~',
+                  icon: 'none',
+                  duration: 2000
+              });
+              var temp = that.data.mcDays;
+              temp.push({
+                  _id:res.result._id,
+                  month:chooseData.month,
+                  day:chooseData.day,
+                  action:action
+              })
+
+              console.log(temp)
+
+              var compare = function (prop) {
+                  return function (obj1, obj2) {
+                      var val1 = obj1[prop];
+                      var val2 = obj2[prop];
+                      if (!isNaN(Number(val1)) && !isNaN(Number(val2))) {
+                          val1 = Number(val1);
+                          val2 = Number(val2);
+                      }
+                      if (val1 < val2) {
+                          return -1;
+                      } else if (val1 > val2) {
+                          return 1;
+                      } else {
+                          return 0;
+                      }
+                  }
+              }
+              temp.sort(compare("day"))
+
               //添加成功，更新数据
-              that.syncMcData()
+              that.setData({
+                  mcDays: temp,
+              daysColor:that.calcuDaysColor(temp)
+              })
           }).catch(err => {
               console.log(err)
             app.apiError()

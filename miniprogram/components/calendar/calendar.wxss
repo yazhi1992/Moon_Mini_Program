@@ -100,7 +100,10 @@
     align-items: center;
     margin-top: 10rpx;
     margin-bottom: 10rpx;    
-    text-align: center;    
+    text-align: center;
+border-radius: 15rpx;   /*添加边框圆角*/
+border: 4rpx solid #38ACFF;
+background: #eee;
 }
 
 .cell-rounded {
@@ -109,4 +112,10 @@
 
 .calendar-lunar-day {    
     font-size: 20rpx;
+}
+
+.calendar-day-test {
+border-radius: 15px;   /*添加边框圆角*/
+border: 4rpx solid #38ACFF;
+  background: #eee;
 }
