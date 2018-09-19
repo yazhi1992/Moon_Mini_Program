@@ -207,7 +207,8 @@ Component({
     max_year: 2099, // 最大年份
     max_month: 12, // 最大月份
     min_year: 1900, // 最小年份
-    min_month: 1, // 最小月份        
+    min_month: 1, // 最小月份
+    clickedDay: 0, //选中日期
   },
 
   /**
@@ -447,6 +448,7 @@ Component({
      * @param int month 月份，取值1~12
      */
     _setCalendarData: function(year, month, notify) {
+      console.log("_setCalendarData");
       const empty_days_count = new Date(year, month - 1, 1).getDay(); // 本月第一天是周几，0是星期日，6是星期六
       let empty_days = new Array;
       const prev_month = month - 1 == 0 ? 12 : month - 1; // 上个月的月份数
@@ -549,6 +551,21 @@ Component({
         }
       }
 
+        /**
+         * 点击选中相关
+         */
+        if(this.data.clickedDay > 0) {
+            for (let i = 0; i < days.length; i++) {
+                if(days[i].day == this.data.clickedDay) {
+                  //选中日期
+                    days[i].background = '#87939a' + '!important';
+                    days[i].clicked = true;
+                } else {
+                    days[i].clicked = false;
+                }
+            }
+        }
+
       /**
        * 设置农历
        */
@@ -640,11 +657,13 @@ Component({
       if (this.data.month == 12) {
         this.setData({
           year: this.data.year + 1,
-          month: 1
+          month: 1,
+            clickedDay: 0,
         });
       } else {
         this.setData({
-          month: this.data.month + 1
+          month: this.data.month + 1,
+            clickedDay: 0,
         });
       }
       eventDetail['currentYear'] = this.data.year;
@@ -664,11 +683,13 @@ Component({
       if (this.data.month == 1) {
         this.setData({
           year: this.data.year - 1,
-          month: 12
+          month: 12,
+            clickedDay: 0,
         });
       } else {
         this.setData({
-          month: this.data.month - 1
+          month: this.data.month - 1,
+            clickedDay: 0,
         })
       }
       eventDetail['currentYear'] = this.data.year;
@@ -713,8 +734,14 @@ Component({
         lunarDay: click_day.lunarDay,
         background: click_day.background,
         action: click_day.action,
-          days: this.data.days_array
       };
+      this.setData({
+          clickedDay: click_day.day,
+      });
+        this.setData({
+            days_array: this._setCalendarData(this.data.year, this.data.month, false),
+        });
+
       this.triggerEvent('dayClick', eventDetail);
     },
 
