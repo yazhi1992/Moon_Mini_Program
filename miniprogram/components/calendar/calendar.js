@@ -148,7 +148,7 @@ Component({
      */
     cellSize: {
       type: Number,
-      value: 50,
+      value: 30,
       observer: '_setCellSize'
     },
 

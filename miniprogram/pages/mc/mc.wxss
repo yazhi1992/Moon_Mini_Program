@@ -19,10 +19,6 @@
     color: white;
 }
 
-.calendarBg {
-  /* background-color:#eee; */
-}
-
 .addBtn {
   width: 100rpx;
   height: 100rpx;

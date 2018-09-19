@@ -115,7 +115,14 @@
   height: 15rpx;
   width: 15rpx;
   margin-left: 2rpx;
-  margin-top: 5vw;
+  margin-top: 0vw;
+}
+
+.pauseImgIcon {
+  height: 30rpx;
+  width: 30rpx;
+  margin-left: 2rpx;
+  margin-top: 8vw;
 }
 
 .dayBox {
