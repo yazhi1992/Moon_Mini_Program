@@ -76,6 +76,30 @@ Page({
     console.log(event.detail);
   },
 
+  clickAdd2: function () {
+    wx.cloud.callFunction({
+      // 要调用的云函数名称
+      name: 'getMc',
+      // 传递给云函数的event参数
+      data: {
+        year: this.data.chooseData.year,
+        month: this.data.chooseData.month
+      }
+    }).then(res => {
+      console.log(res)
+    }).catch(err => {
+      app.apiError()
+    })
+    
+    // var res = new Promise(() => {
+    //   return "haha"
+    // })
+    // .then((res) => {
+    //   console.log(res)  
+    // })
+    // console.log(res)
+  },
+
   clickAdd: function() {
     var that = this
     wx.showActionSheet({

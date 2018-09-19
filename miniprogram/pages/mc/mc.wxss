@@ -30,3 +30,12 @@
 .choosedDay {
   background: #e9adee
 }
+
+
+.addBtn2 {
+  width: 100rpx;
+  height: 100rpx;
+  position: absolute;
+  right: 200rpx;
+  bottom: 50rpx;
+}

@@ -4,4 +4,6 @@
   <calendar class='myMarginTop' weeksType='cn' binddayClick="dayClick" />
 
   <image class='addBtn' hidden="{{!showAddBtn}}" src='./comment_icon.png' bindtap='clickAdd'></image>
+
+  <image class='addBtn2' hidden="{{!showAddBtn}}" src='./comment_icon.png' bindtap='clickAdd2'></image>
 </view>

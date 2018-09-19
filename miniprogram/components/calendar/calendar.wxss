@@ -110,23 +110,3 @@
 .calendar-lunar-day {    
     font-size: 20rpx;
 }
-
-.imgIcon {
-  height: 15rpx;
-  width: 15rpx;
-  margin-left: 2rpx;
-  margin-top: 0vw;
-}
-
-.pauseImgIcon {
-  height: 30rpx;
-  width: 30rpx;
-  margin-left: 2rpx;
-  margin-top: 8vw;
-}
-
-.dayBox {
-  display: flex;
-  position: absolute;
-  flex-direction: column;
-}
