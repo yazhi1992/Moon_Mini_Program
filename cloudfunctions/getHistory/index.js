@@ -8,6 +8,9 @@ exports.main = async (event, context) => {
     return await db.collection('loveHistory')
         .where({
             _openid: 'osvbh5BBZstiXMArAYOY7_d7b9-8',
+        }).get()
+        .then((res) => {
+            console.log(res.data._openid)
+            db.collection('users').doc(event.userInfo.openId).get()
         })
-        .get()
 }

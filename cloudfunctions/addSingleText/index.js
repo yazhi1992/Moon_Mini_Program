@@ -13,8 +13,6 @@ exports.main = async (event, context) => {
         createAt: db.serverDate(),
           imgId: event.imgId,
         _openid: event.userInfo.openId,
-          userName: '扬州慢',
-          userImg: 'https://avatars1.githubusercontent.com/u/13739375?s=460&v=4'
       }
     })
     .then((res) => {
