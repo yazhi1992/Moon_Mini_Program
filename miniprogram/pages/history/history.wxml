@@ -20,8 +20,8 @@
       <view wx:else="item.contentType=='2' ">
         <text class='commentText' style='height=100rpx'>{{item.comment}}</text>
       </view>
-       <!-- 评论 -->
-      <view  wx:for="{{item.comments}}" wx:if="{{item.comments.length}}" wx:for-item="comment" wx:key="" class='commentBox' bindtap="clickComment" data-comment="{{comment}}">
+      <!-- 评论 -->
+      <view wx:for="{{item.comments}}" wx:if="{{item.comments.length}}" wx:for-item="comment" wx:key="" class='commentBox' bindtap="clickComment" data-comment="{{comment}}">
         <text class='commentText'>{{comment}}</text>
       </view>
       <!-- 时间 -->
@@ -29,7 +29,7 @@
         <text class='timeText'>{{item.content.createAt}}</text>
         <image class='commentImg' src='./comment_icon.png' bindtap="addComment" data-content="{{item}}"></image>
       </view>
-     
+
     </view>
     <!-- <view class="weui-loadmore " hidden="{{isHideLoadMore}} ">
     <view class="weui-loading "></view>

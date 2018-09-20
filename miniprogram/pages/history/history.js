@@ -195,7 +195,7 @@ Page({
     });
   },
 
-    addComment: function(event) {
+  addComment: function(event) {
     console.log('clickComment content');
     console.log(event.currentTarget.dataset.content);
     this.setData({
@@ -211,98 +211,98 @@ Page({
     });
   },
 
-    clickComment: function(event) {
-        console.log('点击评论');
-        console.log(event.currentTarget.dataset.comment);
-        //如果是自己的评论
-        wx.showModal({
-            content: '是否删除该评论？',
-            confirmText: "确认",
-            cancelText: "取消",
-            success: function(res) {
-                if (res.confirm) {
-                    // app.apiStart()
-                    // wx.cloud.callFunction({
-                    //     name: 'removeMc',
-                    //     data: {
-                    //         itemId: chooseData._id,
-                    //     }
-                    // }).then(res => {
-                    //     console.log(res)
-                    //     var temp = that.data.mcDays;
-                    //     console.log('old')
-                    //     console.log(temp)
-                    //     for (let i = 0; i < temp.length; i++) {
-                    //         if(temp[i]._id == chooseData._id) {
-                    //             temp.splice(i,1);
-                    //         }
-                    //     }
-                    //     console.log('new')
-                    //     console.log(temp)
-                    //     //添加成功，更新数据
-                    //     that.setData({
-                    //         mcDays: temp,
-                    //         daysColor:that.calcuDaysColor(temp)
-                    //     })
-                    //     wx.hideLoading();
-                    // }).catch(err => {
-                    //     console.log(err)
-                    //     app.apiError()
-                    // })
-                }
-            }
-        });
-    },
+  clickComment: function(event) {
+    console.log('点击评论');
+    console.log(event.currentTarget.dataset.comment);
+    //如果是自己的评论
+    wx.showModal({
+      content: '是否删除该评论？',
+      confirmText: "确认",
+      cancelText: "取消",
+      success: function(res) {
+        if (res.confirm) {
+          // app.apiStart()
+          // wx.cloud.callFunction({
+          //     name: 'removeMc',
+          //     data: {
+          //         itemId: chooseData._id,
+          //     }
+          // }).then(res => {
+          //     console.log(res)
+          //     var temp = that.data.mcDays;
+          //     console.log('old')
+          //     console.log(temp)
+          //     for (let i = 0; i < temp.length; i++) {
+          //         if(temp[i]._id == chooseData._id) {
+          //             temp.splice(i,1);
+          //         }
+          //     }
+          //     console.log('new')
+          //     console.log(temp)
+          //     //添加成功，更新数据
+          //     that.setData({
+          //         mcDays: temp,
+          //         daysColor:that.calcuDaysColor(temp)
+          //     })
+          //     wx.hideLoading();
+          // }).catch(err => {
+          //     console.log(err)
+          //     app.apiError()
+          // })
+        }
+      }
+    });
+  },
 
   longTap: function(event) {
-      console.log('长按');
-      console.log(event.currentTarget.dataset.content);
-      wx.showActionSheet({
-          itemList: ['删除', '取消'],
-          success: function(res) {
-              if (!res.cancel) {
-                  if (res.tapIndex == 0) {
-                      wx.showModal({
-                          content: '是否删除该数据？',
-                          confirmText: "确认",
-                          cancelText: "取消",
-                          success: function(res) {
-                              if (res.confirm) {
-                                  // app.apiStart()
-                                  // wx.cloud.callFunction({
-                                  //     name: 'removeMc',
-                                  //     data: {
-                                  //         itemId: chooseData._id,
-                                  //     }
-                                  // }).then(res => {
-                                  //     console.log(res)
-                                  //     var temp = that.data.mcDays;
-                                  //     console.log('old')
-                                  //     console.log(temp)
-                                  //     for (let i = 0; i < temp.length; i++) {
-                                  //         if(temp[i]._id == chooseData._id) {
-                                  //             temp.splice(i,1);
-                                  //         }
-                                  //     }
-                                  //     console.log('new')
-                                  //     console.log(temp)
-                                  //     //添加成功，更新数据
-                                  //     that.setData({
-                                  //         mcDays: temp,
-                                  //         daysColor:that.calcuDaysColor(temp)
-                                  //     })
-                                  //     wx.hideLoading();
-                                  // }).catch(err => {
-                                  //     console.log(err)
-                                  //     app.apiError()
-                                  // })
-                              }
-                          }
-                      });
-                  }
+    console.log('长按');
+    console.log(event.currentTarget.dataset.content);
+    wx.showActionSheet({
+      itemList: ['删除', '取消'],
+      success: function(res) {
+        if (!res.cancel) {
+          if (res.tapIndex == 0) {
+            wx.showModal({
+              content: '是否删除该数据？',
+              confirmText: "确认",
+              cancelText: "取消",
+              success: function(res) {
+                if (res.confirm) {
+                  // app.apiStart()
+                  // wx.cloud.callFunction({
+                  //     name: 'removeMc',
+                  //     data: {
+                  //         itemId: chooseData._id,
+                  //     }
+                  // }).then(res => {
+                  //     console.log(res)
+                  //     var temp = that.data.mcDays;
+                  //     console.log('old')
+                  //     console.log(temp)
+                  //     for (let i = 0; i < temp.length; i++) {
+                  //         if(temp[i]._id == chooseData._id) {
+                  //             temp.splice(i,1);
+                  //         }
+                  //     }
+                  //     console.log('new')
+                  //     console.log(temp)
+                  //     //添加成功，更新数据
+                  //     that.setData({
+                  //         mcDays: temp,
+                  //         daysColor:that.calcuDaysColor(temp)
+                  //     })
+                  //     wx.hideLoading();
+                  // }).catch(err => {
+                  //     console.log(err)
+                  //     app.apiError()
+                  // })
+                }
               }
+            });
           }
-      });
+        }
+      }
+    });
   },
 
   inputBlur: function() {
