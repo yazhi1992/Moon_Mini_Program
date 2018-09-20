@@ -1,5 +1,6 @@
 {
   "pages": [
+    "pages/startup/startup",
     "pages/history/history",
     "pages/mc/mc",
     "pages/homepage/homepage",
@@ -15,8 +16,7 @@
     "pages/deployFunctions/deployFunctions",
     "pages/chooseLib/chooseLib"
   ],
-  "plugins": {
-  },
+  "plugins": {},
   "window": {
     "navigationStyle": "custom",
     "navigationBarBackgroundColor": "#2196F3",

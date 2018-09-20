@@ -24,7 +24,6 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
-    console.log('onload');
     this.fresh();
   },
 
@@ -37,13 +36,9 @@ Page({
       success: function(res) {
         var height_02 = res.screenHeight - res.windowHeight;
         console.log('getSystemInfo')
-        console.log(res)
-        console.log(app.globalData.height_01)
-        console.log(height_02)
         that.setData({
           tabbarHeight: height_02
         });
-        console.log(that.data.tabbarHeight)
       }
     });
   },
@@ -130,7 +125,6 @@ Page({
         year: 2018,
       }
     }).then(res => {
-      console.log(res.result.data[0].createAt.$date);
       app.apiEnd();
       var temp = res.result.data;
       for (let i = 0; i < temp.length; i++) {
