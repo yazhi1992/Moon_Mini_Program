@@ -5,9 +5,9 @@
     <view wx:for="{{datas}}" wx:for-item="item" wx:key="_id" bindlongtap="longTap" data-content="{{item}}">
       <!-- 心声 -->
       <view wx:if="{{item.contentType=='0'}}" class='itemBox'>
-        <image class='userImg' src='{{item.content.userImg}}'></image>
+        <image class='userImg' src='{{item.user.imgUrl}}'></image>
         <view class='contentDetail'>
-          <text class='userNameText'>{{item.content.userName}}</text>
+          <text class='userNameText'>{{item.user.name}}</text>
           <text class='contentText'>{{item.content.content}}</text>
           <image class='contentImg' src='{{item.content.imgId}}' hidden="{{!item.content.imgId}}"></image>
         </view>

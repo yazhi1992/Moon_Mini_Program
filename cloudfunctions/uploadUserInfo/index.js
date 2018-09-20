@@ -10,12 +10,13 @@ exports.main = async(event, context) => {
         _openid: event.userInfo.openId // 填入当前用户 openid
       }).count()
       .then((res) => {
-        console.log(res.data)
-        if (res.data == 0) {
+        if (res.total == 0) {
           //新增
+          console.log('新增')
           return db.collection('users').add({
             // data 字段表示需新增的 JSON 数据
             data: {
+              _id: event.userInfo.openId,
               name: event.name,
               imgUrl: event.imgUrl,
               gender: event.gender,
@@ -24,6 +25,7 @@ exports.main = async(event, context) => {
           })
         } else {
           //更新
+          console.log('更新')
           return db.collection('users').where({
               _openid: event.userInfo.openId
             })

@@ -126,7 +126,8 @@ Page({
       }
     }).then(res => {
       app.apiEnd();
-      var temp = res.result.data;
+    console.log(res)
+      var temp = res.result;
       for (let i = 0; i < temp.length; i++) {
         temp[i].content.createAt = app.formatDateTime(temp[i].content.createAt.$date);
       }
