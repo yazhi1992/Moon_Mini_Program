@@ -59,13 +59,20 @@ App({
         },
         fail(err) {
           console.log(err);
+        },
+      }),
+
+      wx.getSystemInfo({
+        success: res => {
+          this.globalData.height_01 = res.windowHeight;
         }
       })
   },
 
   globalData: {
     userInfo: null,
-    navHeight: "64"
+    navHeight: "64",
+    height_01: 0,
   },
 
   randomNum: function (n, m) {
@@ -88,12 +95,12 @@ App({
   },
 
   apiEnd: function() {
-    wx.hideLoading()
-    wx.showToast({
-      title: '加载成功',
-      icon: 'success',
-      duration: 1500
-    });
+    wx.hideLoading();
+    // wx.showToast({
+    //   title: '加载成功',
+    //   icon: 'success',
+    //   duration: 1500
+    // });
   },
 
   apiError: function () {
@@ -102,6 +109,23 @@ App({
       icon: 'none',
       duration: 2000
     });
-  }
+  },
+  
+  formatDateTime: function (inputTime) {
+    var date = new Date(inputTime);
+    var y = date.getFullYear();
+    var m = date.getMonth() + 1;
+    m = m < 10 ? ('0' + m) : m;
+    var d = date.getDate();
+    d = d < 10 ? ('0' + d) : d;
+    var h = date.getHours();
+    h = h < 10 ? ('0' + h) : h;
+    var minute = date.getMinutes();
+    var second = date.getSeconds();
+    minute = minute < 10 ? ('0' + minute) : minute;
+    second = second < 10 ? ('0' + second) : second;
+    return y + '-' + m + '-' + d + ' ' + h + ':' + minute + ':' + second;
+  },
+
   
 })

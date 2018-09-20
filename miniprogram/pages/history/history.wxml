@@ -2,33 +2,46 @@
 <view class='root'>
   <header title="回忆" showBack='{{false}}'></header>
   <scroll-view scroll-y class='scrollview' bindscrolltolower="lower" bindscrolltoupper="upper">
-    <view wx:for="{{datas}}">
+    <view wx:for="{{datas}}" wx:for-item="item" wx:key="_id" bindlongtap="longTap" data-content="{{item}}">
       <!-- 心声 -->
-      <view class='itemBox' hidden="{{!(item.typeIndex=='1')}}">
-        <image class='userImg' src='{{item.userImgUrl}}'></image>
+      <view wx:if="{{item.contentType=='0'}}" class='itemBox'>
+        <image class='userImg' src='{{item.content.userImg}}'></image>
         <view class='contentDetail'>
-          <text class='userNameText'>{{item.userName}}</text>
-          <text class='contentText'>{{item.content}}</text>
-          <image class='contentImg' src='{{item.imgUrl}}'></image>
-          <view class='commentBox'>
-            <text class='commentText'>{{item.comment}}</text>
-          </view>
-          <view style="display:flex;align-items:center">
-            <text class='timeText'>{{item.time}}</text>
-            <image class='commentImg' src='./comment_icon.png'></image>
-          </view>
+          <text class='userNameText'>{{item.content.userName}}</text>
+          <text class='contentText'>{{item.content.content}}</text>
+          <image class='contentImg' src='{{item.content.imgId}}' hidden="{{!item.content.imgId}}"></image>
         </view>
       </view>
-      <!-- 小姨妈 -->
-      <view hidden="{{!(item.typeIndex=='2')}}">
+      <!-- 倒数日 -->
+      <view wx:elif="item.contentType=='1' ">
         <text class='commentText' style='height=100rpx'>{{item.comment}}</text>
       </view>
+      <!-- 小姨妈 -->
+      <view wx:else="item.contentType=='2' ">
+        <text class='commentText' style='height=100rpx'>{{item.comment}}</text>
+      </view>
+       <!-- 评论 -->
+      <view  wx:for="{{item.comments}}" wx:if="{{item.comments.length}}" wx:for-item="comment" wx:key="" class='commentBox' bindtap="clickComment" data-comment="{{comment}}">
+        <text class='commentText'>{{comment}}</text>
+      </view>
+      <!-- 时间 -->
+      <view style="display:flex;align-items:center">
+        <text class='timeText'>{{item.content.createAt}}</text>
+        <image class='commentImg' src='./comment_icon.png' bindtap="addComment" data-content="{{item}}"></image>
+      </view>
+     
     </view>
-    <!-- <view class="weui-loadmore" hidden="{{isHideLoadMore}}">
-    <view class="weui-loading"></view>
-    <view class="weui-loadmore__tips">正在加载</view>
+    <!-- <view class="weui-loadmore " hidden="{{isHideLoadMore}} ">
+    <view class="weui-loading "></view>
+    <view class="weui-loadmore__tips ">正在加载</view>
   </view> -->
-
   </scroll-view>
   <image class='floatBtn' src='./comment_icon.png' bindtap="clickAdd"></image>
+  <!-- 评论输入框 -->
+  <view class="input" style="bottom:{{inputBottom}}px;" hidden="{{inputBottom==0}}">
+    <view class='edittext'>
+      <input focus="{{focus}}" placeholder="请输入想说的话" adjust-position="{{false}}" bindfocus="inputFocus" bindblur="inputBlur" />
+    </view>
+    <button class="btn" hover-class='btnHover' type="primary" form-type="submit">发送</button>
+  </view>
 </view>

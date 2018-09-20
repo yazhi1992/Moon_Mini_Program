@@ -14,66 +14,38 @@ Page({
     pullLowAllow: true,
     isHideLoadMore: false,
     // datas: this._generateColors()
-    datas: [{
-        userImgUrl: "https://avatars1.githubusercontent.com/u/13739375?s=460&v=4",
-        userName: "名字",
-        imgUrl: "https://avatars1.githubusercontent.com/u/13739375?s=460&v=4",
-        content: "test",
-        comment: "DD回复辣辣：哈哈哈",
-        time: "2018-12-12",
-        typeIndex: 1
-      },
-      {
-        userImgUrl: "https://avatars1.githubusercontent.com/u/13739375?s=460&v=4",
-        userName: "名字",
-        imgUrl: "https://avatars1.githubusercontent.com/u/13739375?s=460&v=4",
-        content: "test",
-        comment: "DD回复辣辣：哈哈哈",
-        time: "2018-12-12",
-        typeIndex: 2
-      },
-      {
-        userImgUrl: "https://avatars1.githubusercontent.com/u/13739375?s=460&v=4",
-        userName: "名字",
-        imgUrl: "https://avatars1.githubusercontent.com/u/13739375?s=460&v=4",
-        content: "test",
-        comment: "DD回复辣辣：哈哈哈",
-        time: "2018-12-12",
-        typeIndex: 1
-      },
-      {
-        userImgUrl: "https://avatars1.githubusercontent.com/u/13739375?s=460&v=4",
-        userName: "名字",
-        imgUrl: "https://avatars1.githubusercontent.com/u/13739375?s=460&v=4",
-        content: "test",
-        comment: "DD回复辣辣：哈哈哈",
-        time: "2018-12-12",
-        typeIndex: 1
-      },
-      {
-        userImgUrl: "https://avatars1.githubusercontent.com/u/13739375?s=460&v=4",
-        userName: "名字",
-        imgUrl: "https://avatars1.githubusercontent.com/u/13739375?s=460&v=4",
-        content: "test",
-        comment: "DD回复辣辣：哈哈哈",
-        time: "2018-12-12",
-        typeIndex: 1
-      }
-    ]
+    datas: [],
+    inputBottom: "0",
+    tabbarHeight: 0,
+    focus: false,
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
-
+    console.log('onload');
+    this.fresh();
   },
 
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function() {
-
+    var that = this;
+    wx.getSystemInfo({
+      success: function(res) {
+        var height_02 = res.screenHeight - res.windowHeight;
+        console.log('getSystemInfo')
+        console.log(res)
+        console.log(app.globalData.height_01)
+        console.log(height_02)
+        that.setData({
+          tabbarHeight: height_02
+        });
+        console.log(that.data.tabbarHeight)
+      }
+    });
   },
 
   /**
@@ -123,23 +95,6 @@ Page({
     }, 1000)
   },
 
-  _generateColors: function (length) {
-    return new Array(length).fill(null).map(() => this._randomColor());
-  },
-
-  _randomColor: function () {
-    var data = {
-      userImgUrl: "https://avatars1.githubusercontent.com/u/13739375?s=460&v=4",
-      userName: "名字",
-      imgUrl: "https://avatars1.githubusercontent.com/u/13739375?s=460&v=4",
-      content: "test",
-      comment: "DD回复辣辣：哈哈哈",
-      time: "2018-12-12",
-      typeIndex: 1
-    }
-    return data;
-  },
-
   /**
    * 用户点击右上角分享
    */
@@ -147,7 +102,7 @@ Page({
 
   },
 
-  upper: function () {
+  upper: function() {
     var that = this
     // var timestamp = Date.parse(new Date()) / 1000;
     // var lastTime = this.data.lastLoadTime
@@ -156,37 +111,45 @@ Page({
     // } else {
     //     that.setData({ lastLoadTime: timestamp })
     if (that.data.pullUpAllow) {
-      console.log('刷新啦')
-      that.setData({
-        pullUpAllow: false,
-      })
-      // console.log(that.data.classidnow)
-
-      wx.showToast({
-        title: '加载中',
-        icon: 'loading',
-        duration: 1000,
-      });
-
-      setTimeout(() => {
-        var jobs = this._generateColors(3)
-        this.setData({
-          datas: jobs,
-          pullUpAllow: true,
-        })
-
-        wx.hideNavigationBarLoading() //完成停止加载
-        wx.stopPullDownRefresh() //停止下拉刷新
-        setInterval(() => {
-          that.setData({
-            pullUpAllow: true
-          })
-        }, 3000)
-      }, 500);
+      console.log('刷新')
+      this.fresh();
     }
   },
 
-  lower: function () {
+  fresh: function(refresh, date) {
+    app.apiStart();
+    var that = this;
+    this.setData({
+      pullUpAllow: false,
+    })
+    wx.cloud.callFunction({
+      // 要调用的云函数名称
+      name: 'getHistory',
+      // 传递给云函数的event参数
+      data: {
+        year: 2018,
+      }
+    }).then(res => {
+      console.log(res.result.data[0].createAt.$date);
+      app.apiEnd();
+      var temp = res.result.data;
+      for (let i = 0; i < temp.length; i++) {
+        temp[i].content.createAt = app.formatDateTime(temp[i].content.createAt.$date);
+      }
+      that.setData({
+        pullUpAllow: true,
+        datas: temp,
+      });
+    }).catch(err => {
+      console.log(err)
+      app.apiError()
+      that.setData({
+        pullUpAllow: true
+      })
+    })
+  },
+
+  lower: function() {
     var that = this;
     if (that.data.pullLowAllow) {
       that.setData({
@@ -198,7 +161,7 @@ Page({
         icon: 'loading',
         duration: 1000,
       });
-      setTimeout(()=> {
+      setTimeout(() => {
         wx.showToast({
           title: '加载成功',
           icon: 'success',
@@ -209,7 +172,7 @@ Page({
           datas: [...this.data.datas, ...datas],
           pullLowAllow: true,
         });
-      
+
       }, 1000);
     }
   },
@@ -217,9 +180,9 @@ Page({
   clickAdd: function() {
     wx.showActionSheet({
       itemList: ['添加想说的话', '添加纪念日', '添加小心愿'],
-      success: function (res) {
+      success: function(res) {
         if (!res.cancel) {
-          if(res.tapIndex==0) {
+          if (res.tapIndex == 0) {
             wx.navigateTo({
               url: '../../pages/addMsg/addMsg'
             })
@@ -230,5 +193,148 @@ Page({
         }
       }
     });
-  }
+  },
+
+    addComment: function(event) {
+    console.log('clickComment content');
+    console.log(event.currentTarget.dataset.content);
+    this.setData({
+      focus: true,
+    });
+  },
+
+  inputFocus: function(e) {
+    console.log(e.detail.height);
+    console.log(this.data.tabbarHeight)
+    this.setData({
+      inputBottom: (e.detail.height - this.data.tabbarHeight).toString()
+    });
+  },
+
+    clickComment: function(event) {
+        console.log('点击评论');
+        console.log(event.currentTarget.dataset.comment);
+        //如果是自己的评论
+        wx.showModal({
+            content: '是否删除该评论？',
+            confirmText: "确认",
+            cancelText: "取消",
+            success: function(res) {
+                if (res.confirm) {
+                    // app.apiStart()
+                    // wx.cloud.callFunction({
+                    //     name: 'removeMc',
+                    //     data: {
+                    //         itemId: chooseData._id,
+                    //     }
+                    // }).then(res => {
+                    //     console.log(res)
+                    //     var temp = that.data.mcDays;
+                    //     console.log('old')
+                    //     console.log(temp)
+                    //     for (let i = 0; i < temp.length; i++) {
+                    //         if(temp[i]._id == chooseData._id) {
+                    //             temp.splice(i,1);
+                    //         }
+                    //     }
+                    //     console.log('new')
+                    //     console.log(temp)
+                    //     //添加成功，更新数据
+                    //     that.setData({
+                    //         mcDays: temp,
+                    //         daysColor:that.calcuDaysColor(temp)
+                    //     })
+                    //     wx.hideLoading();
+                    // }).catch(err => {
+                    //     console.log(err)
+                    //     app.apiError()
+                    // })
+                }
+            }
+        });
+    },
+
+  longTap: function(event) {
+      console.log('长按');
+      console.log(event.currentTarget.dataset.content);
+      wx.showActionSheet({
+          itemList: ['删除', '取消'],
+          success: function(res) {
+              if (!res.cancel) {
+                  if (res.tapIndex == 0) {
+                      wx.showModal({
+                          content: '是否删除该数据？',
+                          confirmText: "确认",
+                          cancelText: "取消",
+                          success: function(res) {
+                              if (res.confirm) {
+                                  // app.apiStart()
+                                  // wx.cloud.callFunction({
+                                  //     name: 'removeMc',
+                                  //     data: {
+                                  //         itemId: chooseData._id,
+                                  //     }
+                                  // }).then(res => {
+                                  //     console.log(res)
+                                  //     var temp = that.data.mcDays;
+                                  //     console.log('old')
+                                  //     console.log(temp)
+                                  //     for (let i = 0; i < temp.length; i++) {
+                                  //         if(temp[i]._id == chooseData._id) {
+                                  //             temp.splice(i,1);
+                                  //         }
+                                  //     }
+                                  //     console.log('new')
+                                  //     console.log(temp)
+                                  //     //添加成功，更新数据
+                                  //     that.setData({
+                                  //         mcDays: temp,
+                                  //         daysColor:that.calcuDaysColor(temp)
+                                  //     })
+                                  //     wx.hideLoading();
+                                  // }).catch(err => {
+                                  //     console.log(err)
+                                  //     app.apiError()
+                                  // })
+                              }
+                          }
+                      });
+                  }
+              }
+          }
+      });
+  },
+
+  inputBlur: function() {
+    this.setData({
+      inputBottom: '0'
+    });
+  },
+
+  bindFormSubmit: function(e) {
+    var that = this;
+    var content = e.detail.value.textarea;
+    app.apiStart()
+    if (that.data.pickImg) {
+      //有图片先上传
+      var uploadFileName = Date.parse(new Date()).toString() + '_' + app.randomNum(1, 1000).toString() + app.getSuffix(that.data.previewImg[0])
+      console.log(uploadFileName)
+      wx.cloud.uploadFile({
+        cloudPath: uploadFileName, // 上传至云端的路径
+        filePath: that.data.previewImg[0], // 小程序临时文件路径
+        success: res => {
+          // 返回文件 ID
+          console.log(res.fileID)
+          this.addMsg(res.fileID, content)
+        },
+        fail: res => {
+          console.log(res);
+          app.apiError();
+        }
+      })
+    } else {
+      this.addMsg(null, content)
+    }
+  },
+
 })

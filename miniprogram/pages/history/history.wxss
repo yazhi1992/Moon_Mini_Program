@@ -1,5 +1,4 @@
 /* miniprogram/pages/history/history.wxss */
-
 @import "../../style/common.wxss";
 
 .itemBox {
@@ -93,6 +92,30 @@
   vertical-align: middle;
 }
 
+.input {
+  height: 80rpx;
+  width: 100%;
+  display: flex;
+  position: absolute;
+  align-items: center;
+  background: #eee;
+  z-index: 0;
+}
+
+.edittext {
+  height: 60rpx;
+  flex-grow: 1;
+  border-radius: 15px; /*添加边框圆角*/
+  border: 4rpx solid #dedede;
+  background: #fff;
+  margin-left: 10rpx;
+  margin-right: 10rpx;
+}
+
+.btn {
+  width: 100rpx;
+  height: 60rpx;
+}
 
 /* ::-webkit-scrollbar{
   width: 0;

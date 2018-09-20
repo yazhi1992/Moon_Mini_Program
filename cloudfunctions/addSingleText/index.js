@@ -6,14 +6,15 @@ cloud.init()
 const db = cloud.database()
 // 云函数入口函数
 exports.main = async (event, context) => {
-  console.log("getOpenId" + event.userInfo.openId)
   try {
     return await db.collection('singleText').add({
-      // data 字段表示需新增的 JSON 数据
       data: {
         content: event.content,
         createAt: db.serverDate(),
-        _openid: event.userInfo.openId
+          imgId: event.imgId,
+        _openid: event.userInfo.openId,
+          userName: '扬州慢',
+          userImg: 'https://avatars1.githubusercontent.com/u/13739375?s=460&v=4'
       }
     })
     .then((res) => {

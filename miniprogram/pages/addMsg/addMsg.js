@@ -86,19 +86,11 @@ Page({
   },
 
   bindFormSubmit: function(e) {
-    // wx.showToast({
-    //   title: e.detail.value.textarea,
-    //   icon: 'success',
-    //   duration: 1000,
-    // });
-
     var that = this;
-    wx.showLoading({
-      title: '添加中...',
-      icon: 'loading'
-    })
-
+    var content = e.detail.value.textarea;
+    app.apiStart()
     if (that.data.pickImg) {
+      //有图片先上传
       var uploadFileName = Date.parse(new Date()).toString() + '_' + app.randomNum(1, 1000).toString() + app.getSuffix(that.data.previewImg[0])
       console.log(uploadFileName)
       wx.cloud.uploadFile({
@@ -107,17 +99,34 @@ Page({
         success: res => {
           // 返回文件 ID
           console.log(res.fileID)
-          wx.navigateBack()
+            this.addMsg(res.fileID, content)
         },
         fail: res => {
-          wx.hideLoading()
-          console.erro
+          console.log(res);
+          app.apiError();
         }
       })
     } else {
-      wx.navigateBack()
-      // wx.cloud.getTempFileURL
+      this.addMsg(null, content)
     }
+  },
 
-  }
+    addMsg:function (imgId, content) {
+        wx.cloud.callFunction({
+            // 云函数名称
+            name: 'addSingleText',
+            // 传给云函数的参数
+            data: {
+                imgId: imgId,
+                content: content,
+            },
+            success: function(res) {
+              app.apiEnd();
+            },
+            fail: res => {
+                console.log(res);
+              api.apiError();
+            }
+        })
+    }
 })
