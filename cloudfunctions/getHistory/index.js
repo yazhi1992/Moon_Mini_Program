@@ -28,6 +28,8 @@ exports.main = async (event, context) => {
                     var tableName = "";
                     if(res.contentType == 0) {
                         tableName = "singleText";
+                    } else if(res.contentType == 1) {
+                        tableName = "memorialDay";
                     }
                     return db.collection(tableName).doc(res.contentId).get()
                 })

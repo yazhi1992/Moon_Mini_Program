@@ -1,4 +1,3 @@
-<!--miniprogram/pages/addMsg/addMsg.wxml-->
 <view class='root' style="background='#ddd'">
   <header title="心声"></header>
 

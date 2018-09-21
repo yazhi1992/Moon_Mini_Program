@@ -181,13 +181,17 @@ Page({
       itemList: ['添加想说的话', '添加纪念日', '添加小心愿'],
       success: function(res) {
         if (!res.cancel) {
+            var route = "";
           if (res.tapIndex == 0) {
-            wx.navigateTo({
-              url: '../../pages/addMsg/addMsg'
-            })
+              route = '../../pages/addMsg/addMsg';
+          } else if(res.tapIndex == 1) {
+              route = '../../pages/addMemorialDay/addMemorialDay';
           } else {
-
+              route = '../../pages/addHope/addHope';
           }
+            wx.navigateTo({
+                url: route
+            })
           console.log(res.tapIndex)
         }
       }

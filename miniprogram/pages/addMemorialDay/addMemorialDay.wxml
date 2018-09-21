@@ -1,0 +1,18 @@
+<view class='root' style="background='#ddd'">
+    <header title="添加纪念日"></header>
+
+    <text class='title'>来日纵是千千满星，亮过今晚月亮</text>
+
+    <form bindsubmit="bindFormSubmit">
+        <view class="input">
+            <textarea class="weui-textarea" placeholder="请输入标题" style="height: 1em" auto-focus name="textarea" />
+        </view>
+        <picker class="weui-btn" mode="date" value="{{date}}" start="2017-07-12" end="2099-09-09" bindchange="bindDateChange">
+                <text class='myMarginLeft'>{{date}}</text>
+            </picker>
+        <view class='myPadding myMarginTop'>
+            <button class="btn" hover-class='btnHover' type="primary" form-type="submit">添加</button>
+        </view>
+    </form>
+
+</view>

@@ -1,0 +1,23 @@
+/* miniprogram/pages/addMsg/addMsg.wxss */
+@import "../../style/common.wxss";
+
+.title {
+font-size: large;
+width: 100%;
+text-align: center;
+margin-top: 30rpx;
+}
+
+.input {
+padding: 30rpx;
+margin-top: 30rpx;
+}
+
+.btnBox {
+padding:30rpx;
+}
+
+.addImg {
+height:110rpx;
+width:110rpx;
+}

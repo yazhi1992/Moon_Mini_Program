@@ -1,5 +1,6 @@
 {
   "pages": [
+    "pages/addMemorialDay/addMemorialDay",
     "pages/history/history",
     "pages/startup/startup",
     "pages/mc/mc",
@@ -15,6 +16,7 @@
     "pages/addFunction/addFunction",
     "pages/deployFunctions/deployFunctions",
     "pages/chooseLib/chooseLib"
+    
   ],
   "plugins": {},
   "window": {
