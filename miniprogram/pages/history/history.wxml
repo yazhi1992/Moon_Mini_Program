@@ -22,7 +22,7 @@
       </view>
       <!-- 评论 -->
       <view wx:for="{{item.comments}}" wx:if="{{item.comments.length}}" wx:for-item="comment" wx:key="" class='commentBox' bindtap="clickComment" data-comment="{{comment}}">
-        <text class='commentText'>{{comment}}</text>
+        <text class='commentText'>{{comment.comment}}</text>
       </view>
       <!-- 时间 -->
       <view style="display:flex;align-items:center">
@@ -40,8 +40,8 @@
   <!-- 评论输入框 -->
   <view class="input" style="bottom:{{inputBottom}}px;" hidden="{{inputBottom==0}}">
     <view class='edittext'>
-      <input focus="{{focus}}" placeholder="请输入想说的话" adjust-position="{{false}}" bindfocus="inputFocus" bindblur="inputBlur" />
+      <input focus="{{focus}}" placeholder="{{inputHind}}" bindinput="bindKeyInput" adjust-position="{{false}}" bindfocus="inputFocus" bindblur="inputBlur" />
     </view>
-    <button class="btn" hover-class='btnHover' type="primary" form-type="submit">发送</button>
+    <button class="btn" hover-class='btnHover' type="primary" bindtap="sendComment">发送</button>
   </view>
 </view>

@@ -2,6 +2,7 @@
 
 var util = require('../../utils/util.js')
 var app = getApp()
+const commentHint = "请输入想说的话"
 
 Page({
 
@@ -13,11 +14,14 @@ Page({
     pullUpAllow: true,
     pullLowAllow: true,
     isHideLoadMore: false,
-    // datas: this._generateColors()
     datas: [],
     inputBottom: "0",
     tabbarHeight: 0,
     focus: false,
+      inputValue: "",
+      commentContent: null,
+      inputHint: commentHint,
+      commentReplyId: "",
   },
 
   /**
@@ -195,8 +199,60 @@ Page({
     console.log(event.currentTarget.dataset.content);
     this.setData({
       focus: true,
+        inputHint: commentHint,
+        commentReplyId: "",
+        commentContent: event.currentTarget.dataset.content,
     });
   },
+
+    bindKeyInput: function(e) {
+        this.setData({
+            inputValue: e.detail.value
+        })
+    },
+
+    sendComment: function() {
+        //隐藏软键盘
+        if(!this.data.inputValue) {
+            wx.showToast({
+                title: '内容不能为空',
+                duration: 1000,
+            });
+            return;
+        }
+        var that = this;
+        app.apiStart();
+        wx.cloud.callFunction({
+            name: 'addComment',
+            data: {
+                itemId: that.data.commentContent._id,
+                replyId: that.data.commentReplyId,
+                comment: that.data.inputValue,
+            }
+        }).then(res => {
+            console.log(res)
+            var newDatas = that.data.datas;
+            for (let i = 0; i < newDatas.length; i++) {
+                if(newDatas[i]._id == that.data.commentContent._id) {
+                    newDatas[i].comments.push(res.result);
+                    break;
+                }
+            }
+            console.log(newDatas);
+            //添加成功，更新数据
+            that.setData({
+              datas: newDatas,
+            })
+            wx.hideLoading();
+        }).catch(err => {
+            console.log(err)
+            wx.showToast({
+                title: err,
+                duration: 5000,
+            });
+            // app.apiError()
+        })
+    },
 
   inputFocus: function(e) {
     console.log(e.detail.height);
@@ -210,48 +266,57 @@ Page({
     console.log('点击评论');
     console.log(event.currentTarget.dataset.comment);
     //如果是自己的评论
-    wx.showModal({
-      content: '是否删除该评论？',
-      confirmText: "确认",
-      cancelText: "取消",
-      success: function(res) {
-        if (res.confirm) {
-          // app.apiStart()
-          // wx.cloud.callFunction({
-          //     name: 'removeMc',
-          //     data: {
-          //         itemId: chooseData._id,
-          //     }
-          // }).then(res => {
-          //     console.log(res)
-          //     var temp = that.data.mcDays;
-          //     console.log('old')
-          //     console.log(temp)
-          //     for (let i = 0; i < temp.length; i++) {
-          //         if(temp[i]._id == chooseData._id) {
-          //             temp.splice(i,1);
-          //         }
-          //     }
-          //     console.log('new')
-          //     console.log(temp)
-          //     //添加成功，更新数据
-          //     that.setData({
-          //         mcDays: temp,
-          //         daysColor:that.calcuDaysColor(temp)
-          //     })
-          //     wx.hideLoading();
-          // }).catch(err => {
-          //     console.log(err)
-          //     app.apiError()
-          // })
-        }
+      var comment = event.currentTarget.dataset.comment;
+      //todo
+      if(comment._openid = "me") {
+          wx.showModal({
+              content: '是否删除该评论？',
+              confirmText: "确认",
+              cancelText: "取消",
+              success: function(res) {
+                  if (res.confirm) {
+                      // app.apiStart()
+                      // wx.cloud.callFunction({
+                      //     name: 'removeMc',
+                      //     data: {
+                      //         itemId: chooseData._id,
+                      //     }
+                      // }).then(res => {
+                      //     console.log(res)
+                      //     var temp = that.data.mcDays;
+                      //     console.log('old')
+                      //     console.log(temp)
+                      //     for (let i = 0; i < temp.length; i++) {
+                      //         if(temp[i]._id == chooseData._id) {
+                      //             temp.splice(i,1);
+                      //         }
+                      //     }
+                      //     console.log('new')
+                      //     console.log(temp)
+                      //     //添加成功，更新数据
+                      //     that.setData({
+                      //         mcDays: temp,
+                      //         daysColor:that.calcuDaysColor(temp)
+                      //     })
+                      //     wx.hideLoading();
+                      // }).catch(err => {
+                      //     console.log(err)
+                      //     app.apiError()
+                      // })
+                  }
+              }
+          });
+      } else {
+        //回复
+
       }
-    });
   },
 
   longTap: function(event) {
     console.log('长按');
     console.log(event.currentTarget.dataset.content);
+      var chooseContent = event.currentTarget.dataset.content
+    var that = this;
     wx.showActionSheet({
       itemList: ['删除', '取消'],
       success: function(res) {
@@ -263,34 +328,30 @@ Page({
               cancelText: "取消",
               success: function(res) {
                 if (res.confirm) {
-                  // app.apiStart()
-                  // wx.cloud.callFunction({
-                  //     name: 'removeMc',
-                  //     data: {
-                  //         itemId: chooseData._id,
-                  //     }
-                  // }).then(res => {
-                  //     console.log(res)
-                  //     var temp = that.data.mcDays;
-                  //     console.log('old')
-                  //     console.log(temp)
-                  //     for (let i = 0; i < temp.length; i++) {
-                  //         if(temp[i]._id == chooseData._id) {
-                  //             temp.splice(i,1);
-                  //         }
-                  //     }
-                  //     console.log('new')
-                  //     console.log(temp)
-                  //     //添加成功，更新数据
-                  //     that.setData({
-                  //         mcDays: temp,
-                  //         daysColor:that.calcuDaysColor(temp)
-                  //     })
-                  //     wx.hideLoading();
-                  // }).catch(err => {
-                  //     console.log(err)
-                  //     app.apiError()
-                  // })
+                  app.apiStart()
+                  wx.cloud.callFunction({
+                      name: 'removeHistory',
+                      data: {
+                          itemId: chooseContent._id,
+                      }
+                  }).then(res => {
+                      console.log(res)
+                      var temp = that.data.datas;
+                      for (let i = 0; i < temp.length; i++) {
+                          if(temp[i]._id == chooseContent._id) {
+                              temp.splice(i,1);
+                              break;
+                          }
+                      }
+                      //添加成功，更新数据
+                      that.setData({
+                          datas:temp
+                      })
+                      wx.hideLoading();
+                  }).catch(err => {
+                      console.log(err)
+                      app.apiError()
+                  })
                 }
               }
             });

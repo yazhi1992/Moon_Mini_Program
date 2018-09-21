@@ -11,7 +11,7 @@ exports.main = async (event, context) => {
       data: {
         contentType: event.contentType,
         createAt: db.serverDate(),
-        content: event.content,
+          contentId: event.contentId,
         _openid: event.openId
       }
     })

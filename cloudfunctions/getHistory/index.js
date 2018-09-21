@@ -17,20 +17,27 @@ exports.main = async (event, context) => {
           resultData = res.data;
           let actions = [];
           for (let i = 0; i < resultData.length; i++) {
-            console.log('for')
+              //查找user信息
             actions.push(db.collection('users').doc(resultData[i]._openid).get()
               .then((res) => {
-                console.log('ok')
-                console.log(res)
-                resultData[i].user = res.data;
-              }))
+                  resultData[i].user = res.data;
+                return resultData[i]
+              })
+                .then((res) => {
+                    //查找content信息
+                    var tableName = "";
+                    if(res.contentType == 0) {
+                        tableName = "singleText";
+                    }
+                    return db.collection(tableName).doc(res.contentId).get()
+                })
+                .then((res) => {
+                    return resultData[i].content = res.data;
+                }))
           }
           return Promise.all(actions);
-            // console.log(res.data._openid)
-            // db.collection('users').doc(event.userInfo.openId).get()
         })
         .then((res) => {
-          console.log('final')
           return resultData;
         });
 
