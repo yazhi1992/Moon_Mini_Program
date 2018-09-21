@@ -11,6 +11,7 @@ exports.main = async (event, context) => {
         .where({
             _openid: 'osvbh5BBZstiXMArAYOY7_d7b9-8',
         })
+        .orderBy('createAt', 'desc')
         .get()
         .then((res) => {
           console.log(res);

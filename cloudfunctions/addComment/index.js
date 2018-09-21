@@ -7,13 +7,14 @@ const _ = db.command
 // 云函数入口函数
 exports.main = async(event, context) => {
   try {
+    var timestamp = Number(new Date());
     return await db.collection('loveHistory').doc(event.itemId).update({
         data: {
           comments: _.push({
             _openid: event.userInfo.openId,
             peerId: event.replyId,
             comment: event.comment,
-            createAt: db.serverDate(),
+              timestamp: timestamp,
           })
         }
       })

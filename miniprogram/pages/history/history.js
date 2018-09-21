@@ -72,26 +72,19 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function() {
-    setTimeout(() => {
-      const ss = this._generateColors(3)
-      this.setData({
-        datas: ss
-      })
-      wx.stopPullDownRefresh()
-    }, 1000)
   },
 
   /**
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function() {
-    console.log('加载更多')
-    setTimeout(() => {
-      const datas = this._generateColors(3)
-      this.setData({
-        datas: [...this.data.datas, ...datas]
-      })
-    }, 1000)
+    // console.log('加载更多')
+    // setTimeout(() => {
+    //   const datas = this._generateColors(3)
+    //   this.setData({
+    //     datas: [...this.data.datas, ...datas]
+    //   })
+    // }, 1000)
   },
 
   /**
@@ -133,7 +126,12 @@ Page({
     console.log(res)
       var temp = res.result;
       for (let i = 0; i < temp.length; i++) {
+          //时间格式化
         temp[i].content.createAt = app.formatDateTime(temp[i].content.createAt.$date);
+        //计算倒数日
+          if(temp[i].contentType == 1) {
+              temp[i].content.dayGap = that.calcDateGap(temp[i].content.timestamp)
+          }
       }
       that.setData({
         pullUpAllow: true,
@@ -148,6 +146,15 @@ Page({
     })
   },
 
+    //计算日期间隔，正数代表已过去
+    calcDateGap: function(date) {
+        var nowDate = new Date()
+        nowDate.setHours(0, 0, 0, 0)
+        var nowDateStamp = parseInt(Number(nowDate)/1000)
+        var gap = parseInt((nowDateStamp - date)/ 60 / 60 / 24)
+        return gap;
+    },
+
   lower: function() {
     var that = this;
     if (that.data.pullLowAllow) {
@@ -160,19 +167,19 @@ Page({
         icon: 'loading',
         duration: 1000,
       });
-      setTimeout(() => {
-        wx.showToast({
-          title: '加载成功',
-          icon: 'success',
-          duration: 1000,
-        });
-        const datas = this._generateColors(3);
-        this.setData({
-          datas: [...this.data.datas, ...datas],
-          pullLowAllow: true,
-        });
-
-      }, 1000);
+      // setTimeout(() => {
+      //   wx.showToast({
+      //     title: '加载成功',
+      //     icon: 'success',
+      //     duration: 1000,
+      //   });
+      //   const datas = this._generateColors(3);
+      //   this.setData({
+      //     datas: [...this.data.datas, ...datas],
+      //     pullLowAllow: true,
+      //   });
+      //
+      // }, 1000);
     }
   },
 
@@ -238,6 +245,9 @@ Page({
             var newDatas = that.data.datas;
             for (let i = 0; i < newDatas.length; i++) {
                 if(newDatas[i]._id == that.data.commentContent._id) {
+                    if(!newDatas[i].comments) {
+                        newDatas[i].comments = [];
+                    }
                     newDatas[i].comments.push(res.result);
                     break;
                 }
@@ -266,11 +276,15 @@ Page({
     });
   },
 
+
   clickComment: function(event) {
     console.log('点击评论');
+      console.log(event.currentTarget.dataset.content);
     console.log(event.currentTarget.dataset.comment);
     //如果是自己的评论
       var comment = event.currentTarget.dataset.comment;
+      var content = event.currentTarget.dataset.content;
+      var that = this;
       //todo
       if(comment._openid = "me") {
           wx.showModal({
@@ -279,34 +293,38 @@ Page({
               cancelText: "取消",
               success: function(res) {
                   if (res.confirm) {
-                      // app.apiStart()
-                      // wx.cloud.callFunction({
-                      //     name: 'removeMc',
-                      //     data: {
-                      //         itemId: chooseData._id,
-                      //     }
-                      // }).then(res => {
-                      //     console.log(res)
-                      //     var temp = that.data.mcDays;
-                      //     console.log('old')
-                      //     console.log(temp)
-                      //     for (let i = 0; i < temp.length; i++) {
-                      //         if(temp[i]._id == chooseData._id) {
-                      //             temp.splice(i,1);
-                      //         }
-                      //     }
-                      //     console.log('new')
-                      //     console.log(temp)
-                      //     //添加成功，更新数据
-                      //     that.setData({
-                      //         mcDays: temp,
-                      //         daysColor:that.calcuDaysColor(temp)
-                      //     })
-                      //     wx.hideLoading();
-                      // }).catch(err => {
-                      //     console.log(err)
-                      //     app.apiError()
-                      // })
+                      app.apiStart()
+                      wx.cloud.callFunction({
+                          name: 'removeComment',
+                          data: {
+                              itemId: content._id,
+                              timestamp: comment.timestamp,
+                          }
+                      }).then(res => {
+                          var newDatas = that.data.datas;
+                          for (let i = 0; i < newDatas.length; i++) {
+                              if(newDatas[i]._id == content._id) {
+                                  var newComment = newDatas[i].comments;
+                                  for (let j = 0; j < newComment.length; j++) {
+                                      if(newComment[j].timestamp == comment.timestamp) {
+                                          newComment.splice(j, 1);
+                                          break;
+                                      }
+                                  }
+                                  newDatas[i].comments = newComment;
+                                  break;
+                              }
+                          }
+                          console.log(newDatas);
+                          //添加成功，更新数据
+                          that.setData({
+                              datas: newDatas,
+                          })
+                          wx.hideLoading();
+                      }).catch(err => {
+                          console.log(err)
+                          app.apiError()
+                      })
                   }
               }
           });
@@ -315,6 +333,10 @@ Page({
 
       }
   },
+
+    longTapComment: function() {
+
+    },
 
   longTap: function(event) {
     console.log('长按');

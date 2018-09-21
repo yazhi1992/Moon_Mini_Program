@@ -53,6 +53,7 @@ App({
     userInfo: null,
     navHeight: "64",
     height_01: 0,
+      auth: false,
   },
 
   randomNum: function (n, m) {

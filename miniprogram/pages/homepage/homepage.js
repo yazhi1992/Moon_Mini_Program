@@ -1,4 +1,5 @@
 const AV = require('../../libs/av-weapp-min.js');
+const app = getApp();
 
 Page({
 
@@ -64,6 +65,25 @@ Page({
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
+    var that = this;
+      // 查看是否授权
+      wx.getSetting({
+          lang:'zh_CN',
+          success: function(res){
+              if (res.authSetting['scope.userInfo']) {
+                  // 已经授权，可以直接调用 getUserInfo 获取头像昵称
+                  wx.getUserInfo({
+                      success: function(res) {
+                          console.log(res.userInfo);
+                          app.globalData.auth = true;
+                          that.uploadUserInfo(res.userInfo);
+                      }
+                  })
+              } else {
+                  console.log("没有权限");
+              }
+          }
+      })
 
   },
 
@@ -87,6 +107,31 @@ Page({
   onShareAppMessage: function () {
 
   },
+
+    //更新用户昵称、头像、性别
+    uploadUserInfo: function(info) {
+        var that = this;
+        app.apiStart();
+        wx.cloud.callFunction({
+            // 云函数名称
+            name: 'uploadUserInfo',
+            // 传给云函数的参数
+            data: {
+                type: that.data.type,
+                name: info.nickName,
+                imgUrl: info.avatarUrl,
+                gender: info.gender,
+            },
+            success: function(res) {
+                app.apiEnd();
+            },
+            fail: res => {
+                console.log(res);
+                api.apiError();
+            }
+        })
+
+    },
 
   clickMc: function() {
     wx.navigateTo({

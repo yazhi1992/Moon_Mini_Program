@@ -1,8 +1,7 @@
 <!--miniprogram/pages/startup/startup.wxml-->
 <text>miniprogram/pages/startup/startup.wxml</text>
 
-<open-data type="userAvatarUrl"></open-data>
-<open-data type="userNickName"></open-data>
 <!-- 需要使用 button 来授权登录 -->
 <button wx:if="{{canIUse}}" open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo">授权登录</button>
 <view wx:else>请升级微信版本</view>
+<button open-type="share">分享</button>

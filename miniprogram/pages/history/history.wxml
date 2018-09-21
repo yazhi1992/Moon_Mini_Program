@@ -2,7 +2,7 @@
 <view class='root'>
   <header title="回忆" showBack='{{false}}'></header>
   <scroll-view scroll-y class='scrollview' bindscrolltolower="lower" bindscrolltoupper="upper">
-    <view wx:for="{{datas}}" wx:for-item="item" wx:key="_id" bindlongtap="longTap" data-content="{{item}}">
+    <view wx:for="{{datas}}" wx:for-item="item" wx:key="_id" catchlongtap="longTap" data-content="{{item}}">
       <!-- 心声 -->
       <view wx:if="{{item.contentType=='0'}}" class='itemBox'>
         <image class='userImg' src='{{item.user.imgUrl}}'></image>
@@ -13,15 +13,32 @@
         </view>
       </view>
       <!-- 倒数日 -->
-      <view wx:elif="item.contentType=='1' ">
+      <view wx:elif="item.contentType=='1'" class='itemBox'>
+        <image class='userImg' src='{{item.user.imgUrl}}'></image>
+        <view class='contentDetail'>
+          <text class='userNameText'>{{item.user.name}}</text>
+          <text class='memorialTitle' style='height=100rpx'>添加了纪念日</text>
+          <text class='memorialTitle' style='height=100rpx'>{{item.content.title}}   {{item.content.dayGap}}</text>
+        </view>
+      </view>
+      <!-- 许下小心愿 -->
+      <view wx:elif="item.contentType=='3'">
         <text class='commentText' style='height=100rpx'>{{item.comment}}</text>
       </view>
-      <!-- 小姨妈 -->
-      <view wx:else="item.contentType=='2' ">
+      <!-- 达成心愿 -->
+      <view wx:elif="item.contentType=='4'">
+        <text class='commentText' style='height=100rpx'>{{item.comment}}</text>
+      </view>
+      <!-- 姨妈来了 -->
+      <view wx:elif="item.contentType=='4'">
+        <text class='commentText' style='height=100rpx'>{{item.comment}}</text>
+      </view>
+      <!-- 姨妈走了 -->
+      <view wx:else="item.contentType=='5'">
         <text class='commentText' style='height=100rpx'>{{item.comment}}</text>
       </view>
       <!-- 评论 -->
-      <view wx:for="{{item.comments}}" wx:if="{{item.comments.length}}" wx:for-item="comment" wx:key="" class='commentBox' bindtap="clickComment" data-comment="{{comment}}">
+      <view wx:for="{{item.comments}}" wx:if="{{item.comments.length}}" wx:for-item="comment" wx:key="" class='commentBox' catchlongtap="longTapComment" catchtap="clickComment" data-comment="{{comment}}" data-content="{{item}}">
         <text class='commentText'>{{comment.comment}}</text>
       </view>
       <!-- 时间 -->
@@ -29,7 +46,6 @@
         <text class='timeText'>{{item.content.createAt}}</text>
         <image class='commentImg' src='./comment_icon.png' bindtap="addComment" data-content="{{item}}"></image>
       </view>
-
     </view>
     <!-- <view class="weui-loadmore " hidden="{{isHideLoadMore}} ">
     <view class="weui-loading "></view>

@@ -1,8 +1,7 @@
 {
   "pages": [
-    "pages/addMemorialDay/addMemorialDay",
     "pages/history/history",
-    "pages/startup/startup",
+    "pages/addMemorialDay/addMemorialDay",
     "pages/mc/mc",
     "pages/homepage/homepage",
     "pages/addMsg/addMsg",
@@ -15,8 +14,8 @@
     "pages/databaseGuide/databaseGuide",
     "pages/addFunction/addFunction",
     "pages/deployFunctions/deployFunctions",
-    "pages/chooseLib/chooseLib"
-    
+    "pages/chooseLib/chooseLib",
+    "pages/startup/startup"
   ],
   "plugins": {},
   "window": {
