@@ -10,6 +10,7 @@ exports.main = async(event, context) => {
         _openid: event.userInfo.openId // 填入当前用户 openid
       }).count()
       .then((res) => {
+        console.log(res)
         if (res.total == 0) {
           //新增
           console.log('新增')

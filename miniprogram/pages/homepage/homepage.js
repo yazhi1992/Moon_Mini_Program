@@ -37,7 +37,35 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+      var that = this;
+      // 查看是否授权
+      wx.getSetting({
+          lang:'zh_CN',
+          success: function(res){
+              if (res.authSetting['scope.userInfo']) {
+                  // 已经授权，可以直接调用 getUserInfo 获取头像昵称
+                  wx.getUserInfo({
+                      success: function(res) {
+                          console.log(res);
+                          app.globalData.auth = true;
+                          that.uploadUserInfo(res.userInfo);
+                      }
+                  })
+                  app.globalData.auth = true;
+                  wx.cloud.callFunction({
+                      // 要调用的云函数名称
+                      name: 'getUserInfo',
+                  }).then(res => {
+                      console.log(res);
+                      app.globalData.userInfo = res.result.data;
+                  }).catch(err => {
+                      console.log(err)
+                  })
+              } else {
+                  console.log("没有权限");
+              }
+          }
+      })
   },
 
   /**
@@ -65,25 +93,6 @@ Page({
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
-    var that = this;
-      // 查看是否授权
-      wx.getSetting({
-          lang:'zh_CN',
-          success: function(res){
-              if (res.authSetting['scope.userInfo']) {
-                  // 已经授权，可以直接调用 getUserInfo 获取头像昵称
-                  wx.getUserInfo({
-                      success: function(res) {
-                          console.log(res.userInfo);
-                          app.globalData.auth = true;
-                          that.uploadUserInfo(res.userInfo);
-                      }
-                  })
-              } else {
-                  console.log("没有权限");
-              }
-          }
-      })
 
   },
 

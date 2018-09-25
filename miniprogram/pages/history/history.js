@@ -22,6 +22,8 @@ Page({
       commentContent: null,
       inputHint: commentHint,
       commentReplyId: "",
+      commentReplyUserName: "",
+      input: "", //input 输入的值
   },
 
   /**
@@ -205,13 +207,14 @@ Page({
     });
   },
 
+    //点击评论按钮
   addComment: function(event) {
-    console.log('clickComment content');
     console.log(event.currentTarget.dataset.content);
     this.setData({
       focus: true,
         inputHint: commentHint,
         commentReplyId: "",
+        commentReplyUserName: "",
         commentContent: event.currentTarget.dataset.content,
     });
   },
@@ -222,6 +225,7 @@ Page({
         })
     },
 
+    //发表评论
     sendComment: function() {
         //隐藏软键盘
         if(!this.data.inputValue) {
@@ -248,6 +252,8 @@ Page({
                     if(!newDatas[i].comments) {
                         newDatas[i].comments = [];
                     }
+                    res.result.replyUser = {name:that.data.commentReplyUserName};
+                    res.result.user = app.globalData.userInfo;
                     newDatas[i].comments.push(res.result);
                     break;
                 }
@@ -256,7 +262,9 @@ Page({
             //添加成功，更新数据
             that.setData({
               datas: newDatas,
-            })
+                focus: false,
+                input: "",
+            });
             wx.hideLoading();
         }).catch(err => {
             console.log(err)
@@ -277,16 +285,16 @@ Page({
   },
 
 
+    //点击某条评论
   clickComment: function(event) {
-    console.log('点击评论');
       console.log(event.currentTarget.dataset.content);
     console.log(event.currentTarget.dataset.comment);
     //如果是自己的评论
       var comment = event.currentTarget.dataset.comment;
       var content = event.currentTarget.dataset.content;
       var that = this;
-      //todo
-      if(comment._openid = "me") {
+      if(comment._openid == app.globalData.userInfo._openid) {
+          //自己的评论
           wx.showModal({
               content: '是否删除该评论？',
               confirmText: "确认",
@@ -330,7 +338,13 @@ Page({
           });
       } else {
         //回复
-
+          this.setData({
+              focus: true,
+              inputHint: "回复 " + comment.user.name,
+              commentReplyId: comment._openid,
+              commentReplyUserName: comment.user.name,
+              commentContent: content,
+          });
       }
   },
 

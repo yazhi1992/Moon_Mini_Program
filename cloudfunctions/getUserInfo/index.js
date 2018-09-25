@@ -3,7 +3,5 @@ const cloud = require('wx-server-sdk')
 cloud.init()
 const db = cloud.database()
 exports.main = async(event, context) => {
-  return await db.collection('users').where({
-    _openid: event.userId,
-  }).get()
+  return await db.collection('users').doc(event.userInfo.openId).get();
 }

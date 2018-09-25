@@ -9,19 +9,12 @@ Page({
    */
   data: {
       canIUse: wx.canIUse('button.open-type.getUserInfo'),
-      type: 0, //0 新增，1更新
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-      wx.showToast({
-          title: options.id,
-          icon: 'none',
-          duration: 2000
-      });
-
       var that = this;
       // 查看是否授权
       wx.getSetting({
@@ -46,9 +39,6 @@ Page({
                               console.log('用户点击确定')
                           }
                       }
-                  });
-                  that.setData({
-                     type: 1,
                   });
               }
           }
@@ -83,13 +73,13 @@ Page({
 
     uploadUserInfo: function(info) {
         var that = this;
-        app.apiStart();
+        // app.apiStart();
+        console.log(info)
         wx.cloud.callFunction({
             // 云函数名称
             name: 'uploadUserInfo',
             // 传给云函数的参数
             data: {
-                type: that.data.type,
                 name: info.nickName,
                 imgUrl: info.avatarUrl,
                 gender: info.gender,
