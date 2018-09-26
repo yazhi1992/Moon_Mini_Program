@@ -24,6 +24,8 @@ Page({
       commentReplyId: "",
       commentReplyUserName: "",
       input: "", //input 输入的值
+    imgwidth:0,
+    imgheight:0.
   },
 
   /**
@@ -432,5 +434,22 @@ Page({
       this.addMsg(null, content)
     }
   },
+
+  imageLoad: function(e) {
+    var width = e.detail.width;
+    var height = e.detail.height;
+    var ratio = width/height;
+    if(ratio > 1) {
+      width = 400;
+      height = 400/ratio;
+    } else {
+      height = 500;
+      width = 500*ratio;
+    }
+    this.setData({
+      imgwidth:width,
+      imgheight:height,
+    })
+  }
 
 })

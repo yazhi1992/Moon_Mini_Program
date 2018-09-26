@@ -7,14 +7,27 @@
 }
 
 .userImg {
-  height: 150rpx;
-  width: 150rpx;
+  height: 100rpx;
+  width: 100rpx;
+  margin-left: 30rpx;
+  margin-top: 30rpx;
 }
 
 .contentDetail {
   display: flex;
   flex-direction: column;
   flex-grow: 1;
+  margin-top: 15rpx;
+}
+
+.rightContent {
+  display: flex;
+  flex:1;
+  flex-direction: column;
+  margin-top: 25rpx;
+  margin-left: 20rpx;
+  margin-right: 30rpx;
+  font-size: medium;
 }
 
 .userNameText {
@@ -26,16 +39,24 @@
 }
 
 .contentImg {
-  height: 300rpx;
-  width: 300rpx;
+  margin-top: 25rpx;
+}
+
+.commentRoot {
+  padding-top: 20rpx;
+  background: #f3f3f3;
+  flex-direction: column;
+  width: 100%;
+  display: flex;
+  margin-top: 20rpx;
 }
 
 .commentBox {
   display: flex;
   flex-direction: column;
-  background: #ddd;
   width: 100%;
-  padding: 10rpx;
+  padding-left: 25rpx;
+  padding-bottom: 20rpx;
 }
 
 .commentText {
@@ -47,9 +68,10 @@
 }
 
 .commentImg {
-  height: 100rpx;
-  width: 100rpx;
-  margin: 30rpx;
+  height: 50rpx;
+  width: 50rpx;
+  margin-top: 30rpx;
+  margin-bottom: 30rpx;
 }
 
 .scrollview {
@@ -122,3 +144,9 @@
   height: 0;
   color: transparent;
 } */
+
+.timeText {
+  font-size: small;
+  color: #7f7f7f;
+  flex-grow: 1;
+}
