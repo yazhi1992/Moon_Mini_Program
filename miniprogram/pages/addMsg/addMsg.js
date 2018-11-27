@@ -92,14 +92,20 @@ Page({
     if (that.data.pickImg) {
       //有图片先上传
       var uploadFileName = Date.parse(new Date()).toString() + '_' + app.randomNum(1, 1000).toString() + app.getSuffix(that.data.previewImg[0])
-      console.log(uploadFileName)
       wx.cloud.uploadFile({
         cloudPath: uploadFileName, // 上传至云端的路径
         filePath: that.data.previewImg[0], // 小程序临时文件路径
         success: res => {
           // 返回文件 ID
-          console.log(res.fileID)
-            this.addMsg(res.fileID, content)
+          console.log(res)
+          var imgId = res.fileID
+          wx.getImageInfo({
+            src: that.data.previewImg[0],
+            success(res) {
+              console.log("getImgInfoSuc" + res.width + res.height)
+              that.addMsg(imgId, res.width, res.height, content)
+            }
+          })
         },
         fail: res => {
           console.log(res);
@@ -107,26 +113,29 @@ Page({
         }
       })
     } else {
-      this.addMsg(null, content)
+      that.addMsg(null, 0, 0, content)
     }
   },
 
-    addMsg:function (imgId, content) {
-        wx.cloud.callFunction({
-            // 云函数名称
-            name: 'addSingleText',
-            // 传给云函数的参数
-            data: {
-                imgId: imgId,
-                content: content,
-            },
-            success: function(res) {
-              app.apiEnd();
-            },
-            fail: res => {
-                console.log(res);
-              api.apiError();
-            }
-        })
-    }
+  addMsg: function(imgId, imgwidth, imgheight, content) {
+    console.log("addMsg" + imgwidth + imgheight)
+    wx.cloud.callFunction({
+      // 云函数名称
+      name: 'addSingleText',
+      // 传给云函数的参数
+      data: {
+        imgheight: imgheight,
+        imgwidth: imgwidth,
+        imgId: imgId,
+        content: content,
+      },
+      success: function(res) {
+        app.apiEnd();
+      },
+      fail: res => {
+        console.log(res);
+        api.apiError();
+      }
+    })
+  }
 })

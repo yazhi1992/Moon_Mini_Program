@@ -61,6 +61,4 @@ exports.main = async(event, context) => {
     .then((res) => {
       return resultData;
     });
-
-
 }

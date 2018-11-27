@@ -1,11 +1,11 @@
 {
   "pages": [
     "pages/history/history",
+    "pages/addMsg/addMsg",
     "pages/startup/startup",
     "pages/addMemorialDay/addMemorialDay",
     "pages/mc/mc",
     "pages/homepage/homepage",
-    "pages/addMsg/addMsg",
     "pages/me/me",
     "pages/index/index",
     "pages/time/time",
@@ -20,7 +20,6 @@
   ],
   "plugins": {},
   "window": {
-    "navigationStyle": "custom",
     "navigationBarBackgroundColor": "#2196F3",
     "navigationBarTitleText": "",
     "navigationBarTextStyle": "white"

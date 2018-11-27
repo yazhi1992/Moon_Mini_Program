@@ -11,6 +11,7 @@
   width: 100rpx;
   margin-left: 30rpx;
   margin-top: 30rpx;
+  background: #f3f3f3;
 }
 
 .contentDetail {
