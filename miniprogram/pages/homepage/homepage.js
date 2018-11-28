@@ -81,6 +81,7 @@ Page({
           wx.cloud.callFunction({
             name: 'getUserInfo',
           }).then(res => {
+            console.log(res.result.data)
             app.globalData.userInfo = res.result.data;
             that.setData({
               imgUrl:res.result.data.homeImg

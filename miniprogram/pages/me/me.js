@@ -8,10 +8,10 @@ Page({
    * 页面的初始数据
    */
   data: {
-    myHeadUrl: "https://avatars1.githubusercontent.com/u/13739375?s=460&v=4",
-    myName: 'me',
-    loverHeadUrl: 'https://avatars1.githubusercontent.com/u/13739375?s=460&v=4',
-    loverName: 'lover',
+    myHeadUrl: "",
+    myName: '',
+    loverHeadUrl: '',
+    loverName: '',
     inLove: false
   },
 
@@ -20,7 +20,8 @@ Page({
    */
   onLoad: function (options) {
     this.setData({
-      navH: app.globalData.navHeight
+      myHeadUrl: app.globalData.userInfo.imgUrl,
+      myName: app.globalData.userInfo.name
     })
 
     console.log(sUtil.isInLove)
