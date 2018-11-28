@@ -1,7 +1,7 @@
 <!--pages/homepage/homepage.wxml-->
 <view class='root'>
   <image class="img" src="{{imgUrl}}" background-size="cover" bindtap="clickImg" ></image>
-  <view class='btns'>
+  <view class='btns' hidden='true'>
     <view class='parent'>
       <view class='space'></view>
       <view class='child' bindtap='clickMemory'>

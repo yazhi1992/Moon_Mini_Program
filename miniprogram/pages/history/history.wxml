@@ -1,6 +1,5 @@
 <!--miniprogram/pages/history/history.wxml-->
 <view class='root'>
-
   <view wx:for="{{datas}}" wx:for-item="item" wx:key="_id" catchlongtap="longTap" data-content="{{item}}">
     <view class='itemBox'>
       <image class='userImg' src='{{item.user.imgUrl}}'></image>
@@ -46,16 +45,13 @@
       </view>
     </view>
   </view>
-  <!-- <view class="weui-loadmore " hidden="{{isHideLoadMore}} ">
-    <view class="weui-loading "></view>
-    <view class="weui-loadmore__tips ">正在加载</view>
-  </view> -->
-  <image class='floatBtn' src='./comment_icon.png' bindtap="clickAdd"></image>
-  <!-- 评论输入框 -->
-  <view class="input" style="bottom:{{inputBottom}}px;" hidden="{{inputBottom==0}}">
-    <view class='edittext'>
-      <input value="{{input}}" focus="{{focus}}" placeholder="{{inputHint}}" bindinput="bindKeyInput" adjust-position="{{false}}" bindfocus="inputFocus" bindblur="inputBlur" />
-    </view>
-    <button class="btn" hover-class='btnHover' type="primary" bindtap="sendComment">发送</button>
+</view>
+<!-- 悬浮按钮 -->
+<image class='floatBtn' src='./add.png' bindtap="clickAdd"></image>
+<!-- 评论输入框 -->
+<view class="input" style="bottom:{{inputBottom}}px;" hidden="{{inputBottom==0}}">
+  <view class='edittext'>
+    <input value="{{input}}" focus="{{focus}}" placeholder="{{inputHint}}" bindinput="bindKeyInput" adjust-position="{{false}}" bindfocus="inputFocus" bindblur="inputBlur" />
   </view>
+  <button class="btn" hover-class='btnHover' type="primary" bindtap="sendComment">发送</button>
 </view>

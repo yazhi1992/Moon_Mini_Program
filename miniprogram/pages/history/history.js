@@ -1,6 +1,7 @@
 // miniprogram/pages/history/history.js
 
 var util = require('../../utils/util.js')
+var sUtil = require('../../utils/storageUtils.js')
 var app = getApp()
 const commentHint = "请输入想说的话"
 
@@ -15,7 +16,6 @@ Page({
     isHideLoadMore: false,
     datas: [],
     inputBottom: "0",
-    tabbarHeight: 0,
     focus: false,
     inputValue: "",
     commentContent: null,
@@ -39,15 +39,6 @@ Page({
    */
   onReady: function() {
     var that = this;
-    wx.getSystemInfo({
-      success: function(res) {
-        var height_02 = res.screenHeight - res.windowHeight;
-        console.log('getSystemInfo')
-        that.setData({
-          tabbarHeight: height_02
-        });
-      }
-    });
   },
 
   /**
@@ -124,15 +115,14 @@ Page({
       var temp = res.result;
       for (let i = 0; i < temp.length; i++) {
         //时间格式化
-        temp[i].content.createAt = app.formatDateTime(temp[i].content.createAt.$date);
+        temp[i].content.createAt = app.formatDateTime(new Date(temp[i].content.createAt).getTime());
         //计算倒数日
         if (temp[i].contentType == 1) {
           temp[i].content.dayGap = that.calcDateGap(temp[i].content.timestamp)
         }
         //计算图片尺寸
-        var width = temp[i].content.imgwidth;
-        if (width) {
-          console.log("emter")
+        if (temp[i].content.imgwidth) {
+          var width = temp[i].content.imgwidth;
           var height = temp[i].content.imgheight;
           var ratio = width / height;
           if (ratio > 1) {
@@ -144,7 +134,7 @@ Page({
           }
           temp[i].content.imgwidth = width
           temp[i].content.imgheight = height
-        } 
+        }
       }
       wx.stopPullDownRefresh()
       that.setData({
@@ -260,9 +250,9 @@ Page({
 
   inputFocus: function(e) {
     console.log(e.detail.height);
-    console.log(this.data.tabbarHeight)
-    this.setData({
-      inputBottom: (e.detail.height - this.data.tabbarHeight).toString()
+    var that = this
+    that.setData({
+      inputBottom: (e.detail.height).toString()
     });
   },
 
