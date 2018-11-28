@@ -1,12 +1,12 @@
 {
   "pages": [
+    "pages/homepage/homepage",
+    "pages/me/me",
     "pages/history/history",
     "pages/addMsg/addMsg",
     "pages/startup/startup",
     "pages/addMemorialDay/addMemorialDay",
     "pages/mc/mc",
-    "pages/homepage/homepage",
-    "pages/me/me",
     "pages/index/index",
     "pages/time/time",
     "pages/logs/logs",

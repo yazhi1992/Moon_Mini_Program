@@ -15,7 +15,7 @@ Page({
     pullUpAllow: true,
     isHideLoadMore: false,
     datas: [],
-    inputBottom: "0",
+    inputBottom: "100",
     focus: false,
     inputValue: "",
     commentContent: null,
@@ -66,7 +66,7 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function() {
-    this.fresh();
+    // this.fresh();
   },
 
   /**
@@ -378,48 +378,5 @@ Page({
       inputBottom: '0'
     });
   },
-
-  bindFormSubmit: function(e) {
-    var that = this;
-    var content = e.detail.value.textarea;
-    app.apiStart()
-    if (that.data.pickImg) {
-      //有图片先上传
-      var uploadFileName = Date.parse(new Date()).toString() + '_' + app.randomNum(1, 1000).toString() + app.getSuffix(that.data.previewImg[0])
-      console.log(uploadFileName)
-      wx.cloud.uploadFile({
-        cloudPath: uploadFileName, // 上传至云端的路径
-        filePath: that.data.previewImg[0], // 小程序临时文件路径
-        success: res => {
-          // 返回文件 ID
-          console.log(res.fileID)
-          this.addMsg(res.fileID, content)
-        },
-        fail: res => {
-          console.log(res);
-          app.apiError();
-        }
-      })
-    } else {
-      this.addMsg(null, content)
-    }
-  },
-
-  imageLoad: function(e) {
-    var width = e.detail.width;
-    var height = e.detail.height;
-    var ratio = width / height;
-    if (ratio > 1) {
-      width = 400;
-      height = 400 / ratio;
-    } else {
-      height = 500;
-      width = 500 * ratio;
-    }
-    this.setData({
-      imgwidth: width,
-      imgheight: height,
-    })
-  }
 
 })

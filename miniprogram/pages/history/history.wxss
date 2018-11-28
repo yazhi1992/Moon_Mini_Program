@@ -103,7 +103,7 @@
 }
 
 .input {
-  height: 80rpx;
+  height: 90rpx;
   width: 100%;
   display: flex;
   position: fixed;
@@ -120,11 +120,21 @@
   background: #fff;
   margin-left: 10rpx;
   margin-right: 10rpx;
+  padding-left: 20rpx;
+  align-items: center;
+  display: flex;
+  font-size: medium;
 }
 
 .btn {
-  width: 100rpx;
+  width: 110rpx;
   height: 60rpx;
+  font-size: medium;
+  display: flex;
+  padding: 0rpx;
+  margin-right: 15rpx;
+  justify-content: center;
+  align-items: center;
 }
 
 .timeText {

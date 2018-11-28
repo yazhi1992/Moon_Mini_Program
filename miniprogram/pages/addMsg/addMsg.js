@@ -1,6 +1,7 @@
 // miniprogram/pages/addMsg/addMsg.js
 
 var app = getApp()
+var util = require('../../utils/util.js')
 
 Page({
 
@@ -91,7 +92,8 @@ Page({
     app.apiStart()
     if (that.data.pickImg) {
       //有图片先上传
-      var uploadFileName = Date.parse(new Date()).toString() + '_' + app.randomNum(1, 1000).toString() + app.getSuffix(that.data.previewImg[0])
+      var uploadFileName = util.randomImgName(that.data.previewImg[0])
+      console.log(uploadFileName)
       wx.cloud.uploadFile({
         cloudPath: uploadFileName, // 上传至云端的路径
         filePath: that.data.previewImg[0], // 小程序临时文件路径

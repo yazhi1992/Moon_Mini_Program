@@ -1,17 +1,17 @@
 <!--pages/me/me.wxml-->
 <view class='root'>
-  <view class='userBox '>
-    <view class='space '></view>
+  <view class='userBox'>
+    <view class='space'></view>
     <view class='user '>
       <image class='headImg ' src="{{myHeadUrl}}"></image>
       <text class='userName '>{{myName}}</text>
     </view>
-    <view class='space '></view>
-    <view class='user '>
+    <view class='space'></view>
+    <view class='user' hidden='{{!inLove}}'>
       <image class='headImg ' src="{{loverHeadUrl}}"></image>
       <text class='userName '>{{loverName}}</text>
     </view>
-    <view class='space '></view>
+    <view class='space' hidden='{{!inLove}}'></view>
   </view>
   <view class='itemBox '>
     <image class='itemImg ' src='./set_icon.png '></image>
@@ -19,7 +19,7 @@
   </view>
   <view class='itemBox '>
     <image class='itemImg ' src='./about_us.png ' style='margin-left:2rpx '></image>
-    <text class='itemName '>关于我们</text>
+    <text class='itemName '>关于小本本</text>
   </view>
   <view class='bottom '></view>
 </view>

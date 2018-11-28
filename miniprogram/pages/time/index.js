@@ -2,7 +2,6 @@
 //获取应用实例
 const app = getApp()
 var util = require('../../utils/util.js')
-const AV = require('../../libs/av-weapp-min.js');
 
 Page({
   data: {
@@ -60,13 +59,6 @@ Page({
       yearPercent: test,
       yearTitle: year +"年进度条"
     })
-    new AV.Query('_User')
-      .get('5a6e7b280b616000443e4157')
-      .then(function(test){
-        console.log(test.get('nickname'))        
-      }, function(error) {
-        console.log('error')              
-      })
   },
   getUserInfo: function(e) {
     console.log(e)

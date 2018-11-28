@@ -1,5 +1,5 @@
-const AV = require('../../libs/av-weapp-min.js');
 const app = getApp();
+var util = require('../../utils/util.js')
 
 Page({
 
@@ -7,8 +7,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-    imgUrl: 'http://lc-wl3lbfgv.cn-n1.lcfile.com/RgnxI7IGrZ6KFcxSzNOmzSG3XB6ZA6hDVoBDSTaI.jpg'
-    // imgUrl: 'osvbh5BBZstiXMArAYOY7_d7b9-8'
+    imgUrl: ''
   },
 
   clickImg: function() {
@@ -17,18 +16,46 @@ Page({
     wx.chooseImage({
       success: function(res) {
         var tempFilePath = res.tempFilePaths[0];
-        new AV.File('file-name', {
-          blob: {
-            uri: tempFilePath,
+        var uploadFileName = util.randomImgName(tempFilePath)
+        app.apiStart()
+        wx.cloud.uploadFile({
+          cloudPath: uploadFileName, // 上传至云端的路径
+          filePath: tempFilePath, // 小程序临时文件路径
+          success: res => {
+            // 返回文件 ID
+            console.log(res)
+            //上报后台
+            that.uploadHomeImg(res.fileID)
           },
-        }).save().then(function(file) {
-          console.log(file.url())
-          that.setData({
-            imgUrl: file.url()
-          })
-
-        }).catch(console.error);
+          fail: res => {
+            console.log(res);
+            app.apiError();
+          }
+        })
       },
+    })
+  },
+
+  uploadHomeImg: function(imgId) {
+    var that = this
+    wx.cloud.callFunction({
+      // 云函数名称
+      name: 'updateHomeImg',
+      // 传给云函数的参数
+      data: {
+        homeImg: imgId,
+      },
+      success: function(res) {
+        //显示在本机上
+        that.setData({
+          imgUrl: imgId
+        })
+        app.apiEnd();
+      },
+      fail: res => {
+        console.log(res);
+        app.apiError();
+      }
     })
   },
 
@@ -52,11 +79,12 @@ Page({
           })
           app.globalData.auth = true;
           wx.cloud.callFunction({
-            // 要调用的云函数名称
             name: 'getUserInfo',
           }).then(res => {
-            console.log(res);
             app.globalData.userInfo = res.result.data;
+            that.setData({
+              imgUrl:res.result.data.homeImg
+            })
           }).catch(err => {
             console.log(err)
           })
@@ -135,7 +163,7 @@ Page({
       },
       fail: res => {
         console.log(res);
-        api.apiError();
+        app.apiError();
       }
     })
 
@@ -148,10 +176,10 @@ Page({
   },
 
   clickMemory: function() {
-    
+
   },
 
   clickHope: function() {
-    
+
   }
 })

@@ -1,11 +1,4 @@
 //app.js
-const AV = require('./libs/av-weapp-min.js');
-
-// LeanCloud 应用的 ID 和 Key
-AV.init({
-  appId: 'WL3lBfgV8sxfnMY6pncNKFYS-gzGzoHsz',
-  appKey: 'SzsGqfiCT76Ige87Nz9zUtXs',
-});
 
 App({
   onLaunch: function() {
@@ -31,8 +24,8 @@ App({
       }
     })
 
-      // 获取手机系统信息
-      wx.getSystemInfo({
+    // 获取手机系统信息
+    wx.getSystemInfo({
         success: res => {
           //导航高度
           this.globalData.navHeight = res.statusBarHeight + 46;
@@ -53,20 +46,8 @@ App({
     userInfo: null,
     navHeight: "64",
     height_01: 0,
-      auth: false,
-      userInfo: {},
-  },
-
-  randomNum: function (n, m) {
-    var random = Math.floor(Math.random() * (m - n + 1) + n);
-    return random;
-  },
-
-  getSuffix: function(path) {
-    let fileName = path.lastIndexOf(".");//取到文件名开始到最后一个点的长度
-    let fileNameLength = path.length;//取到文件名长度
-    let fileFormat = path.substring(fileName, fileNameLength);//截
-    return fileFormat;
+    auth: false,
+    userInfo: {},
   },
 
   apiStart: function() {
@@ -85,15 +66,15 @@ App({
     // });
   },
 
-  apiError: function () {
+  apiError: function() {
     wx.showToast({
       title: '数据同步失败\r\n请重试',
       icon: 'none',
       duration: 2000
     });
   },
-  
-  formatDateTime: function (inputTime) {
+
+  formatDateTime: function(inputTime) {
     var date = new Date(inputTime);
     var y = date.getFullYear();
     var m = date.getMonth() + 1;
@@ -109,7 +90,7 @@ App({
     return y + '-' + m + '-' + d + ' ' + h + ':' + minute + ':' + second;
   },
 
-  formatDateTimeToYYMMDD: function (inputTime) {
+  formatDateTimeToYYMMDD: function(inputTime) {
     var date = new Date(inputTime);
     var y = date.getFullYear();
     var m = date.getMonth() + 1;
@@ -124,5 +105,5 @@ App({
     second = second < 10 ? ('0' + second) : second;
     return y + '-' + m + '-' + d;
   },
-  
+
 })

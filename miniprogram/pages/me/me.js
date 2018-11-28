@@ -1,5 +1,6 @@
 // pages/me/me.js
 const app = getApp();
+var sUtil = require('../../utils/storageUtils.js')
 
 Page({
 
@@ -11,6 +12,7 @@ Page({
     myName: 'me',
     loverHeadUrl: 'https://avatars1.githubusercontent.com/u/13739375?s=460&v=4',
     loverName: 'lover',
+    inLove: false
   },
 
   /**
@@ -20,6 +22,12 @@ Page({
     this.setData({
       navH: app.globalData.navHeight
     })
+
+    console.log(sUtil.isInLove)
+    // this.setData({
+    //   inLove: sUtil.isInLove
+    // })
+
   },
 
   /**
