@@ -13,7 +13,11 @@
     </view>
     <view class='space' hidden='{{!inLove}}'></view>
   </view>
-  <view class='itemBox '>
+  <view class='itemBox' bindtap='clickProgress'>
+    <image class='itemImg ' src='./clock.png'></image>
+    <text class='itemName '>年进度条</text>
+  </view>
+   <view class='itemBox '>
     <image class='itemImg ' src='./set_icon.png '></image>
     <text class='itemName '>设置</text>
   </view>
