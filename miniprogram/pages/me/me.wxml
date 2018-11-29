@@ -3,25 +3,25 @@
   <view class='userBox'>
     <view class='space'></view>
     <view class='user '>
-      <image class='headImg ' src="{{myHeadUrl}}"></image>
+      <dimage class='headImg ' src="{{myHeadUrl}}"></dimage>
       <text class='userName '>{{myName}}</text>
     </view>
     <view class='space'></view>
-    <view class='user' hidden='{{!inLove}}'>
-      <image class='headImg ' src="{{loverHeadUrl}}"></image>
+    <view class='user' wx:if='{{inLove}}'>
+      <dimage class='headImg ' src="{{loverHeadUrl}}"></dimage>
       <text class='userName '>{{loverName}}</text>
     </view>
-    <view class='space' hidden='{{!inLove}}'></view>
+    <view class='space' wx:if='{{inLove}}'></view>
   </view>
   <view class='itemBox' bindtap='clickProgress'>
-    <image class='itemImg ' src='./clock.png'></image>
+    <image class='itemImg' src='./clock.png'></image>
     <text class='itemName '>年进度条</text>
   </view>
-   <view class='itemBox '>
-    <image class='itemImg ' src='./set_icon.png '></image>
+  <view class='itemBox' wx:if='{{false}}'>
+    <image class=' itemImg ' src='./set_icon.png '></image>
     <text class='itemName '>设置</text>
   </view>
-  <view class='itemBox '>
+  <view class='itemBox ' bindtap='clickAboutUs'>
     <image class='itemImg ' src='./about_us.png ' style='margin-left:2rpx '></image>
     <text class='itemName '>关于小本本</text>
   </view>

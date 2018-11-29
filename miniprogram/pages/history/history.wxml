@@ -8,7 +8,7 @@
         <!-- 心声 -->
         <view wx:if="{{item.contentType=='0'}}" class='contentDetail'>
           <text class='contentText'>{{item.content.content}}</text>
-          <image class='contentImg' src='{{item.content.imgId}}' hidden="{{!item.content.imgId}}" style="width:{{item.content.imgwidth}}rpx; height:{{item.content.imgheight}}rpx;"></image>
+          <dimage class='contentImg' src='{{item.content.imgId}}' wx:if="{{item.content.imgId}}" style="width:{{item.content.imgwidth}}rpx; height:{{item.content.imgheight}}rpx;"></dimage>
         </view>
         <!-- 倒数日 -->
         <view wx:elif="item.contentType=='1'" class='contentDetail'>

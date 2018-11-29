@@ -177,10 +177,19 @@ Page({
   },
 
   clickMemory: function() {
-
+    this.showToast()
   },
 
   clickHope: function() {
+    this.showToast()
+  },
 
+  showToast: function() {
+    var msg = '拼命开发中...\r\n敬请期待'
+    wx.showToast({
+      title: msg,
+      icon: 'none',
+      duration: 1500
+    })
   }
 })

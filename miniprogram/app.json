@@ -1,5 +1,7 @@
 {
   "pages": [
+    
+    "pages/aboutus/aboutus",
     "pages/homepage/homepage",
     "pages/me/me",
     "pages/history/history",
@@ -16,7 +18,6 @@
     "pages/addFunction/addFunction",
     "pages/deployFunctions/deployFunctions",
     "pages/chooseLib/chooseLib"
-
   ],
   "plugins": {},
   "window": {

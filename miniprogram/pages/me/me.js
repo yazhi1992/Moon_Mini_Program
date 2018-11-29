@@ -84,5 +84,11 @@ Page({
     wx.navigateTo({
       url: '../../pages/time/time'
     })
+  },
+
+  clickAboutUs: function() {
+    wx.navigateTo({
+      url: '../../pages/aboutus/aboutus'
+    })
   }
 })

@@ -1,7 +1,7 @@
 <!--pages/homepage/homepage.wxml-->
 <view class='root'>
-  <image class="img" src="{{imgUrl}}" background-size="cover" bindtap="clickImg" ></image>
-  <view class='btns' hidden='true'>
+  <dimage class="img" src="{{imgUrl}}" background-size="cover" bindtap="clickImg" ></dimage>
+  <view class='btns'>
     <view class='parent'>
       <view class='space'></view>
       <view class='child' bindtap='clickMemory'>
@@ -13,8 +13,8 @@
         <image  class='tabImg' src='../../images/icon_hope.png'></image>
         <text class='text'>许愿树</text>
       </view>
-      <view class='space'></view>
-      <view class='child' bindtap='clickMc'>
+      <view class='space' wx:if='{{false}}'></view>
+      <view class='child' bindtap='clickMc' wx:if='{{false}}'>
         <image class='tabImg' src='../../images/icon_mc.png'></image>
         <text class='text'>小姨妈</text>
       </view>
