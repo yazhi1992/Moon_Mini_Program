@@ -1,7 +1,7 @@
 // miniprogram/pages/history/history.js
 
-var util = require('../../utils/util.js')
-var sUtil = require('../../utils/storageUtils.js')
+var util = require('../../utils/utils.js')
+var sUtil = require('../../utils/dbUtils.js')
 var app = getApp()
 const commentHint = "请输入想说的话"
 

@@ -1,6 +1,6 @@
 // pages/me/me.js
 const app = getApp();
-var sUtil = require('../../utils/storageUtils.js')
+var sUtil = require('../../utils/dbUtils.js')
 
 Page({
 
@@ -90,5 +90,31 @@ Page({
     wx.navigateTo({
       url: '../../pages/aboutus/aboutus'
     })
+  },
+
+  clickInvite: function () {
+    wx.navigateTo({
+      url: '../../pages/invite/invite'
+    })
   }
 })
+
+// 绑定逻辑
+//
+// 分享 -》 带 A Id
+//
+// users
+// want  id
+// inlove  true/false
+//
+// B 打开，根据携带的id ，getUserInfo 显示 A 请求绑定
+// B 同意 --》 B want 设为 A ID -> 发送模板消息通知 A
+//
+// getWhoWantMe
+// A 查询 users 表 中 want = 自己的，返回该用户的头像、名字
+//
+// 同意
+// A want 添加  B，  A、B 的inlove 都为true  发送模板消息通知 B
+//
+// 拒绝
+// B 的 want 移除 A

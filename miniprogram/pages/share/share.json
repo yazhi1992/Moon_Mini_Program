@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "邀请",
+  "usingComponents": {
+    "dimage": "/components/dimage/dimage"
+  }
+}

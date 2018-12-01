@@ -27,3 +27,9 @@ button[type="primary"] {
   color: #757575;
   font-size: 14px;
 }
+
+.root {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}

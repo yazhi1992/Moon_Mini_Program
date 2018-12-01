@@ -1,0 +1,6 @@
+/* miniprogram/pages/share/share.wxss */
+
+.img {
+  height: 150rpx;
+  width: 150rpx;
+}

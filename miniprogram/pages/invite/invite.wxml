@@ -1,0 +1,40 @@
+<!--miniprogram/pages/invite/invite.wxml-->
+<!-- 需要使用 button 来授权登录 -->
+<view class='myroot' hidden="{{loading}}">
+
+  <view class='myroot'>
+    <button open-type="share">分享</button>
+  </view>
+
+  <!-- 已发送请求 -->
+  <view class='myroot' wx:if='{{waitingAccept}}'>
+    <text>等待对方同意</text>
+    <button bindtap='clickCancel'>取消请求</button>
+  </view>
+
+  <!-- 默认显示 -->
+  <view class='myroot' wx:else='{{waitingAccept}}'>
+    <text class='text_des'>我的验证码</text>
+    <text class='text_des'>{{myBindCode}}</text>
+    <button bindtap='clickCopy'>复制</button>
+    <!-- 输入 -->
+    <form bindsubmit="bindFormSubmit">
+      <view class="input">
+        <textarea class="weui-textarea" placeholder="请输入对方的邀请码" style="height: 1em" auto-focus name="textarea" />
+      </view>
+      <view class='myPadding'>
+        <button class="btn" hover-class='btnHover' type="primary" form-type="submit">绑定</button>
+      </view>
+    </form>
+  </view>
+
+  <!-- 邀请码对应的用户 -->
+  <view class="myroot" wx:if="{{showUser}}">
+    <text class='text_des'>{{peerName}}</text>
+    <dimage class='img' src="{{peerImgUrl}}"></dimage>
+    <button wx:if='{{!waitingAccept}}' bindtap='clickRequest'>确认</button>
+  </view>
+
+  <button bindtap='clickRefresh'>刷新</button>
+
+</view>

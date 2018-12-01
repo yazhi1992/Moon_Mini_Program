@@ -28,7 +28,6 @@ Component({
    */
   methods: {
     finishLoad: function(e) {
-      console.log("finishLoad")
       this.setData({
         finishLoadFlag: true
       })

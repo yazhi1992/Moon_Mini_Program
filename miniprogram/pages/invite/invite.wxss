@@ -1,0 +1,18 @@
+/* miniprogram/pages/invite/invite.wxss */
+@import "../../style/common.wxss";
+
+.img {
+  height: 150rpx;
+  width: 150rpx;
+}
+
+.myroot {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.input {
+  padding: 30rpx;
+  margin-top: 30rpx;
+}

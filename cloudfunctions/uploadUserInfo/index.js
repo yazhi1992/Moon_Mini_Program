@@ -15,7 +15,6 @@ exports.main = async(event, context) => {
           //新增
           console.log('新增')
           return db.collection('users').add({
-            // data 字段表示需新增的 JSON 数据
             data: {
               _id: event.userInfo.openId,
               name: event.name,
@@ -38,8 +37,24 @@ exports.main = async(event, context) => {
               },
             })
         }
+      })
+      .then(res => {
+        console.log("getUserInfo " + event.userInfo.openId)
+        return db.collection('users').doc(event.userInfo.openId).get()
+      })
+      .then(res => {
+        console.log("getUserInfo suc")
+        console.log(res)
+        return res.data
       });
   } catch (e) {
     console.error(e)
   }
 }
+
+//返回：
+// result: {
+//   id: xxx,
+//   name: xxx,
+//   ...
+// }

@@ -1,0 +1,6 @@
+<!--miniprogram/pages/share/share.wxml-->
+  <view class='root'>
+    <text class='text_des' wx:if="{{peerName}}">{{peerName}}</text>
+    <dimage class='img' src="{{peerImgUrl}}" wx:if="{{peerImgUrl}}"></dimage>
+    <button bindtap='clickAccept'>{{btnText}}</button>
+  </view>

@@ -1,6 +1,6 @@
 <!--pages/homepage/homepage.wxml-->
 <view class='root'>
-  <dimage class="img" src="{{imgUrl}}" background-size="cover" bindtap="clickImg" ></dimage>
+  <dimage class="img" src="{{imgUrl}}" background-size="cover" mode="aspectFit" bindtap="clickImg" ></dimage>
   <view class='btns'>
     <view class='parent'>
       <view class='space'></view>

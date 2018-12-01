@@ -13,6 +13,10 @@
     </view>
     <view class='space' wx:if='{{inLove}}'></view>
   </view>
+   <view class='itemBox' bindtap='clickInvite'>
+    <image class='itemImg' src='./invite2.png'></image>
+    <text class='itemName '>邀请 ta</text>
+  </view>
   <view class='itemBox' bindtap='clickProgress'>
     <image class='itemImg' src='./clock.png'></image>
     <text class='itemName '>年进度条</text>
