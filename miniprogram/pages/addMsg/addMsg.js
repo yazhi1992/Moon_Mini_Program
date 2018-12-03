@@ -2,6 +2,8 @@
 
 var app = getApp()
 var util = require('../../utils/utils.js')
+var cloud = require('../../cloud/cloud.js')
+var dbUtils = require('../../utils/dbUtils.js')
 
 Page({
 
@@ -10,21 +12,28 @@ Page({
    */
   data: {
     previewImg: "./add_img_icon.png",
-    pickImg: false
+    pickImg: false,
+    title: ""
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
-
+    var content = "记录生活的寻常与闪光"
+    if (dbUtils.isInLove()) {
+      content = "想把我唱给你听"
+    }
+    this.setData({
+      title: content
+    })
   },
 
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function() {
-
+    
   },
 
   /**
@@ -105,7 +114,7 @@ Page({
             src: that.data.previewImg[0],
             success(res) {
               console.log("getImgInfoSuc" + res.width + res.height)
-              that.addMsg(imgId, res.width, res.height, content)
+              that.addMsg(res.width, res.height, imgId, content)
             }
           })
         },
@@ -115,29 +124,19 @@ Page({
         }
       })
     } else {
-      that.addMsg(null, 0, 0, content)
+      that.addMsg(0, 0, "", content)
     }
   },
 
-  addMsg: function(imgId, imgwidth, imgheight, content) {
-    console.log("addMsg" + imgwidth + imgheight)
-    wx.cloud.callFunction({
-      // 云函数名称
-      name: 'addSingleText',
-      // 传给云函数的参数
-      data: {
-        imgheight: imgheight,
-        imgwidth: imgwidth,
-        imgId: imgId,
-        content: content,
-      },
-      success: function(res) {
+  addMsg: function(width, height, imgId, content) {
+    cloud.addSingleText(width, height, imgId, content)
+      .then(res => {
+        console.log("ok")
         app.apiEnd();
-      },
-      fail: res => {
-        console.log(res);
-        api.apiError();
-      }
-    })
+      })
+      .catch(err => {
+        console.log(err)
+        app.apiError();
+      })
   }
 })

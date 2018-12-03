@@ -35,6 +35,7 @@ function updateWantId(wantId) {
   })
 }
 
+//生成 bindCode
 function newBindCode() {
   var code = util.randomNum(1000, 9999)
   console.log("randomCode " + code)
@@ -57,6 +58,9 @@ function newBindCode() {
         }
       })
     })
+    .then(res => {
+      return code
+    })
 }
 
 // {
@@ -74,63 +78,110 @@ function getBindCode(code) {
 }
 
 function requestBind(code) {
-    var openid = dbUtils.getOpenId()
-    console.log("requestBind code: " + code)
-    //先查询邀请码信息，判断对方是否可邀请
-        return getBindCode(code)
-            .then(res => {
-                return new Promise((resolve, reject) => {
-                    if(Boolean(res.data[0].requester)) {
-                        reject("正在等待用户处理已有的邀请")
-                    } else {
-                        //先修改目标邀请码的状态
-                        wx.cloud.callFunction({
-                            name: 'updateBindCode',
-                            data: {
-                                code: parseInt(code),
-                                status: 1,
-                                requester: openid
-                            }
+  var openid = dbUtils.getOpenId()
+  console.log("requestBind code: " + code)
+  //先查询邀请码信息，判断对方是否可邀请
+  return getBindCode(code)
+    .then(res => {
+      return new Promise((resolve, reject) => {
+        if (Boolean(res.data[0].requester)) {
+          reject("正在等待用户处理已有的邀请")
+        } else {
+          //先修改目标邀请码的状态
+          wx.cloud.callFunction({
+              name: 'updateBindCode',
+              data: {
+                code: parseInt(code),
+                status: 1,
+                requester: openid
+              }
 
-                        })
-                            .then(res => {
-                                resolve(code)
-                            })
-                    }
-                })
             })
-            .then(code => {
-                //更新user的code
-                console.log("更新user的code")
-                return db.collection('users').doc(openid).update({
-                    data: {
-                        peerCode: parseInt(code)
-                    }
-                })
+            .then(res => {
+              resolve(code)
             })
+        }
+      })
+    })
+    .then(code => {
+      //更新user的code
+      console.log("更新user的code")
+      return db.collection('users').doc(openid).update({
+        data: {
+          peerCode: parseInt(code)
+        }
+      })
+    })
 }
 
 function cancelBind(code) {
-    //先修改目标邀请码的状态
-    console.log("code " + code)
-    var openid = dbUtils.getOpenId()
-    return wx.cloud.callFunction({
-        name: 'updateBindCode',
-        data: {
-            code: parseInt(code),
-            status: 0,
-            requester: ""
-        }
+  //先修改目标邀请码的状态
+  console.log("code " + code)
+  var openid = dbUtils.getOpenId()
+  return wx.cloud.callFunction({
+      name: 'updateBindCode',
+      data: {
+        code: parseInt(code),
+        status: 0,
+        requester: ""
+      }
     })
-        .then(res => {
-            //更新user的code
-            console.log("更新user的code")
-            return db.collection('users').doc(openid).update({
-                data: {
-                    peerCode: 0
-                }
-            })
-        })
+    .then(res => {
+      //更新user的code
+      console.log("更新user的code")
+      return db.collection('users').doc(openid).update({
+        data: {
+          peerCode: 0
+        }
+      })
+    })
+}
+
+function rejectBind(myCode) {
+  //将自己邀请码的request置空
+  return wx.cloud.callFunction({
+    name: 'updateBindCode',
+    data: {
+      code: parseInt(myCode),
+      status: 0,
+      requester: ""
+    }
+  })
+}
+
+function acceptBind() {
+
+}
+
+function addHistory(contentType, contentId) {
+  console.log("addHistory")
+  var openid = dbUtils.getOpenId()
+  return db.collection('loveHistory').add({
+    data: {
+      contentType: parseInt(contentType),
+      createAt: db.serverDate(),
+      contentId: contentId
+    }
+  })
+}
+
+function addSingleText(imgwidth, imgheight, imgId, content) {
+  return db.collection('singleText').add({
+      // data 字段表示需新增的 JSON 数据
+      data: {
+        imgheight: imgheight,
+        imgwidth: imgwidth,
+        imgId: imgId,
+        content: content,
+        createAt: db.serverDate(),
+      }
+    })
+    .then(res => {
+      console.log("新增 SingleText")
+      console.log(res)
+      //添加到 history 表
+      return addHistory(0, res._id)
+    })
 }
 
 module.exports = {
@@ -139,6 +190,9 @@ module.exports = {
   getUserInfoById: getUserInfoById,
   newBindCode: newBindCode,
   getBindCode: getBindCode,
-    requestBind:requestBind,
-    cancelBind: cancelBind,
+  requestBind: requestBind,
+  cancelBind: cancelBind,
+  rejectBind: rejectBind,
+  acceptBind: acceptBind,
+  addSingleText: addSingleText,
 }

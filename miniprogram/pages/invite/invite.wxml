@@ -1,5 +1,6 @@
 <!--miniprogram/pages/invite/invite.wxml-->
 <!-- 需要使用 button 来授权登录 -->
+<inviteDialog></inviteDialog>
 <view class='myroot' hidden="{{loading}}">
 
   <view class='myroot'>
@@ -33,6 +34,15 @@
     <text class='text_des'>{{peerName}}</text>
     <dimage class='img' src="{{peerImgUrl}}"></dimage>
     <button wx:if='{{!waitingAccept}}' bindtap='clickRequest'>确认</button>
+  </view>
+
+
+  <!-- 邀请你的用户 -->
+  <view class="myroot" wx:if="{{showAskMeUser}}">
+    <text class='text_des'>{{askMeUserName}}</text>
+    <dimage class='img' src="{{askMeUserImgUrl}}"></dimage>
+    <button bindtap='clickReject'>拒绝</button>
+    <button bindtap='clickAccept'>接受</button>
   </view>
 
   <button bindtap='clickRefresh'>刷新</button>

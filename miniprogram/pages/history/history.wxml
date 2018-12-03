@@ -1,5 +1,7 @@
 <!--miniprogram/pages/history/history.wxml-->
 <view class='root'>
+<!-- 悬浮按钮 -->
+<image class='floatBtn' src='./add.png' bindtap="clickAdd"></image>
   <view wx:for="{{datas}}" wx:for-item="item" wx:key="_id" catchlongtap="longTap" data-content="{{item}}">
     <view class='itemBox'>
       <image class='userImg' src='{{item.user.imgUrl}}'></image>
@@ -8,7 +10,7 @@
         <!-- 心声 -->
         <view wx:if="{{item.contentType=='0'}}" class='contentDetail'>
           <text class='contentText'>{{item.content.content}}</text>
-          <dimage class='contentImg' src='{{item.content.imgId}}' wx:if="{{item.content.imgId}}" style="width:{{item.content.imgwidth}}rpx; height:{{item.content.imgheight}}rpx;"></dimage>
+          <dimage class='contentImg' src='{{item.content.imgId}}'bindtap='clickImg' catchlongpress='longClickImg' data-src='{{item.content.imgId}}' wx:if="{{item.content.imgId}}" style="width:{{item.content.imgwidth}}rpx; height:{{item.content.imgheight}}rpx;"></dimage>
         </view>
         <!-- 倒数日 -->
         <view wx:elif="item.contentType=='1'" class='contentDetail'>
@@ -46,8 +48,7 @@
     </view>
   </view>
 </view>
-<!-- 悬浮按钮 -->
-<image class='floatBtn' src='./add.png' bindtap="clickAdd"></image>
+
 <!-- 评论输入框 -->
 <view class="input" style="bottom:{{inputBottom}}px;" hidden="{{inputBottom==0}}">
   <view class='edittext'>

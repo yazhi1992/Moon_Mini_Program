@@ -9,7 +9,8 @@ Page({
    * 页面的初始数据
    */
   data: {
-    imgUrl: ''
+    imgUrl: '',
+    useDefaultImg: true //是否使用的是默认图片
   },
 
   /**
@@ -39,30 +40,38 @@ Page({
                     wx.navigateTo({
                       url: '../../pages/invite/invite?id=' + options.id,
                     })
-                  }
-                  if (!Boolean(options.id) && !res.inLove && Boolean(res.bindCode)) {
-                    console.log("查询绑定状态")
-                    //查询绑定状态
-                    return cloud.getBindCode(res.bindCode)
-                      .then(res => {
-                        //检测是否有人请求绑定
-                        console.log("getBindCode")
-                        console.log(res)
-                        if (res.data.length > 0) {
-                          if (res.data[0].status == 1 && res.data[0].creater == dbUtils.getOpenId()) {
-                            console.log("有人要请我")
-                          } else {
-                            console.log("没有邀请")
-                          }
-                        }
-                      })
-                      .catch(err => {
-                        console.log(err)
-                      })
-                  } else {
-                    console.log("no code")
                     return res
+                  } else {
+                    if (!res.inLove && Boolean(res.bindCode)) {
+                      console.log("查询绑定状态")
+                      //查询绑定状态
+                      return cloud.getBindCode(res.bindCode)
+                        .then(res => {
+                          if (res.data.length > 0) {
+                            if (res.data[0].requester && res.data[0].creater == dbUtils.getOpenId()) {
+                              console.log("有人请求绑定我")
+                              wx.showModal({
+                                title: '提示',
+                                content: '接收到绑定邀请，是否前往查看？',
+                                success(res) {
+                                  if (res.confirm) {
+                                    wx.navigateTo({
+                                      url: '../../pages/invite/invite',
+                                    })
+                                  }
+                                }
+                              })
+                            } else {
+                              console.log("没人请求绑定我")
+                            }
+                          }
+                          return res
+                        })
+                    } else {
+                      return res
+                    }
                   }
+
                 })
                 .then(res => {
                   app.apiEnd();
@@ -132,9 +141,7 @@ Page({
     var that = this;
     return new Promise((resolve, reject) => {
       wx.cloud.callFunction({
-        // 云函数名称
         name: 'uploadUserInfo',
-        // 传给云函数的参数
         data: {
           type: that.data.type,
           name: info.nickName,
@@ -145,10 +152,22 @@ Page({
           console.log("上报云成功")
           console.log(res)
           app.globalData.userInfo = res.result;
+          //默认的图片
+          var homeimg = "cloud://dev-70685f.ece4-dev-70685f/bg_home.jpg"
+          var defaultImg = true
+          if (res.result.homeImg) {
+            homeimg = res.result.homeImg
+            defaultImg = false
+          }
           that.setData({
-            imgUrl: res.result.homeImg
+            imgUrl: homeimg,
+            useDefaultImg: defaultImg
           })
           dbUtils.saveOpenId(res.result._openid)
+          dbUtils.saveInLove(Boolean(res.result.inLove))
+          if (res.result.inLove) {
+            dbUtils.saveLoverId(res.result.want)
+          }
           resolve(res.result)
         },
         fail: res => {
@@ -182,53 +201,133 @@ Page({
     })
   },
 
-
   clickImg: function() {
     var that = this
     console.log('test')
+    var oldImg = ""
+    var newImg = ""
     wx.chooseImage({
       success: function(res) {
-        var tempFilePath = res.tempFilePaths[0];
-        var uploadFileName = util.randomImgName(tempFilePath)
         app.apiStart()
-        wx.cloud.uploadFile({
-          cloudPath: uploadFileName, // 上传至云端的路径
-          filePath: tempFilePath, // 小程序临时文件路径
-          success: res => {
-            // 返回文件 ID
-            console.log(res)
-            //上报后台
-            that.uploadHomeImg(res.fileID)
-          },
-          fail: res => {
-            console.log(res);
-            app.apiError();
-          }
-        })
+        var tempFilePath = res.tempFilePaths[0];
+        that.add2History(tempFilePath)
+          .then(res => {
+            var imgId = res
+            console.log("修改我的homeImg 字段， imgId " + imgId)
+            const db = wx.cloud.database()
+            return db.collection('users').doc(dbUtils.getOpenId()).update({
+                data: {
+                  homeImg: imgId
+                }
+              })
+              .then(res => {
+                return imgId
+              })
+          })
+          .then(res => {
+            if (dbUtils.isInLove()) {
+              var imgId = res
+              console.log("准备修改 lover 的homeImg 字段， imgId " + imgId + " loverID " + dbUtils.getLoverId())
+              return wx.cloud.callFunction({
+                  // 云函数名称
+                  name: 'updateUserInfoValue',
+                  // 传给云函数的参数
+                  data: {
+                    userId: dbUtils.getLoverId(),
+                    homeImg: imgId,
+                  }
+                })
+                .then(res => {
+                  console.log("准备修改 lover 的homeImg 字段完成")
+                  return imgId;
+                })
+            } else {
+              console.log("还没有 lover")
+              return res
+            }
+          })
+          .then(res => {
+            oldImg = that.data.imgUrl
+            console.log("oldImg " + oldImg)
+            newImg = res
+            if (!that.data.useDefaultImg) {
+              //使用自己的图片，则查询是否该图的singleText已删除
+              console.log("使用自己的图片，查询图片相关的singleText是否存在")
+              const db = wx.cloud.database()
+              return db.collection('singleText')
+                .where({
+                  imgId: oldImg
+                })
+                .get()
+                .then(res => {
+                  if (res.data.length > 0) {
+                    return newImg
+                  } else {
+                    //未找到相关的 singleText，则图片一起删除
+                    wx.cloud.deleteFile({
+                      fileList: [oldImg]
+                    }).then(res => {
+                      return newImg
+                    }).catch(error => {
+                      console.log(error)
+                    })
+                  }
+                })
+                .catch(err => {
+                  console.log(err)
+                })
+
+            } else {
+              return newImg
+            }
+
+          })
+          .then(res => {
+            //显示在本机上
+            console.log('newImg ' + newImg)
+            that.setData({
+              imgUrl: newImg,
+              useDefaultImg: false
+            })
+            console.log("结束")
+            app.apiEnd()
+          })
+          .catch(err => {
+            app.apiError()
+          })
       },
     })
   },
 
-  uploadHomeImg: function(imgId) {
-    var that = this
-    wx.cloud.callFunction({
-      // 云函数名称
-      name: 'updateHomeImg',
-      // 传给云函数的参数
-      data: {
-        homeImg: imgId,
-      },
-      success: function(res) {
-        //显示在本机上
-        that.setData({
-          imgUrl: imgId
-        })
-        app.apiEnd();
-      },
-      fail: res => {
-        console.log(res);
-        app.apiError();
-      }
+  add2History: function(imgPath) {
+    return new Promise((resolve, reject) => {
+      var uploadFileName = util.randomImgName(imgPath)
+      wx.cloud.uploadFile({
+        cloudPath: uploadFileName, // 上传至云端的路径
+        filePath: imgPath, // 小程序临时文件路径
+        success: res => {
+          // 返回文件 ID
+          console.log(res)
+          var imgId = res.fileID
+          wx.getImageInfo({
+            src: imgPath,
+            success(res) {
+              console.log("getImgInfoSuc" + res.width + res.height)
+              cloud.addSingleText(res.width, res.height, imgId, "")
+                .then(res => {
+                  console.log("添加到列表成功")
+                  resolve(imgId)
+                })
+            }
+          })
+        },
+        fail: res => {
+          reject(res)
+          console.log(res);
+          app.apiError();
+        }
+      })
     })
   }
+
 })

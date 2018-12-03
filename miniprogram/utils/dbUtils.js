@@ -22,7 +22,7 @@ function isInLove() {
   return
 }
 
-function setIsInLove(isIn) {
+function saveInLove(isIn) {
   wx.setStorageSync('inlove', isIn)
 }
 
@@ -34,10 +34,19 @@ function getOpenId() {
   return getValue("openId")
 }
 
+function saveLoverId(id) {
+  wx.setStorageSync('loverId', id)
+}
+
+function getLoverId() {
+  return getValue("loverId")
+}
+
 module.exports = {
   isInLove: isInLove,
-  setIsInLove: setIsInLove,
+  saveInLove: saveInLove,
   getOpenId: getOpenId,
   saveOpenId: saveOpenId,
-
+  saveLoverId: saveLoverId,
+  getLoverId: getLoverId,
 }

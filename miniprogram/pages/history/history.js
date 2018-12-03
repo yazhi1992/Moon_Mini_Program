@@ -66,7 +66,8 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function() {
-    // this.fresh();
+    this.fresh();
+    console.log("onPullDownRefresh")
   },
 
   /**
@@ -81,20 +82,6 @@ Page({
    */
   onShareAppMessage: function() {
 
-  },
-
-  upper: function() {
-    var that = this
-    // var timestamp = Date.parse(new Date()) / 1000;
-    // var lastTime = this.data.lastLoadTime
-    // if (timestamp - lastTime < 0) {
-    //     console.log('太快了')
-    // } else {
-    //     that.setData({ lastLoadTime: timestamp })
-    if (that.data.pullUpAllow) {
-      console.log('刷新')
-      this.fresh();
-    }
   },
 
   fresh: function(refresh, date) {
@@ -158,7 +145,8 @@ Page({
 
   clickAdd: function() {
     wx.showActionSheet({
-      itemList: ['添加想说的话', '添加纪念日', '添加小心愿'],
+      // itemList: ['添加想说的话', '添加纪念日', '添加小心愿'],
+      itemList: ['添加想说的话'],
       success: function(res) {
         if (!res.cancel) {
           var route = "";
@@ -188,6 +176,21 @@ Page({
       commentReplyUserName: "",
       commentContent: event.currentTarget.dataset.content,
     });
+  },
+
+  //预览图片
+  clickImg: function(event) {
+    console.log("点击图片")
+    wx.previewImage({
+      current: event.currentTarget.dataset.src,
+      urls: [event.currentTarget.dataset.src]
+    })
+  },
+
+  longClickImg: function(event) {
+    // this.longTap()
+    console.log("长按图片")
+    console.log(event)
   },
 
   bindKeyInput: function(e) {
@@ -359,7 +362,7 @@ Page({
                     that.setData({
                       datas: temp
                     })
-                    wx.hideLoading();
+                    app.apiEnd()
                   }).catch(err => {
                     console.log(err)
                     app.apiError()

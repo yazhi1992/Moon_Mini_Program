@@ -1,6 +1,6 @@
 <view class='root' style="background='#ddd'">
 
-  <text class='title'>想把我唱给你听</text>
+  <text class='title'>{{title}}</text>
 
   <form bindsubmit="bindFormSubmit">
     <view class="input">

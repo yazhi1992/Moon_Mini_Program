@@ -1,11 +1,12 @@
 {
   "pages": [
-    "pages/invite/invite",
+    "pages/history/history",
+    
+    "pages/addMsg/addMsg",
     "pages/homepage/homepage",
+    "pages/invite/invite",
     "pages/aboutus/aboutus",
     "pages/me/me",
-    "pages/history/history",
-    "pages/addMsg/addMsg",
     "pages/startup/startup",
     "pages/addMemorialDay/addMemorialDay",
     "pages/mc/mc",
@@ -44,7 +45,7 @@
         "selectedIconPath": "images/bottom_nav_love_selected.png"
       },
       {
-        "text": "我们",
+        "text": "我的",
         "pagePath": "pages/me/me",
         "iconPath": "images/bottom_nav_me.png",
         "selectedIconPath": "images/bottom_nav_me_selected.png"

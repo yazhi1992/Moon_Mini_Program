@@ -1,6 +1,6 @@
 <!--pages/homepage/homepage.wxml-->
 <view class='root'>
-  <dimage class="img" src="{{imgUrl}}" background-size="cover" mode="aspectFit" bindtap="clickImg" ></dimage>
+  <dimage class="img" src="{{imgUrl}}" background-size="cover" mode="aspectFit" bindtap="clickImg"></dimage>
   <view class='btns'>
     <view class='parent'>
       <view class='space'></view>
@@ -10,7 +10,7 @@
       </view>
       <view class='space'></view>
       <view class='child' bindtap='clickHope'>
-        <image  class='tabImg' src='../../images/icon_hope.png'></image>
+        <image class='tabImg' src='../../images/icon_hope.png'></image>
         <text class='text'>许愿树</text>
       </view>
       <view class='space' wx:if='{{false}}'></view>
