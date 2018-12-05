@@ -1,6 +1,6 @@
 // pages/me/me.js
 const app = getApp();
-var sUtil = require('../../utils/dbUtils.js')
+var dbUtil = require('../../utils/dbUtils.js')
 
 Page({
 
@@ -23,12 +23,6 @@ Page({
       myHeadUrl: app.globalData.userInfo.imgUrl,
       myName: app.globalData.userInfo.name
     })
-
-    console.log("--" +sUtil.isInLove())
-    // this.setData({
-    //   inLove: sUtil.isInLove
-    // })
-
   },
 
   /**
@@ -42,7 +36,10 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function() {
-
+    console.log("isInLove --" + dbUtil.isInLove())
+    this.setData({
+      inLove: dbUtil.isInLove
+    })
   },
 
   /**

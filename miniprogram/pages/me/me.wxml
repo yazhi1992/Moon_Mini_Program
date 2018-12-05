@@ -13,7 +13,7 @@
     </view>
     <view class='space' wx:if='{{inLove}}'></view>
   </view>
-   <view class='itemBox' bindtap='clickInvite'>
+   <view class='itemBox' bindtap='clickInvite' wx:if='{{inLove}}'>
     <image class='itemImg' src='./invite2.png'></image>
     <text class='itemName '>邀请 ta</text>
   </view>

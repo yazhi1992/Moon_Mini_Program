@@ -4,6 +4,7 @@ var app = getApp()
 var util = require('../../utils/utils.js')
 var cloud = require('../../cloud/cloud.js')
 var dbUtils = require('../../utils/dbUtils.js')
+const eventBus = require('../../utils/eventbus.js')
 
 Page({
 
@@ -133,6 +134,7 @@ Page({
       .then(res => {
         console.log("ok")
         app.apiEnd();
+        eventBus.emit('refreshHistory')
       })
       .catch(err => {
         console.log(err)

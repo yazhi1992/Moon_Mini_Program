@@ -13,16 +13,18 @@ function isInLove() {
   var result = false
   try {
     var value = wx.getStorageSync('inlove')
+    console.log("dbUtil inlove " + value)
     if (value) {
       result = value;
     }
   } catch (e) {
     // Do something when catch error
   }
-  return
+  return result
 }
 
 function saveInLove(isIn) {
+  console.log("saveInLove " + isIn)
   wx.setStorageSync('inlove', isIn)
 }
 

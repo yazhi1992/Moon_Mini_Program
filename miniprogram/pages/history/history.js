@@ -4,6 +4,7 @@ var util = require('../../utils/utils.js')
 var sUtil = require('../../utils/dbUtils.js')
 var app = getApp()
 const commentHint = "请输入想说的话"
+const eventBus = require('../../utils/eventbus.js')
 
 Page({
 
@@ -24,7 +25,8 @@ Page({
     commentReplyUserName: "",
     input: "", //input 输入的值
     imgwidth: 0,
-    imgheight: 0.
+    imgheight: 0,
+    needRefresh: false
   },
 
   /**
@@ -32,6 +34,8 @@ Page({
    */
   onLoad: function(options) {
     wx.startPullDownRefresh()
+
+    eventBus.on("refreshHistory", this.observe)
   },
 
   /**
@@ -45,7 +49,12 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function() {
-
+    if (this.data.needRefresh) {
+      wx.startPullDownRefresh()
+      this.setData({
+        needRefresh: false
+      })
+    }
   },
 
   /**
@@ -59,7 +68,7 @@ Page({
    * 生命周期函数--监听页面卸载
    */
   onUnload: function() {
-
+    eventBus.off('refreshHistory', this.observe)
   },
 
   /**
@@ -380,6 +389,13 @@ Page({
     this.setData({
       inputBottom: '0'
     });
+  },
+
+  observe: function(arg) {
+    console.log('收到刷新通知')
+    this.setData({
+      needRefresh: true
+    })
   },
 
 })

@@ -1,9 +1,8 @@
 {
   "pages": [
-    "pages/history/history",
-    
-    "pages/addMsg/addMsg",
     "pages/homepage/homepage",
+    "pages/history/history",
+    "pages/addMsg/addMsg",
     "pages/invite/invite",
     "pages/aboutus/aboutus",
     "pages/me/me",

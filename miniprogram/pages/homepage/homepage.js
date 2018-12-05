@@ -2,6 +2,7 @@ const app = getApp();
 var util = require('../../utils/utils.js')
 var dbUtils = require('../../utils/dbUtils.js')
 var cloud = require('../../cloud/cloud.js')
+const eventBus = require('../../utils/eventbus.js')
 
 Page({
 
@@ -10,7 +11,7 @@ Page({
    */
   data: {
     imgUrl: '',
-    useDefaultImg: true //是否使用的是默认图片
+    useDefaultImg: true, //是否使用的是默认图片
   },
 
   /**
@@ -229,9 +230,7 @@ Page({
               var imgId = res
               console.log("准备修改 lover 的homeImg 字段， imgId " + imgId + " loverID " + dbUtils.getLoverId())
               return wx.cloud.callFunction({
-                  // 云函数名称
                   name: 'updateUserInfoValue',
-                  // 传给云函数的参数
                   data: {
                     userId: dbUtils.getLoverId(),
                     homeImg: imgId,
@@ -290,6 +289,7 @@ Page({
               useDefaultImg: false
             })
             console.log("结束")
+            eventBus.emit('refreshHistory')
             app.apiEnd()
           })
           .catch(err => {
