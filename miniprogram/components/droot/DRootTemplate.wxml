@@ -1,0 +1,11 @@
+<template name="empty-template">
+  <view class='empty-layout'>
+
+    <image src="{{src}}" mode='aspectFit' class='empty-img' />
+
+    <text class="empty-text">{{prompt}}</text>
+
+    <button class='empty-btn' hover-class='btnHover' type="primary" bindtap='emptyCallback' data-type="{{status}}" wx:if="{{btnPrompt != null}}">{{btnPrompt}}</button>
+
+  </view>
+</template>e

@@ -5,6 +5,7 @@ var sUtil = require('../../utils/dbUtils.js')
 var app = getApp()
 const commentHint = "请输入想说的话"
 const eventBus = require('../../utils/eventbus.js')
+const rootStatus = require('../../utils/DRootStatus.js')
 
 Page({
 
@@ -26,7 +27,8 @@ Page({
     input: "", //input 输入的值
     imgwidth: 0,
     imgheight: 0,
-    needRefresh: false
+    needRefresh: false,
+    drootStatus: rootStatus.content
   },
 
   /**
@@ -75,6 +77,9 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function() {
+    this.setData({
+        drootStatus: rootStatus.content
+    })
     this.fresh();
     console.log("onPullDownRefresh")
   },
@@ -109,6 +114,8 @@ Page({
       app.apiEnd();
       console.log(res)
       var temp = res.result;
+      if(temp.length > 0) {
+
       for (let i = 0; i < temp.length; i++) {
         //时间格式化
         temp[i].content.createAt = app.formatDateTime(new Date(temp[i].content.createAt).getTime());
@@ -132,14 +139,22 @@ Page({
           temp[i].content.imgheight = height
         }
       }
-      wx.stopPullDownRefresh()
       that.setData({
         datas: temp,
       });
+      } else {
+          that.setData({
+              drootStatus: rootStatus.empty,
+          });
+      }
+        wx.stopPullDownRefresh()
     }).catch(err => {
       console.log(err)
       app.apiError()
       wx.stopPullDownRefresh()
+        that.setData({
+            drootStatus: rootStatus.error,
+        });
     })
   },
 
@@ -371,6 +386,12 @@ Page({
                     that.setData({
                       datas: temp
                     })
+                      if(temp.length == 0) {
+                        //数据为空
+                          that.setData({
+                              drootStatus: rootStatus.empty
+                          })
+                      }
                     app.apiEnd()
                   }).catch(err => {
                     console.log(err)
@@ -396,6 +417,13 @@ Page({
     this.setData({
       needRefresh: true
     })
+  },
+
+  drootCallback: function(event) {
+    var status = event.detail.status;
+    if (status == rootStatus.error || status == rootStatus.empty) {
+        wx.startPullDownRefresh()
+    }
   },
 
 })
