@@ -7,7 +7,7 @@ const commentHint = "请输入想说的话"
 const eventBus = require('../../utils/eventbus.js')
 const rootStatus = require('../../utils/DRootStatus.js')
 var cloud = require('../../cloud/cloud.js')
-const PAGE_SIZE = 6
+const PAGE_SIZE = 7
 
 Page({
 
@@ -31,7 +31,9 @@ Page({
     imgheight: 0,
     needRefresh: false,
     drootStatus: rootStatus.content,
-      totalSize: 0,
+    totalSize: 0,
+    pullUp: false,
+    nomoreData: false, 
   },
 
   /**
@@ -95,7 +97,9 @@ Page({
    */
   onPullDownRefresh: function() {
     this.setData({
-      drootStatus: rootStatus.content
+      drootStatus: rootStatus.content,
+      nomoreData: false,
+      pullUp: false,
     })
     this.fresh(true);
     console.log("onPullDownRefresh")
@@ -105,8 +109,13 @@ Page({
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function() {
-      app.apiStart()
+    if (!this.data.nomoreData) {
+      this.setData({
+        pullUp: true
+      })
+      // app.apiStart()
       this.fresh(false);
+    }
   },
 
   /**
@@ -118,70 +127,83 @@ Page({
 
   fresh: function(pullDown) {
     var that = this;
-    if(pullDown) {
-        this.setData({
-            totalSize: 0,
-        })
+    if (pullDown) {
+      this.setData({
+        totalSize: 0,
+      })
     }
-      cloud.getHistory(this.data.totalSize, PAGE_SIZE)
-          .then(res => {
-              console.log("fresh 成功")
-              console.log(res)
-              var temp = res;
-              if (temp.length > 0) {
-                  for (let i = 0; i < temp.length; i++) {
-                      //时间格式化
-                      temp[i].content.createAt = app.formatDateTime(new Date(temp[i].content.createAt).getTime());
-                      //计算倒数日
-                      if (temp[i].contentType == 1) {
-                          temp[i].content.dayGap = that.calcDateGap(temp[i].content.timestamp)
-                      }
-                      //计算图片尺寸
-                      if (temp[i].content.imgwidth) {
-                          var width = temp[i].content.imgwidth;
-                          var height = temp[i].content.imgheight;
-                          var ratio = width / height;
-                          if (ratio > 1) {
-                              width = 400;
-                              height = 400 / ratio;
-                          } else {
-                              height = 500;
-                              width = 500 * ratio;
-                          }
-                          temp[i].content.imgwidth = width
-                          temp[i].content.imgheight = height
-                      }
-                  }
-                  var finalDatas = []
-                  if(that.data.totalSize == 0) {
-                    //下拉刷新
-                      finalDatas = temp
-                  } else {
-                    console.log("datas")
-                    console.log(that.data.datas)
-                      finalDatas= that.data.datas.concat(temp)
-                  }
-                  console.log(finalDatas.length)
-                  that.setData({
-                      datas: finalDatas,
-                      totalSize: finalDatas.length
-                  });
+    cloud.getHistory(this.data.totalSize, PAGE_SIZE)
+      .then(res => {
+        console.log("fresh 成功")
+        console.log(res)
+        var temp = res;
+        if (temp.length > 0) {
+          for (let i = 0; i < temp.length; i++) {
+            //时间格式化
+            temp[i].content.createAt = app.formatDateTime(new Date(temp[i].content.createAt).getTime());
+            //计算倒数日
+            if (temp[i].contentType == 1) {
+              temp[i].content.dayGap = that.calcDateGap(temp[i].content.timestamp)
+            }
+            //计算图片尺寸
+            if (temp[i].content.imgwidth) {
+              var width = temp[i].content.imgwidth;
+              var height = temp[i].content.imgheight;
+              var ratio = width / height;
+              if (ratio > 1) {
+                width = 400;
+                height = 400 / ratio;
               } else {
-                if(that.data.datas.length==0) {
-                    that.setData({
-                        drootStatus: rootStatus.empty,
-                    });
-                }
+                height = 500;
+                width = 500 * ratio;
               }
-              app.apiEnd()
-              wx.stopPullDownRefresh()
-          }).catch(err => {
-          console.log(err)
-          app.apiError()
-          wx.stopPullDownRefresh()
+              temp[i].content.imgwidth = width
+              temp[i].content.imgheight = height
+            }
+          }
+          var finalDatas = []
+          if (that.data.totalSize == 0) {
+            //下拉刷新
+            finalDatas = temp
+          } else {
+            console.log("datas")
+            console.log(that.data.datas)
+            finalDatas = that.data.datas.concat(temp)
+          }
+          console.log(finalDatas.length)
           that.setData({
-              drootStatus: rootStatus.error,
+            datas: finalDatas,
+            totalSize: finalDatas.length
           });
+          if (temp.length < PAGE_SIZE) {
+            //没有下一页了
+            that.setData({
+              nomoreData: true
+            })
+          }
+        } else {
+          if (that.data.datas.length == 0) {
+            that.setData({
+              drootStatus: rootStatus.empty,
+            });
+          } else {
+            that.setData({
+              nomoreData: true
+            })
+          }
+        }
+        that.setData({
+          pullUp: false
+        })
+        app.apiEnd()
+        wx.stopPullDownRefresh()
+      }).catch(err => {
+        console.log(err)
+        that.setData({
+          pullUp: false
+        })
+        app.apiError()
+        wx.stopPullDownRefresh()
       })
   },
 

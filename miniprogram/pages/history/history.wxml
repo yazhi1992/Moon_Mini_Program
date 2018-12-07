@@ -2,7 +2,7 @@
 
 <!-- 悬浮按钮 -->
 <view class='root'>
-  <view wx:for="{{datas}}" wx:for-item="item" wx:key="_id" catchlongtap="longTap" data-content="{{item}}">
+  <view wx:for="{{datas}}" wx:for-item="item" wx:for-index="idx" wx:key="_id" catchlongtap="longTap" data-content="{{item}}">
     <view class='itemBox'>
       <image class='userImg' src='{{item.user.imgUrl}}'></image>
       <view class='rightContent'>
@@ -46,10 +46,20 @@
         </view>
       </view>
     </view>
+    <!-- 分隔线 -->
+    <view class="divLine" hidden='{{idx==datas.length-1}}'></view>
   </view>
-  <droot class='myroot' binddroottap="drootCallback" status="{{drootStatus}}">
-  </droot>
+  <!-- 加载更多 -->
+  <view class="load_more" hidden="{{!pullUp}}">
+    <view class="load_loading"></view>
+    <view class="load-tips">正在加载...</view>
+  </view>
+  <view class="load_end" hidden="{{!nomoreData}}">没有更多数据了</view>
+
 </view>
+
+<droot class='myroot' binddroottap="drootCallback" status="{{drootStatus}}">
+</droot>
 
 <image class='floatBtn' src='./add.png' bindtap="clickAdd"></image>
 
