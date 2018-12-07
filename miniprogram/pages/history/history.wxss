@@ -57,7 +57,7 @@
 }
 
 .commentRoot {
-  padding-top: 20rpx;
+  padding-top: 10rpx;
   background: #f3f3f3;
   flex-direction: column;
   width: 100%;
@@ -66,15 +66,24 @@
 }
 
 .commentBox {
-  display: flex;
   flex-direction: column;
   width: 100%;
-  padding-left: 25rpx;
-  padding-bottom: 20rpx;
+  padding-left: 15rpx;
+  padding-bottom: 10rpx;
 }
 
 .commentText {
-  font-size: medium;
+  font-size: 14px;
+}
+
+.commentContent {
+font-size: small;
+  padding-right: 100rpx;
+}
+
+.nameText {
+font-size: small;
+  color: #e12;
 }
 
 .timeText {
@@ -84,8 +93,8 @@
 .commentImg {
   height: 50rpx;
   width: 50rpx;
-  margin-top: 30rpx;
-  margin-bottom: 30rpx;
+  margin-top: 15rpx;
+  margin-bottom: 15rpx;
 }
 
 .scrollview {
@@ -165,6 +174,14 @@
   flex-direction: row;
   justify-content: center;
 }
+
+.load_end {
+  width: 65%;
+  margin: 20rpx auto;
+  font-size: 14px;
+  text-align: center;
+}
+
 .load_loading {
   margin: 0 5px;
   width: 40rpx;
@@ -178,11 +195,4 @@
 .load_tips {
   display: inline-block;
   vertical-align: middle;
-}
-
-.load_end {
-  width: 65%;
-  margin: 20rpx auto;
-  font-size: 14px;
-  text-align: center;
 }

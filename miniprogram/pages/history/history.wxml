@@ -36,7 +36,13 @@
         <!-- 评论 -->
         <view class='commentRoot' wx:if="{{item.comments.length}}">
           <view wx:for="{{item.comments}}" wx:for-item="comment" wx:key="" class='commentBox' catchlongtap="longTapComment" catchtap="clickComment" data-comment="{{comment}}" data-content="{{item}}">
-            <text class='commentText'>{{comment.user.name}} {{comment.replyUser.name}} {{comment.comment}}</text>
+            <text class='nameText'>{{comment.user.name}}</text>
+            <text class='commentText' hidden="{{!comment.replyUser.name}}">回复</text>
+            <text class='nameText' hidden="{{!comment.replyUser.name}}">{{comment.replyUser.name}}</text>
+            <text class='commentText'> ：</text>
+            <!--<text class='commentText' style="white-space:pre-line">{{comment.comment}}</text>-->
+            <!--<text class='commentText' style="white-space:pre-wrap">{{comment.comment}}</text>-->
+            <text class='commentContent'>{{comment.comment}}</text>
           </view>
         </view>
         <!-- 时间 / 点击评论-->
@@ -47,15 +53,14 @@
       </view>
     </view>
     <!-- 分隔线 -->
-    <view class="divLine" hidden='{{idx==datas.length-1}}'></view>
+    <view class="divLine" ></view>
   </view>
   <!-- 加载更多 -->
   <view class="load_more" hidden="{{!pullUp}}">
     <view class="load_loading"></view>
     <view class="load-tips">正在加载...</view>
   </view>
-  <view class="load_end" hidden="{{!nomoreData}}">没有更多数据了</view>
-
+  <view class="load_more" hidden="{{!nomoreData}}">没有更多数据了</view>
 </view>
 
 <droot class='myroot' binddroottap="drootCallback" status="{{drootStatus}}">
