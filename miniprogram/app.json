@@ -1,7 +1,7 @@
 {
   "pages": [
-    "pages/homepage/homepage",
     "pages/history/history",
+    "pages/homepage/homepage",
     "pages/addMsg/addMsg",
     "pages/invite/invite",
     "pages/aboutus/aboutus",

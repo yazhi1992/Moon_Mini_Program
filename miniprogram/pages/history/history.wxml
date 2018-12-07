@@ -1,65 +1,62 @@
 <!--miniprogram/pages/history/history.wxml-->
 
-    <!-- 悬浮按钮 -->
-    <image class='floatBtn' src='./add.png' bindtap="clickAdd"></image>
-
-    <droot binddroottap="drootCallback" status="{{drootStatus}}">
-      <view class='root'>
-      <view wx:for="{{datas}}" wx:for-item="item" wx:key="_id" catchlongtap="longTap" data-content="{{item}}">
-      <view class='itemBox'>
-        <image class='userImg' src='{{item.user.imgUrl}}'></image>
-        <view class='rightContent'>
-          <text class='userNameText'>{{item.user.name}}</text>
-          <!-- 心声 -->
-          <view wx:if="{{item.contentType=='0'}}" class='contentDetail'>
-            <text class='contentText'>{{item.content.content}}</text>
-            <dimage class='contentImg' src='{{item.content.imgId}}' bindtap='clickImg' catchlongpress='longClickImg' data-src='{{item.content.imgId}}' wx:if="{{item.content.imgId}}" style="width:{{item.content.imgwidth}}rpx; height:{{item.content.imgheight}}rpx;"></dimage>
+<!-- 悬浮按钮 -->
+<view class='root'>
+  <view wx:for="{{datas}}" wx:for-item="item" wx:key="_id" catchlongtap="longTap" data-content="{{item}}">
+    <view class='itemBox'>
+      <image class='userImg' src='{{item.user.imgUrl}}'></image>
+      <view class='rightContent'>
+        <text class='userNameText'>{{item.user.name}}</text>
+        <!-- 心声 -->
+        <view wx:if="{{item.contentType=='0'}}" class='contentDetail'>
+          <text class='contentText'>{{item.content.content}}</text>
+          <dimage class='contentImg' src='{{item.content.imgId}}' bindtap='clickImg' catchlongpress='longClickImg' data-src='{{item.content.imgId}}' wx:if="{{item.content.imgId}}" style="width:{{item.content.imgwidth}}rpx; height:{{item.content.imgheight}}rpx;"></dimage>
+        </view>
+        <!-- 倒数日 -->
+        <view wx:elif="item.contentType=='1'" class='contentDetail'>
+          <text class='memorialTitle' style='height=100rpx'>添加了纪念日</text>
+          <text class='memorialTitle' style='height=100rpx'>{{item.content.title}}   {{item.content.dayGap}}</text>
+        </view>
+        <!-- 许下小心愿 -->
+        <view wx:elif="item.contentType=='3'">
+          <text class='commentText' style='height=100rpx'>{{item.comment}}</text>
+        </view>
+        <!-- 达成心愿 -->
+        <view wx:elif="item.contentType=='4'">
+          <text class='commentText' style='height=100rpx'>{{item.comment}}</text>
+        </view>
+        <!-- 姨妈来了 -->
+        <view wx:elif="item.contentType=='4'">
+          <text class='commentText' style='height=100rpx'>{{item.comment}}</text>
+        </view>
+        <!-- 姨妈走了 -->
+        <view wx:else="item.contentType=='5'">
+          <text class='commentText' style='height=100rpx'>{{item.comment}}</text>
+        </view>
+        <!-- 评论 -->
+        <view class='commentRoot' wx:if="{{item.comments.length}}">
+          <view wx:for="{{item.comments}}" wx:for-item="comment" wx:key="" class='commentBox' catchlongtap="longTapComment" catchtap="clickComment" data-comment="{{comment}}" data-content="{{item}}">
+            <text class='commentText'>{{comment.user.name}} {{comment.replyUser.name}} {{comment.comment}}</text>
           </view>
-          <!-- 倒数日 -->
-          <view wx:elif="item.contentType=='1'" class='contentDetail'>
-            <text class='memorialTitle' style='height=100rpx'>添加了纪念日</text>
-            <text class='memorialTitle' style='height=100rpx'>{{item.content.title}}   {{item.content.dayGap}}</text>
-          </view>
-          <!-- 许下小心愿 -->
-          <view wx:elif="item.contentType=='3'">
-            <text class='commentText' style='height=100rpx'>{{item.comment}}</text>
-          </view>
-          <!-- 达成心愿 -->
-          <view wx:elif="item.contentType=='4'">
-            <text class='commentText' style='height=100rpx'>{{item.comment}}</text>
-          </view>
-          <!-- 姨妈来了 -->
-          <view wx:elif="item.contentType=='4'">
-            <text class='commentText' style='height=100rpx'>{{item.comment}}</text>
-          </view>
-          <!-- 姨妈走了 -->
-          <view wx:else="item.contentType=='5'">
-            <text class='commentText' style='height=100rpx'>{{item.comment}}</text>
-          </view>
-          <!-- 评论 -->
-          <view class='commentRoot' wx:if="{{item.comments.length}}">
-            <view wx:for="{{item.comments}}" wx:for-item="comment" wx:key="" class='commentBox' catchlongtap="longTapComment" catchtap="clickComment" data-comment="{{comment}}" data-content="{{item}}">
-              <text class='commentText'>{{comment.user.name}} {{comment.replyUser.name}} {{comment.comment}}</text>
-            </view>
-          </view>
-          <!-- 时间 / 点击评论-->
-          <view style="display:flex;align-items:center">
-            <text class='timeText'>{{item.content.createAt}}</text>
-            <image class='commentImg' src='./comment_icon.png' bindtap="addComment" data-content="{{item}}"></image>
-          </view>
+        </view>
+        <!-- 时间 / 点击评论-->
+        <view style="display:flex;align-items:center">
+          <text class='timeText'>{{item.content.createAt}}</text>
+          <image class='commentImg' src='./comment_icon.png' bindtap="addComment" data-content="{{item}}"></image>
         </view>
       </view>
     </view>
   </view>
-    </droot>
+  <droot class='myroot' binddroottap="drootCallback" status="{{drootStatus}}">
+  </droot>
+</view>
 
+<image class='floatBtn' src='./add.png' bindtap="clickAdd"></image>
 
 <!-- 评论输入框 -->
-  <view class="input" style="bottom:{{inputBottom}}px;" hidden="{{inputBottom==0}}">
-    <view class='edittext'>
-      <input value="{{input}}" focus="{{focus}}" placeholder="{{inputHint}}" bindinput="bindKeyInput" adjust-position="{{false}}" bindfocus="inputFocus" bindblur="inputBlur" />
-    </view>
-    <button class="btn" hover-class='btnHover' type="primary" bindtap="sendComment">发送</button>
+<view class="input" style="bottom:{{inputBottom}}px;" hidden="{{inputBottom==0}}">
+  <view class='edittext'>
+    <input value="{{input}}" focus="{{focus}}" placeholder="{{inputHint}}" bindinput="bindKeyInput" adjust-position="{{false}}" bindfocus="inputFocus" bindblur="inputBlur" />
   </view>
-
-
+  <button class="btn" hover-class='btnHover' type="primary" bindtap="sendComment">发送</button>
+</view>

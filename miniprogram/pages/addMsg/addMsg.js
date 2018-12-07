@@ -34,7 +34,7 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function() {
-    
+
   },
 
   /**
@@ -135,6 +135,9 @@ Page({
         console.log("ok")
         app.apiEnd();
         eventBus.emit('refreshHistory')
+          wx.navigateBack({
+              delta: 1
+          })
       })
       .catch(err => {
         console.log(err)

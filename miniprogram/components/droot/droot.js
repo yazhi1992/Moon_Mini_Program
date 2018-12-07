@@ -48,7 +48,7 @@ Component({
       }
       var option = {}
       this.triggerEvent("droottap", detail, option)
-    }
+    },
 
   }
 })

@@ -12,13 +12,12 @@
   <template is="empty-template" data="{{...loadingLayoutData}}" wx:if="{{status == loading}}" />
 
   <!-- 显示主布局 -->
-  <block wx:if="{{status == loading || status == content}}">
+  <block wx:if="{{status == loading || status == content|| status == empty}}">
 
-    <view class='empty-content-layout' wx:if="{{loadingTransparent || status == content}}">
+    <view class='empty-content-layout' wx:if="{{loadingTransparent || status == content|| status == empty}}">
       <slot></slot>
+
     </view>
 
   </block>
-
-
 </view>

@@ -1,6 +1,7 @@
 var dbUtils = require('../utils/dbUtils.js')
 var util = require('../utils/utils.js')
 const db = wx.cloud.database()
+const _ = db.command
 
 // {
 //   data: {
@@ -184,6 +185,121 @@ function addSingleText(imgwidth, imgheight, imgId, content) {
     })
 }
 
+function getOpenIdArray() {
+  var usersData = {
+    openIdArray: [], //存储用户openId
+    userMap: {}
+  };;
+  var myId = dbUtils.getOpenId()
+  usersData.openIdArray.push(myId)
+  var loverId = dbUtils.getLoverId()
+  if (loverId) {
+    usersData.openIdArray.push(loverId)
+  }
+  console.log("getHistory usersData:")
+  console.log(usersData)
+  return new Promise((resolve, reject) => {
+    //获取所有用户信息
+    var index = 0;
+    for (let i = 0; i < usersData.openIdArray.length; i++) {
+      getUserInfoById(usersData.openIdArray[i])
+        .then(res => {
+          usersData.userMap[usersData.openIdArray[i]] = res.data;
+          index++
+          if (index == usersData.openIdArray.length) {
+            resolve(usersData)
+          }
+        })
+        .catch(err => {
+          reject(err)
+        })
+    }
+  })
+}
+
+
+// [
+//     {
+//       name: xxx
+//     },
+//
+//     {
+//       name: xxx
+//     }
+// ]
+function getHistory(fromIndex, size) {
+  var userResult = {}
+  var resultData = []
+  return getOpenIdArray()
+    .then(res => {
+      userResult = res
+      console.log("获取用户信息成功")
+      console.log(userResult)
+      return db.collection('loveHistory')
+        .where({
+          _openid: _.in(userResult.openIdArray)
+        })
+        .orderBy('createAt', 'desc')
+        .skip(fromIndex)
+        .limit(size)
+        .get()
+    })
+    .then(res => {
+      console.log("获取 loveHistory 数据成功")
+      console.log(res)
+      resultData = res.data;
+      if (resultData.length > 0) {
+        return new Promise((resolve, reject) => {
+          for (let i = 0; i < resultData.length; i++) {
+            console.log("补齐content内容 " + i)
+            //补齐content内容中user信息
+            var contentItem = resultData[i];
+            var contentUserId = contentItem._openid;
+            contentItem.user = userResult.userMap[contentUserId];
+            //补齐评论中user消息
+            if (contentItem.comments && contentItem.comments.length) {
+              for (let j = 0; j < contentItem.comments.length; j++) {
+                //评论者user信息
+                var commentUserId = contentItem.comments[j]._openid;
+                var user = userResult.userMap[commentUserId];
+                contentItem.comments[j].user = user;
+                //对方user信息
+                var peerId = contentItem.comments[j].peerId;
+                var replyUser = userResult.userMap[peerId];
+                contentItem.comments[j].replyUser = replyUser;
+              }
+            }
+            //查找content信息
+            var tableName = "";
+            if (contentItem.contentType == 0) {
+              tableName = "singleText";
+            } else if (contentItem.contentType == 1) {
+              tableName = "memorialDay";
+            }
+            var index = 0
+            db.collection(tableName).doc(contentItem.contentId).get()
+              .then((res) => {
+                index++
+                console.log("获取content内容")
+                console.log(res)
+                resultData[i].content = res.data;
+                if (index == resultData.length) {
+                  resolve(resultData)
+                }
+              })
+          }
+        })
+      } else {
+        return resultData
+      }
+    })
+    .then((res) => {
+      console.log("getHistory 结束")
+      console.log(res)
+      return res;
+    });
+}
+
 module.exports = {
   getUserInfo: getUserInfo,
   updateWantId: updateWantId,
@@ -195,4 +311,5 @@ module.exports = {
   rejectBind: rejectBind,
   acceptBind: acceptBind,
   addSingleText: addSingleText,
+  getHistory: getHistory,
 }

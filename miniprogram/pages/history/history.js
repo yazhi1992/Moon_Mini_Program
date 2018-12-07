@@ -1,11 +1,13 @@
 // miniprogram/pages/history/history.js
 
 var util = require('../../utils/utils.js')
-var sUtil = require('../../utils/dbUtils.js')
+var dbUtil = require('../../utils/dbUtils.js')
 var app = getApp()
 const commentHint = "请输入想说的话"
 const eventBus = require('../../utils/eventbus.js')
 const rootStatus = require('../../utils/DRootStatus.js')
+var cloud = require('../../cloud/cloud.js')
+const PAGE_SIZE = 6
 
 Page({
 
@@ -14,10 +16,10 @@ Page({
    */
   data: {
     windowHeigt: 0,
-    pullUpAllow: true,
     isHideLoadMore: false,
     datas: [],
-    inputBottom: "100",
+    inputBottom: "0",
+    tabbarHeight: 0,
     focus: false,
     inputValue: "",
     commentContent: null,
@@ -28,7 +30,8 @@ Page({
     imgwidth: 0,
     imgheight: 0,
     needRefresh: false,
-    drootStatus: rootStatus.content
+    drootStatus: rootStatus.content,
+      totalSize: 0,
   },
 
   /**
@@ -38,6 +41,20 @@ Page({
     wx.startPullDownRefresh()
 
     eventBus.on("refreshHistory", this.observe)
+
+    var that = this
+
+    wx.getSystemInfo({
+      success: (res => {
+        console.log(res)
+        var tabbarHeight = res.screenHeight - res.windowHeight - res.statusBarHeight - 48
+        that.setData({
+          tabbarHeight: tabbarHeight
+        })
+        console.log("tabbarHeight" + that.data.tabbarHeight)
+      })
+    })
+
   },
 
   /**
@@ -78,9 +95,9 @@ Page({
    */
   onPullDownRefresh: function() {
     this.setData({
-        drootStatus: rootStatus.content
+      drootStatus: rootStatus.content
     })
-    this.fresh();
+    this.fresh(true);
     console.log("onPullDownRefresh")
   },
 
@@ -88,7 +105,8 @@ Page({
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function() {
-
+      app.apiStart()
+      this.fresh(false);
   },
 
   /**
@@ -98,64 +116,73 @@ Page({
 
   },
 
-  fresh: function(refresh, date) {
+  fresh: function(pullDown) {
     var that = this;
-    this.setData({
-      pullUpAllow: false,
-    })
-    wx.cloud.callFunction({
-      // 要调用的云函数名称
-      name: 'getHistory',
-      // 传递给云函数的event参数
-      data: {
-        year: 2018,
-      }
-    }).then(res => {
-      app.apiEnd();
-      console.log(res)
-      var temp = res.result;
-      if(temp.length > 0) {
-
-      for (let i = 0; i < temp.length; i++) {
-        //时间格式化
-        temp[i].content.createAt = app.formatDateTime(new Date(temp[i].content.createAt).getTime());
-        //计算倒数日
-        if (temp[i].contentType == 1) {
-          temp[i].content.dayGap = that.calcDateGap(temp[i].content.timestamp)
-        }
-        //计算图片尺寸
-        if (temp[i].content.imgwidth) {
-          var width = temp[i].content.imgwidth;
-          var height = temp[i].content.imgheight;
-          var ratio = width / height;
-          if (ratio > 1) {
-            width = 400;
-            height = 400 / ratio;
-          } else {
-            height = 500;
-            width = 500 * ratio;
-          }
-          temp[i].content.imgwidth = width
-          temp[i].content.imgheight = height
-        }
-      }
-      that.setData({
-        datas: temp,
-      });
-      } else {
+    if(pullDown) {
+        this.setData({
+            totalSize: 0,
+        })
+    }
+      cloud.getHistory(this.data.totalSize, PAGE_SIZE)
+          .then(res => {
+              console.log("fresh 成功")
+              console.log(res)
+              var temp = res;
+              if (temp.length > 0) {
+                  for (let i = 0; i < temp.length; i++) {
+                      //时间格式化
+                      temp[i].content.createAt = app.formatDateTime(new Date(temp[i].content.createAt).getTime());
+                      //计算倒数日
+                      if (temp[i].contentType == 1) {
+                          temp[i].content.dayGap = that.calcDateGap(temp[i].content.timestamp)
+                      }
+                      //计算图片尺寸
+                      if (temp[i].content.imgwidth) {
+                          var width = temp[i].content.imgwidth;
+                          var height = temp[i].content.imgheight;
+                          var ratio = width / height;
+                          if (ratio > 1) {
+                              width = 400;
+                              height = 400 / ratio;
+                          } else {
+                              height = 500;
+                              width = 500 * ratio;
+                          }
+                          temp[i].content.imgwidth = width
+                          temp[i].content.imgheight = height
+                      }
+                  }
+                  var finalDatas = []
+                  if(that.data.totalSize == 0) {
+                    //下拉刷新
+                      finalDatas = temp
+                  } else {
+                    console.log("datas")
+                    console.log(that.data.datas)
+                      finalDatas= that.data.datas.concat(temp)
+                  }
+                  console.log(finalDatas.length)
+                  that.setData({
+                      datas: finalDatas,
+                      totalSize: finalDatas.length
+                  });
+              } else {
+                if(that.data.datas.length==0) {
+                    that.setData({
+                        drootStatus: rootStatus.empty,
+                    });
+                }
+              }
+              app.apiEnd()
+              wx.stopPullDownRefresh()
+          }).catch(err => {
+          console.log(err)
+          app.apiError()
+          wx.stopPullDownRefresh()
           that.setData({
-              drootStatus: rootStatus.empty,
+              drootStatus: rootStatus.error,
           });
-      }
-        wx.stopPullDownRefresh()
-    }).catch(err => {
-      console.log(err)
-      app.apiError()
-      wx.stopPullDownRefresh()
-        that.setData({
-            drootStatus: rootStatus.error,
-        });
-    })
+      })
   },
 
   //计算日期间隔，正数代表已过去
@@ -168,6 +195,7 @@ Page({
   },
 
   clickAdd: function() {
+    console.log("add")
     wx.showActionSheet({
       // itemList: ['添加想说的话', '添加纪念日', '添加小心愿'],
       itemList: ['添加想说的话'],
@@ -278,11 +306,11 @@ Page({
   inputFocus: function(e) {
     console.log(e.detail.height);
     var that = this
+    console.log("tabbarHeight" + that.data.tabbarHeight)
     that.setData({
-      inputBottom: (e.detail.height).toString()
+      inputBottom: (e.detail.height - that.data.tabbarHeight).toString()
     });
   },
-
 
   //点击某条评论
   clickComment: function(event) {
@@ -386,12 +414,12 @@ Page({
                     that.setData({
                       datas: temp
                     })
-                      if(temp.length == 0) {
-                        //数据为空
-                          that.setData({
-                              drootStatus: rootStatus.empty
-                          })
-                      }
+                    if (temp.length == 0) {
+                      //数据为空
+                      that.setData({
+                        drootStatus: rootStatus.empty
+                      })
+                    }
                     app.apiEnd()
                   }).catch(err => {
                     console.log(err)
@@ -422,7 +450,7 @@ Page({
   drootCallback: function(event) {
     var status = event.detail.status;
     if (status == rootStatus.error || status == rootStatus.empty) {
-        wx.startPullDownRefresh()
+      wx.startPullDownRefresh()
     }
   },
 
