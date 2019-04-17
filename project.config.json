@@ -10,7 +10,7 @@
 	},
 	"appid": "wx226878569518bc60",
 	"projectname": "Moon",
-	"libVersion": "2.3.0",
+	"libVersion": "2.6.0",
 	"compileType": "miniprogram",
 	"condition": {
 		"search": {

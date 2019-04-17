@@ -2,5 +2,6 @@
   "usingComponents": {
     "dimage": "/components/dimage/dimage"
   },
-  "navigationBarTitleText":"此刻"
+  "navigationBarTitleText":"此刻",
+  "navigationStyle": "custom"
 }
